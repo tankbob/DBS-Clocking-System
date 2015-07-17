@@ -1,13 +1,14 @@
-.footer-login-logo{
-	margin-top: 50px;
-	width: 148px;
-	height: 150px;
+body{
+	background-color: #262635 !important;
 }
 
 .footer-copy{
-
 	color: #FFFFFF !important;
+}
 
+.footer-login-logo{
+	width: 148px !important;
+	height: 150px !important;
 }
 
 .login-form{
@@ -61,4 +62,8 @@
 
 .submit-btn:hover{
 	background: url('/images/login_btn-rollover.jpg');
+}
+
+.footer-note{
+	display: none;
 }

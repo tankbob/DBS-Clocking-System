@@ -6,21 +6,17 @@
 
 @section('scripts')
     <link rel="stylesheet" type="text/css" href="/css/login.css">
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#footer-login-logo').attr('src', '/images/approvedlogo.svg');
+        });
+    </script>
 @stop
 
 @section('content')
     <div class="col-xs-12 login-form">
         
-        @if (count($errors) > 0)
-            <div class="alert alert-danger">
-                <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        @include('frontend.includes.errors')
 
         <form method="POST" action="/auth/login">
             {!! csrf_field() !!}

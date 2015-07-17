@@ -14,7 +14,8 @@ class LogTime extends Model
     	'user_id',
         'time',
         'date',
-        'type'
+        'hour_type_id',
+        'overtime'
 	];
 
 	public function User(){
@@ -23,5 +24,9 @@ class LogTime extends Model
 
 	public function Job(){
 		return $this->belongsTo('App\Job', 'job_id');
+	}
+
+	public function HourType(){
+		return $this->belongsTo('App\HourType', 'hour_type_id');
 	}
 }

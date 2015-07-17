@@ -3,7 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTextEntriesTable extends Migration
+use App\HourType;
+
+class CreateHourTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +14,16 @@ class CreateTextEntriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('text_entries', function (Blueprint $table) {
+        Schema::create('hour_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('key');
             $table->string('value');
             $table->softDeletes();
             $table->timestamps();
         });
+
+        HourType::create(['value' => 'Mon-Fri']);
+        HourType::create(['value' => 'Weekends']);
+        HourType::create(['value' => 'Holiday']);
     }
 
     /**
@@ -28,6 +33,6 @@ class CreateTextEntriesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('text_entries');
+        Schema::drop('hour_types');
     }
 }

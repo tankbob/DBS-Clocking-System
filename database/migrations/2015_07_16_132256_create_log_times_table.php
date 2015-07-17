@@ -19,8 +19,9 @@ class CreateLogTimesTable extends Migration
             $table->integer('job_id');
             $table->integer('user_id');
             $table->integer('time');
+            $table->integer('overtime');
             $table->date('date');
-            $table->integer('type');
+            $table->integer('hour_type_id');
             $table->softDeletes();
             $table->timestamps();
         });
