@@ -34,7 +34,7 @@ class CreateUsersTable extends Migration
         User::create([
             'name' => 'aaa aaa',
             'email' => 'a@a.a',
-            'password' => '123456',
+            'password' => \Hash::make('123456'),
             'telephone' => '0123 456 789',
             'type' => '1'
         ]);
@@ -42,7 +42,7 @@ class CreateUsersTable extends Migration
         User::create([
             'name' => 'bbb bbb',
             'email' => 'b@b.b',
-            'password' => '123456',
+            'password' => \Hash::make('123456'),
             'telephone' => '0123 456 789',
             'type' => '1'
         ]);
@@ -50,7 +50,7 @@ class CreateUsersTable extends Migration
         User::create([
             'name' => 'ccc ccc',
             'email' => 'c@c.c',
-            'password' => '123456',
+            'password' => \Hash::make('123456'),
             'telephone' => '0123 456 789',
             'type' => '1'
         ]);

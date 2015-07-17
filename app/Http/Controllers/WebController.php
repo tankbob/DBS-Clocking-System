@@ -13,9 +13,15 @@ use App\Job;
 
 class WebController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function index()
     {
-        $user = User::find(1);
-        dd($user->Jobs->first()->Users);
+        return View('frontend.selectJob');
     }
 }

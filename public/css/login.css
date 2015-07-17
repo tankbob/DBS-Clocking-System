@@ -1,0 +1,64 @@
+.footer-login-logo{
+	margin-top: 50px;
+	width: 148px;
+	height: 150px;
+}
+
+.footer-copy{
+
+	color: #FFFFFF !important;
+
+}
+
+.login-form{
+	margin-top: 50px;
+}
+
+.login-input{
+	width: 283px;
+	height: 68px;
+	background: transparent;
+	border: solid;
+	border-color: #FFFFFF;
+	border-width: 1px;
+
+	font-size: 20px;
+	color: #FFFFFF;
+	line-height: 24px;
+	letter-spacing: 1px;
+	font-family: open-sans, sans-serif;
+	font-weight: 300;
+	font-style: italic;
+
+	padding-left: 20px;
+
+	margin: 15px 0;
+}
+
+::-webkit-input-placeholder {
+	color: #FFFFFF;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: #FFFFFF;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: #FFFFFF;  
+}
+
+:-ms-input-placeholder {  
+   color: #FFFFFF;  
+}
+
+.submit-btn{
+	margin: 15px 0;
+	width: 283px;
+	height: 68px;
+	background: url('/images/login_btn-normal.jpg');
+	border: none;
+}
+
+.submit-btn:hover{
+	background: url('/images/login_btn-rollover.jpg');
+}
