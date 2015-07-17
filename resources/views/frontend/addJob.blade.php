@@ -16,6 +16,10 @@
 
 	@include('frontend.includes.errors')
 
+	<div class="text-center">
+		<a class="goback-btn" href="/"></a>
+	</div>
+
 	{!! Form::open(['url' => '/addjob', 'method' => 'POST']) !!}
 
 		<div class="form-group text-center">

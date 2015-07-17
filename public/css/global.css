@@ -190,3 +190,13 @@ form-group select{
 .logout-btn:hover{
 	background: url('/images/logout-rollover.png');
 }
+
+.goback-btn{
+	display: block;
+	width: 94px;
+	height: 16px;
+	background: url('/images/go_back.svg');
+	margin: 30px auto;
+	left: 0;
+	right: 0;
+}
