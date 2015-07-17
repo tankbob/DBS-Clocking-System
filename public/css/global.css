@@ -176,3 +176,17 @@ form-group select{
 .update-btn:hover{
 	background: url('/images/update_btn-rollover.png');
 }
+
+.logout-btn{
+	width: 77px;
+	height: 28px;
+	background: url('/images/logout-normal.png');
+	display: block;
+	position: absolute;
+	top: 20px;
+	left: 113px;
+}
+
+.logout-btn:hover{
+	background: url('/images/logout-rollover.png');
+}
