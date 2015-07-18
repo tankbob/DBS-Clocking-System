@@ -37,6 +37,8 @@
             	</div>
             </div>
 
+            <input class="hidden" name="loginType" value="Admin">
+
             <div class="text-center">
                 <button class="login-btn">
 

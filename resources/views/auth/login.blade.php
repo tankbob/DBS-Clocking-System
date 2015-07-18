@@ -29,6 +29,8 @@
                 <input type="password" name="password" id="password" class="login-input" placeholder="Password">
             </div>
 
+            <input class="hidden" name="loginType" value="Operative">
+
             <div class="text-center">
                 <button class="submit-btn">
                   
