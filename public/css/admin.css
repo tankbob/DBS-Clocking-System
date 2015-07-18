@@ -51,6 +51,7 @@ body{
 	border-bottom: solid;
 	border-color: #262930;
 	border-width: 1px;
+	margin-bottom: 60px;
 }
 
 .menuLink{
@@ -97,4 +98,35 @@ body{
 
 .jobLink:hover, .jobSelected{
 	background: url('/images/job_btn-rollover.jpg');
+}
+
+.login-form .form-group{
+	height: 51px;
+	line-height: 51px;
+}
+
+.login-form input{
+	width: 100%;
+	padding-left: 15px;
+}
+
+.login-form label{
+	margin-bottom: 0;
+	letter-spacing: 2px;
+	color: #666666;
+	line-height: 19px;
+	font-size: 16px;
+	font-family: raleway, sans-serif;
+	font-weight: 400;
+}
+
+.login-form .login-btn{
+	border-style: none;
+	height: 52px;
+	width: 172px;
+	background: url('/images/login_btn-normal.png');
+}
+
+.login-form .login-btn:hover{
+	background: url('/images/login_btn-rollover.png');
 }
