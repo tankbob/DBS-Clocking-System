@@ -11,6 +11,15 @@ h1{
 	font-weight: 500 !important;
 }
 
+h1 a{
+	color: #D18688;
+}
+
+h1 a:hover{
+	color: #262930;
+	text-decoration: none;
+}
+
 .header{
 	width: 100%;
 	height: 194px;
@@ -243,4 +252,22 @@ h1{
 	height: 15px;
 	width: 15px;
 	background: url('/images/cross.png');
+}
+
+.update-btn{
+	margin: 15px 0;
+	width: 220px;
+	height: 64px;
+	background: url('/images/update_btn-normal.png');
+	border: none;
+}
+
+.update-btn:hover{
+	background: url('/images/update_btn-rollover.png');
+}
+
+.advice-span{
+	color: #D18688;
+	font-size: 12px;
+	font-family: raleway, sans-serif;
 }

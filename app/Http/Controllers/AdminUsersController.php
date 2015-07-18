@@ -11,6 +11,7 @@ use App\User;
 use App\UserType;
 
 use App\Http\Requests\NewUserRequest;
+use App\Http\Requests\EditUserRequest;
 
 class AdminUsersController extends Controller
 {
@@ -95,7 +96,9 @@ class AdminUsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        $page = 'users';
+        return View('backend.users.userEdit', compact('user', 'page'));
     }
 
     /**
@@ -105,9 +108,15 @@ class AdminUsersController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(EditUserRequest $request, $id)
     {
-        //
+        $user = User::find($id);
+        $user->fill($request->except('password'));
+        if($request->has('password')){ 
+            $user->password = \Hash::make($request->get('password'));
+        }
+        $user->save();
+        return \Redirect::to('/admin/users')->with('success', 'The user '.$user->name.' has been edited.');
     }
 
     /**
@@ -120,6 +129,6 @@ class AdminUsersController extends Controller
     {
         $user = User::find($id);
         $user->delete();
-        return \Redirect::back()->with('success', 'The user has been deleted.');
+        return \Redirect::back()->with('success', 'The user '.$user->name.' has been deleted.');
     }
 }

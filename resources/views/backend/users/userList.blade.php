@@ -1,7 +1,7 @@
 @extends('backend.includes.layout')
 
 @section('title')
-	@if($page = 'users')
+	@if($page == 'users')
 		Users
 	@else
 		Operatives
@@ -22,7 +22,7 @@
 	@include('frontend.includes.errors')
 
     <div class="add-user-form col-sm-12">
-    	<div class="col-sm-4">
+    	<div class="col-sm-3 col-sm-offset-1">
     		<h1>
     			ADD USER:
     		</h1>
@@ -71,8 +71,8 @@
         </div>
     </div>
 
-    <div class="col-xs-12">
-        <h1>
+    <div class="col-xs-12 col-xs-offset1">
+        <h1 class="col-xs-offset-1">
             USER LIST:
          </h1>
         <div class="col-sm-8 col-sm-offset-2">
