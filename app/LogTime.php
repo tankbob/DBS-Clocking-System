@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LogTime extends Model
 {
+	use SoftDeletes;
+
     protected $table = 'log_times';
 
     protected $fillable = [

@@ -136,3 +136,14 @@ body{
 	width: 20px;
 	text-align: left;
 }
+
+.submit-btn{
+	border-style: none;
+	width: 172px;
+	height: 52px;
+	background: url('/images/submit_btn-normal.png');
+}
+
+.submit-btn:hover{
+	background: url('/images/submit_btn-rollover.png');
+}

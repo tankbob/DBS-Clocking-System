@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\UserType;
 
+use App\Http\Requests\NewUserRequest;
+
 class AdminUsersController extends Controller
 {
 
@@ -46,9 +48,32 @@ class AdminUsersController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(NewUserRequest $request)
     {
-        //
+        $oldUser = User::withTrashed()->where('email', '=', $request->get('email'))->first();
+        if($oldUser){
+            if($oldUser->trashed()){
+                $oldUser->restore();
+                $oldUser->fill($request->except('password'));
+                $oldUser->password = \Hash::make($request->get('password'));
+                $oldUser->user_type_id = UserType::where('value', '=', 'Admin')->first()->id; 
+                $oldUser->save();
+                return \Redirect::back()->with('success', 'The user has been re activated.');
+            }else{
+                return \Redirect::back()
+                    ->withInput()
+                    ->withErrors([
+                    'email' => 'That email address has been taken.',
+                ]);
+            }
+        }else{
+            $user = new User;
+            $user->fill($request->except('password'));
+            $user->password = \Hash::make($request->get('password'));
+            $user->user_type_id = UserType::where('value', '=', 'Admin')->first()->id;
+            $user->save();
+            return \Redirect::back()->with('success', 'The user has been created.');
+        }
     }
 
     /**
