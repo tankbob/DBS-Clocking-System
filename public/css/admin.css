@@ -2,6 +2,15 @@ body{
 	margin: 0;
 }
 
+h1{
+	letter-spacing: 2px !important;
+	color: #262930 !important;
+	line-height: 29px !important;
+	font-size: 24px !important;
+	font-family: raleway, sans-serif !important;
+	font-weight: 500 !important;
+}
+
 .header{
 	width: 100%;
 	height: 194px;
@@ -146,4 +155,92 @@ body{
 
 .submit-btn:hover{
 	background: url('/images/submit_btn-rollover.png');
+}
+
+.add-user-form{
+	border-bottom: solid;
+	border-color: #262930;
+	border-width: 1px;
+	padding: 0 0 40px 0 !important;
+	margin-bottom: 40px;
+}
+
+#datatables{
+  letter-spacing: 2px;
+  color: #262930;
+  font-size: 16px;
+  font-family: raleway, sans-serif;
+}
+
+#datatables tr{
+	height: 50px;
+}
+
+#datatables a{
+	font-weight: bold;
+	color: #787878;
+}
+
+#datatables a:hover{
+	color: #000000;
+	text-decoration: none;
+}
+
+.paddingLeft, #datatables th{
+	padding-left: 20px;
+}
+
+#datatables_length{
+	letter-spacing: 2px;
+	color: #262930;
+	font-size: 16px;
+	font-family: raleway, sans-serif;
+	margin-bottom: 10px;
+	float: left;
+}
+
+#datatables_filter{
+	letter-spacing: 2px;
+	color: #262930;
+	font-size: 16px;
+	font-family: raleway, sans-serif;
+	margin-bottom: 10px;
+	float: right;
+}
+
+#datatables_info{
+	margin-top: 10px;
+	text-align: center;
+	letter-spacing: 2px;
+	color: #262930;
+	font-size: 16px;
+	font-family: raleway, sans-serif;
+	margin-bottom: 10px;
+}
+
+#datatables_paginate{
+	text-align: center;
+	letter-spacing: 2px;
+	color: #262930;
+	font-size: 16px;
+	font-family: raleway, sans-serif;
+	margin-bottom: 10px;
+}
+
+#datatables_paginate a{
+	margin: auto 5px;
+	color: #787878;
+}
+
+#datatables_paginate a:hover{
+	text-decoration: none;
+	font-weight: bold;
+	color: #000000;
+}
+
+.cross-btn{
+	border: none;
+	height: 15px;
+	width: 15px;
+	background: url('/images/cross.png');
 }
