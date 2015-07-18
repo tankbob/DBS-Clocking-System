@@ -254,6 +254,13 @@ h1 a:hover{
 	background: url('/images/cross.png');
 }
 
+.success-btn{
+	border: none;
+	height: 15px;
+	width: 15px;
+	background: url('/images/success.gif');
+}
+
 .update-btn{
 	margin: 15px 0;
 	width: 220px;

@@ -3,5 +3,5 @@
 	<a href="/admin/operatives" class="menuLink operativeLink @if(isset($page) && $page == 'operatives') operativeSelected @endif"></a>
 	<a href="/admin/hours" class="menuLink hoursLink @if(isset($page) && $page == 'hours') hoursSelected @endif"></a>
 	<a href="/admin/payment" class="menuLink paymentLink @if(isset($page) && $page == 'payment') paymentSelected @endif"></a>
-	<a href="/admin/job" class="menuLink jobLink @if(isset($page) && $page == 'job') jobSelected @endif"></a>
+	<a href="/admin/jobs" class="menuLink jobLink @if(isset($page) && $page == 'jobs') jobSelected @endif"></a>
 </div>

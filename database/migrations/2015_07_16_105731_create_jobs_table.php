@@ -19,9 +19,10 @@ class CreateJobsTable extends Migration
             $table->string('number');
             $table->string('screen_name');
             $table->string('address');
-            $table->string('post_code');
+            $table->string('postcode');
             $table->string('contractor');
             $table->string('foreman');
+            $table->boolean('active')->default(true);
             $table->softDeletes();
             $table->timestamps();
         }); 
@@ -30,7 +31,7 @@ class CreateJobsTable extends Migration
             'number' => '0000-0001',
             'screen_name' => 'screen_name1',
             'address' => 'address1',
-            'post_code' => 'post_code1',
+            'postcode' => 'postcode1',
             'contractor' => 'contractor1',
             'foreman' => 'foreman1'
         ]); 
@@ -39,7 +40,7 @@ class CreateJobsTable extends Migration
             'number' => '0000-0002',
             'screen_name' => 'screen_name2',
             'address' => 'address2',
-            'post_code' => 'post_code2',
+            'postcode' => 'postcode2',
             'contractor' => 'contractor2',
             'foreman' => 'foreman2'
         ]);
@@ -48,7 +49,7 @@ class CreateJobsTable extends Migration
             'number' => '0000-0003',
             'screen_name' => 'screen_name3',
             'address' => 'address3',
-            'post_code' => 'post_code3',
+            'postcode' => 'postcode3',
             'contractor' => 'contractor3',
             'foreman' => 'foreman3'
         ]);

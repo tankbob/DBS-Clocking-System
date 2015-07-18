@@ -32,7 +32,7 @@
     		</h1>
     	</div>
     	
-    	<div class="col-sm-8 login-form">
+    	<div class="col-sm-7 login-form">
             
             @if($page == 'users')
                 {!! Form::open(['url' => '/admin/users', 'method' => 'POST']) !!}

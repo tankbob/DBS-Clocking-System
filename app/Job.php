@@ -15,9 +15,10 @@ class Job extends Model
 		'number',
 		'screen_name',
 		'address',
-		'post_code',
+		'postcode',
 		'contractor',
-		'foreman'
+		'foreman',
+        'active'
     ];
 
     public function LogTimes(){

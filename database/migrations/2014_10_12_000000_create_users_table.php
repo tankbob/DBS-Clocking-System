@@ -36,7 +36,7 @@ class CreateUsersTable extends Migration
             'email' => 'a@a.a',
             'password' => \Hash::make('123456'),
             'telephone' => '0123 456 789',
-            'user_type_id' => '1'
+            'user_type_id' => '2'
         ]);
 
         User::create([
@@ -44,7 +44,7 @@ class CreateUsersTable extends Migration
             'email' => 'b@b.b',
             'password' => \Hash::make('123456'),
             'telephone' => '0123 456 789',
-            'user_type_id' => '2'
+            'user_type_id' => '1'
         ]);
 
         User::create([

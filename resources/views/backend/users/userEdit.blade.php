@@ -40,7 +40,7 @@
     		</h1>
     	</div>
     	
-    	<div class="col-sm-8 login-form">
+    	<div class="col-sm-7 login-form">
     
             <div class="form-group">
             	<div class="col-xs-3">
@@ -98,7 +98,7 @@
                 <span class="advice-span">*Reference Only</span>
             </div>
             
-            <div class="col-sm-8 login-form">
+            <div class="col-sm-7 login-form">
 
                 <div class="form-group">
                     <div class="col-xs-3">
