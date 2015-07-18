@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\User;
+use App\UserType;
+
 class AdminUsersController extends Controller
 {
 
@@ -22,7 +25,9 @@ class AdminUsersController extends Controller
      */
     public function index()
     {
-        dd('reached');
+        $users = User::where('user_type_id', '=', UserType::where('value', '=', 'Admin')->first()->id)->get();
+        $page = 'users';
+        return View('backend.users.userList', compact('users', 'page'));
     }
 
     /**

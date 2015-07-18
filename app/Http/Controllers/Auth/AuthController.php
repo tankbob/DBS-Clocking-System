@@ -101,18 +101,26 @@ class AuthController extends Controller
                 $this->incrementLoginAttempts($request);
             }
 
-            return redirect($this->loginPath())
-                ->withInput($request->only($this->loginUsername(), 'remember'))
-                ->withErrors([
-                    $this->loginUsername() => $this->getFailedLoginMessage(),
+            if($request->get('loginType') == 'Admin'){
+                return redirect('/admin/auth/login')
+                    ->withInput($request->only($this->loginUsername(), 'remember'))
+                    ->withErrors([
+                        $this->loginUsername() => $this->getFailedLoginMessage(),
                 ]);
+            }else{
+                return redirect($this->loginPath())
+                    ->withInput($request->only($this->loginUsername(), 'remember'))
+                    ->withErrors([
+                        $this->loginUsername() => $this->getFailedLoginMessage(),
+                ]);
+            }
         }else{
             if($request->get('loginType') == 'Admin'){
                 return redirect('/admin/auth/login')
                     ->withInput($request->only($this->loginUsername(), 'remember'))
                     ->withErrors([
                         $this->loginUsername() => 'There is no '.$request->get('loginType').' with this email address.',
-                    ]);
+                ]);
             }else{
                 return redirect($this->loginPath())
                 ->withInput($request->only($this->loginUsername(), 'remember'))
