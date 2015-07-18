@@ -9,7 +9,7 @@
         @yield('title')
     </title>
 
-    <link rel="stylesheet" type="text/css" href="/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/css/admin.css">
 
 
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -32,10 +32,13 @@
 </head>
 <body>
 
-    @include('frontend.includes.header')
+    @include('backend.includes.header')
+
+    @include('backend.includes.menu')
 
     @yield('content')
 
-    @include('frontend.includes.footer')
+    @include('backend.includes.footer')
+
 </body>
 </html>

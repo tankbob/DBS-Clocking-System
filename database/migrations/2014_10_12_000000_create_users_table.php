@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password', 60);
             $table->string('telephone');
-            $table->integer('type');
+            $table->integer('user_type_id');
             $table->string('standart_salary');
             $table->string('weekends_5_salary');
             $table->string('weekends_9_salary');
@@ -36,7 +36,7 @@ class CreateUsersTable extends Migration
             'email' => 'a@a.a',
             'password' => \Hash::make('123456'),
             'telephone' => '0123 456 789',
-            'type' => '1'
+            'user_type_id' => '1'
         ]);
 
         User::create([
@@ -44,7 +44,7 @@ class CreateUsersTable extends Migration
             'email' => 'b@b.b',
             'password' => \Hash::make('123456'),
             'telephone' => '0123 456 789',
-            'type' => '1'
+            'user_type_id' => '2'
         ]);
 
         User::create([
@@ -52,7 +52,7 @@ class CreateUsersTable extends Migration
             'email' => 'c@c.c',
             'password' => \Hash::make('123456'),
             'telephone' => '0123 456 789',
-            'type' => '1'
+            'user_type_id' => '2'
         ]);
     }
 

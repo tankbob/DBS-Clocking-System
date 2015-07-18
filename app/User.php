@@ -34,7 +34,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         'weekends_5_salary',
         'weekends_9_salary',
         'holiday_salary',
-        'overtime_salary'
+        'overtime_salary',
+        'user_type_id'
     ];
 
     /**
@@ -50,5 +51,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function Jobs(){
         return $this->belongsToMany('App\Job', 'log_times', 'job_id', 'user_id');    
+    }
+
+    public function UserType(){
+        return $this->belongsTo('App\UserType', 'user_type_id');
     }
 }

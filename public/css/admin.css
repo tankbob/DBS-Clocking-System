@@ -1,0 +1,46 @@
+body{
+	margin: 0;
+}
+
+.header{
+	width: 100%;
+	height: 194px;
+	border-bottom: solid;
+	border-color: #262930;
+	border-width: 1px;
+}
+
+.headerContainer{
+	height: 100%;
+	width: 100%;
+	position: relative;
+}
+
+.headerLogo{
+	margin-top: 45px;
+	margin-left: 20px;
+}
+
+.logout-btn{
+	width: 69px;
+	height: 19px;
+	background: url('/images/admin-logout-normal.png');
+	display: block;
+	position: absolute;
+	top: 20px;
+	left: 113px;
+}
+
+.logout-btn:hover{
+	background: url('/images/admin-logout-rollover.png');
+}
+
+.footer{
+	height: 140px;
+	line-height: 140px;
+	color: #666666;
+	font-size: 13px;
+	letter-spacing: 1px;
+	font-family: open-sans, sans-serif;
+	font-weight: 300;
+}
