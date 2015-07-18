@@ -146,6 +146,7 @@ return [
 
         Illuminate\Html\HtmlServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
 
     ],
 
@@ -198,6 +199,7 @@ return [
         'Form'      => Illuminate\Html\FormFacade::class, 
         'HTML'      => Illuminate\Html\HtmlFacade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
     ],
 
 ];

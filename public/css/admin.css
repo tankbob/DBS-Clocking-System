@@ -130,3 +130,9 @@ body{
 .login-form .login-btn:hover{
 	background: url('/images/login_btn-rollover.png');
 }
+
+#remember{
+	height: 20px;
+	width: 20px;
+	text-align: left;
+}

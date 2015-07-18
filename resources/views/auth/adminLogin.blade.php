@@ -4,6 +4,10 @@
 	Login
 @stop
 
+@section('title')
+
+@stop
+
 @section('content')
 
 	@include('frontend.includes.errors')
@@ -24,7 +28,7 @@
 	            	<label for="email">Email:</label>
             	</div>
             	<div class="col-xs-9">
-	                <input type="email" name="email" value="{{ old('email') }}" class="login-input" placeholder="Email">	            		
+	                <input type="email" name="email" value="{{ old('email') }}" class="login-input">	            		
             	</div>
             </div>
 
@@ -33,7 +37,25 @@
 	            	<label for="password">Password:</label>
             	</div>
             	<div class="col-xs-9">
-	                <input type="password" name="password" id="password" class="login-input" placeholder="Password">
+	                <input type="password" name="password" id="password" class="login-input">
+            	</div>
+            </div>
+
+            <div class="form-group">
+            	<div class="col-xs-3">
+	            	<label for="g-recaptcha-response">Captcha:</label>
+            	</div>
+            	<div class="col-xs-9">
+           			{!! Recaptcha::render() !!}
+           		</div>
+           	</div>
+
+            <div class="form-group">
+            	<div class="col-xs-3">
+	            	<label for="remember">Remember Me:</label>
+            	</div>
+            	<div class="col-xs-9">
+	                <input type="checkbox" name="remember" id="remember">
             	</div>
             </div>
 
