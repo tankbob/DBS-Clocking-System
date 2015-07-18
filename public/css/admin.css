@@ -44,3 +44,57 @@ body{
 	font-family: open-sans, sans-serif;
 	font-weight: 300;
 }
+
+.menu{
+	width: 100%;
+	min-height: 140px;
+	border-bottom: solid;
+	border-color: #262930;
+	border-width: 1px;
+}
+
+.menuLink{
+	height: 139px;
+	width: 140px;
+	display: inline-block;
+}
+
+.usersLink{
+	background: url('/images/users_btn-normal.png');
+}
+
+.usersLink:hover, .usersSelected{
+	background: url('/images/users_btn-rollover.png');
+}
+
+.operativeLink{
+	background: url('/images/operative_btn-normal.png');
+}
+
+.operativeLink:hover, .operativeSelected{
+	background: url('/images/operative_btn-rollover.png');
+}
+
+.hoursLink{
+	background: url('/images/hours_btn-normal.png');
+}
+
+.hoursLink:hover, .hoursSelected{
+	background: url('/images/hours_btn-rollover.png');
+}
+
+.paymentLink{
+	background: url('/images/payments_btn-normal.png');
+}
+
+.paymentLink:hover, .paymentSelected{
+	background: url('/images/payments_btn-rollover.png');
+}
+
+.jobLink{
+	background: url('/images/job_btn-normal.jpg');
+}
+
+.jobLink:hover, .jobSelected{
+	background: url('/images/job_btn-rollover.jpg');
+}

@@ -64,6 +64,6 @@ class AuthController extends Controller
     }
 
     public function getAdminLogin(){
-        return View('auth.adminLogin');
+        return View('auth.adminLogin', compact('page'));
     }
 }
