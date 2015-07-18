@@ -32,7 +32,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         'email',    
         'password',
         'telephone',
-        'standart_salary',
+        'standard_salary',
         'weekends_5_salary',
         'weekends_9_salary',
         'holiday_salary',

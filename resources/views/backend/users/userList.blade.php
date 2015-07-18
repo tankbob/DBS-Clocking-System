@@ -24,20 +24,28 @@
     <div class="add-user-form col-sm-12">
     	<div class="col-sm-3 col-sm-offset-1">
     		<h1>
-    			ADD USER:
+                @if($page == 'users')
+    		      	ADD USER:
+                @else
+                    ADD OPERATIVE:
+                @endif
     		</h1>
     	</div>
     	
     	<div class="col-sm-8 login-form">
             
-            {!! Form::open(['url' => '/admin/users', 'method' => 'POST']) !!}
+            @if($page == 'users')
+                {!! Form::open(['url' => '/admin/users', 'method' => 'POST']) !!}
+            @else
+                {!! Form::open(['url' => '/admin/operatives', 'method' => 'POST']) !!}
+            @endif
 
                 <div class="form-group">
                 	<div class="col-xs-3">
     	            	<label for="name">Name:</label>
                 	</div>
                 	<div class="col-xs-9">
-    	                <input type="name" name="name" value="{{ old('name') }}" class="login-input">	            		
+    	                <input type="text" name="name" value="{{ old('name') }}" class="login-input">	            		
                 	</div>
                 </div>
 
@@ -59,7 +67,16 @@
                 	</div>
                 </div>
 
-                <input class="hidden" name="loginType" value="Admin">
+                @if($page == 'operatives')
+                    <div class="form-group">
+                        <div class="col-xs-3">
+                            <label for="telephone">Telephone:</label>
+                        </div>
+                        <div class="col-xs-9">
+                            <input type="telephone" name="telephone" value="{{ old('telephone') }}" class="login-input">                        
+                        </div>
+                    </div>
+                @endif
 
                 <div class="text-center">
                     <button class="submit-btn">
@@ -73,7 +90,11 @@
 
     <div class="col-xs-12 col-xs-offset1">
         <h1 class="col-xs-offset-1">
-            USER LIST:
+            @if($page == 'users')
+               USER LIST:
+            @else
+                OPERATIVE LIST:
+            @endif
          </h1>
         <div class="col-sm-8 col-sm-offset-2">
             <table id="datatables" class="table-responsive table-bordered table-hover"  class="display" cellspacing="0" width="100%">
@@ -91,11 +112,19 @@
                     @foreach($users as $user)
                         <tr>
                             <td class="paddingLeft">
-                                <a href="/admin/users/{{$user->id}}/edit">{{$user->name}}</a>
+                                @if($page == 'users')
+                                    <a href="/admin/users/{{$user->id}}/edit">{{$user->name}}</a>
+                                @else
+                                    <a href="/admin/operatives/{{$user->id}}/edit">{{$user->name}}</a>
+                                @endif
                             </td>
                             <td class="text-center">
                                 @if($user->id != Auth::user()->id)
-                                    {!! Form::open(['url' => "/admin/users/$user->id", 'method' => 'DELETE']) !!}
+                                    @if($page == 'users')
+                                        {!! Form::open(['url' => "/admin/users/$user->id", 'method' => 'DELETE']) !!}
+                                    @else
+                                        {!! Form::open(['url' => "/admin/operatives/$user->id", 'method' => 'DELETE']) !!}
+                                    @endif
                                         <button class="cross-btn"></button>
                                     {!! Form::close() !!}
                                 @endif

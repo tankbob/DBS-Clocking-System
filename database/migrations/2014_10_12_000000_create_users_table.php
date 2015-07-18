@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password', 60);
             $table->string('telephone');
             $table->integer('user_type_id');
-            $table->string('standart_salary');
+            $table->string('standard_salary');
             $table->string('weekends_5_salary');
             $table->string('weekends_9_salary');
             $table->string('holiday_salary');

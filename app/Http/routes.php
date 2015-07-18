@@ -18,6 +18,7 @@ Route::get('/admin/auth/login', 'Auth\AuthController@getAdminLogin');
 
 Route::get('/admin', 'AdminUsersController@index');
 Route::resource('/admin/users', 'AdminUsersController');
+Route::resource('/admin/operatives', 'AdminOperativesController');
 
 
 Route::post('/signin', 'WebController@signIn');
