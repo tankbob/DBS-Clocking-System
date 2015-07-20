@@ -279,3 +279,8 @@ h1 a:hover{
 	font-size: 12px;
 	font-family: raleway, sans-serif;
 }
+
+.not-active {
+   pointer-events: none;
+   cursor: default;
+}

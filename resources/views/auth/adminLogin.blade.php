@@ -4,10 +4,6 @@
 	Login
 @stop
 
-@section('title')
-
-@stop
-
 @section('content')
 
 	@include('frontend.includes.errors')
