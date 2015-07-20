@@ -12,13 +12,13 @@
 
 	@include('frontend.includes.errors')
 
-	<div class="col-sm-4">
+	<div class="col-sm-3 col-sm-offset-1">
 		<h1>
 			LOGIN:
 		</h1>
 	</div>
 	
-	<div class="col-sm-8 login-form">
+	<div class="col-sm-7 login-form">
         
         <form method="POST" action="/auth/login">
             {!! csrf_field() !!}

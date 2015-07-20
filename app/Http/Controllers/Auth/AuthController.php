@@ -73,9 +73,15 @@ class AuthController extends Controller
 
     public function postLogin(Request $request)
     {
-        $this->validate($request, [
-            $this->loginUsername() => 'required', 'password' => 'required', 'g-recaptcha-response' => 'recaptcha'
-        ]);
+        if($request->get('loginType') == 'Admin'){
+            $this->validate($request, [
+                $this->loginUsername() => 'required', 'password' => 'required', 'g-recaptcha-response' => 'recaptcha'
+            ]);
+        }else{
+            $this->validate($request, [
+                $this->loginUsername() => 'required', 'password' => 'required'
+            ]);
+        }
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
@@ -130,4 +136,25 @@ class AuthController extends Controller
             }
         }
     }
+
+    public function getLogout()
+    {
+        Auth::logout();
+
+        if(\Request::get('page') == 'admin'){
+            return \Redirect::to('/admin/auth/login');
+        }else{
+            return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
+        }
+    }
+
+    public function redirectPath()
+    {
+        if (property_exists($this, 'redirectPath')) {
+            return $this->redirectPath;
+        }
+
+        return property_exists($this, 'redirectTo') ? $this->redirectTo : '/';
+    }
+
 }
