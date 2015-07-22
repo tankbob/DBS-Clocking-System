@@ -49,7 +49,7 @@ class AdminOperativesController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(NewUserRequest $request)
     {
         $oldUser = User::withTrashed()->where('email', '=', $request->get('email'))->first();
         if($oldUser){
@@ -108,7 +108,7 @@ class AdminOperativesController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(EditUserRequest $request, $id)
     {
         $user = User::find($id);
         $user->fill($request->except('password'));

@@ -40,11 +40,11 @@ class CreateUsersTable extends Migration
         ]);
 
         User::create([
-            'name' => 'bbb bbb',
-            'email' => 'b@b.b',
+            'name' => 'eee eee',
+            'email' => 'e@e.e',
             'password' => \Hash::make('123456'),
             'telephone' => '0123 456 789',
-            'user_type_id' => '1'
+            'user_type_id' => '2'
         ]);
 
         User::create([
@@ -53,6 +53,22 @@ class CreateUsersTable extends Migration
             'password' => \Hash::make('123456'),
             'telephone' => '0123 456 789',
             'user_type_id' => '2'
+        ]);
+
+        User::create([
+            'name' => 'ddd ddd',
+            'email' => 'd@d.d',
+            'password' => \Hash::make('123456'),
+            'telephone' => '0123 456 789',
+            'user_type_id' => '2'
+        ]);
+        
+        User::create([
+            'name' => 'bbb bbb',
+            'email' => 'b@b.b',
+            'password' => \Hash::make('123456'),
+            'telephone' => '0123 456 789',
+            'user_type_id' => '1'
         ]);
     }
 

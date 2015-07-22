@@ -53,6 +53,24 @@ class CreateJobsTable extends Migration
             'contractor' => 'contractor3',
             'foreman' => 'foreman3'
         ]);
+
+        Job::create([
+            'number' => '0000-0004',
+            'screen_name' => 'screen_name4',
+            'address' => 'address4',
+            'postcode' => 'postcode4',
+            'contractor' => 'contractor3',
+            'foreman' => 'foreman4'
+        ]);
+
+        Job::create([
+            'number' => '0000-0005',
+            'screen_name' => 'screen_name5',
+            'address' => 'address5',
+            'postcode' => 'postcode5',
+            'contractor' => 'contractor5',
+            'foreman' => 'foreman5'
+        ]);
     }
 
     /**
