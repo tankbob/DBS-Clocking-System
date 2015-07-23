@@ -284,3 +284,27 @@ h1 a:hover{
    pointer-events: none;
    cursor: default;
 }
+
+.danger-message{
+	font-family: open-sans, sans-serif;
+	color: #d44950;
+	border-color: #d44950;
+	margin: 0 auto;
+	display: block;
+	left: 0;
+	right: 0;
+	padding: 0 20px;
+}
+.danger-message li{
+	padding: 0 5px;
+}
+.success-message{
+	font-family: open-sans, sans-serif;
+	color: #57A958;
+	border-color: #57A958;
+	margin: 0 auto;
+	display: block;
+	left: 0;
+	right: 0;
+	padding: 0 20px;
+}

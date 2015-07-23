@@ -200,3 +200,29 @@ form-group select{
 	left: 0;
 	right: 0;
 }
+
+.danger-message{
+	font-family: open-sans, sans-serif;
+	color: #d44950;
+	border-color: #d44950;
+	max-width: 284px;
+	margin: 0 auto;
+	display: block;
+	left: 0;
+	right: 0;
+	padding: 0 20px;
+}
+.danger-message li{
+	padding: 0 5px;
+}
+.success-message{
+	font-family: open-sans, sans-serif;
+	color: #57A958;
+	border-color: #57A958;
+	max-width: 284px;
+	margin: 0 auto;
+	display: block;
+	left: 0;
+	right: 0;
+	padding: 0 20px;
+}
