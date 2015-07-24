@@ -7,57 +7,35 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Job;
 use App\LogTime;
 
-class AdminHoursController extends Controller
+class AdminPaymentController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('admin');
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index($job_id = null, $fromDate = null)
+    public function index()
     {
-        $fromDate = '2015-7-4';
+        $page = 'payment';
 
-        $date = array();
-        $date[0] = date('Y-m-d', strtotime("last Saturday"));
+        $dates = array();
+        $dates[0] = date('Y-m-d', strtotime("last Saturday"));
         for($i = 1; $i < 10; $i++){
-            $date[$i] = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($date[$i - 1])), date('d', strtotime($date[$i - 1]))-7, date('Y', strtotime($date[$i - 1]))));
+            $dates[$i] = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($dates[$i - 1])), date('d', strtotime($dates[$i - 1]))-7, date('Y', strtotime($dates[$i - 1]))));
         }
 
+        $fromDate = \Request::get('date');
         if(!$fromDate){
-            $fromDate = $date[0];
+            $fromDate = $dates[0];
         }
+
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
-        $page = 'hours';
-        $jobs = Job::all();
-        $job = $jobs->first();
-        $logTimes = LogTime::where('job_id', '=', $job->id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->with('User')->orderBy('user_id')->orderBy('date')->get();
+        $payment = LogTime::with('user')->groupBy('user_id')->get(['user_id', min(['aproved'])]);
 
-        $logArray = array();
-
-        foreach($logTimes as $l){
-            if(!isset($logArray[$l->User->name])){
-                $logArray[$l->User->name] = ['O' => array(), 'H' => array(), 'N' => array()];
-            }
-        
-            if($l->time){
-                $logArray[$l->User->name]['N'][$l->date] = $l->time;
-            }
-        }
-
-    //    dd($logArray);
-
-        return View('backend.hours.hoursView', compact('page', 'jobs', 'logTimes'));
+        return View('backend.payment.paymentView', compact('page', 'dates', 'fromDate', 'payment'));
     }
 
     /**

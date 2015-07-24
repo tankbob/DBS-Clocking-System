@@ -21,7 +21,8 @@ Route::resource('/admin/users', 'AdminUsersController');
 Route::resource('/admin/operatives', 'AdminOperativesController');
 Route::resource('/admin/hours', 'AdminHoursController');
 Route::resource('/admin/jobs', 'AdminJobController');
-
+Route::resource('/admin/payment', 'AdminPaymentController');
+Route::post('/admin/payment', 'AdminPaymentController@index');
 
 Route::post('/signin', 'WebController@signIn');
 Route::post('/viewdate', 'WebController@changeDate');

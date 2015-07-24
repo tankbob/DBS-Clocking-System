@@ -262,6 +262,14 @@ h1 a:hover{
 	background: url('/images/success.gif');
 }
 
+.center-div{
+	left: 0;
+	right: 0;
+	margin: auto;
+	display: block;
+	position: relative;
+}
+
 .update-btn{
 	margin: 15px 0;
 	width: 220px;
@@ -307,4 +315,45 @@ h1 a:hover{
 	left: 0;
 	right: 0;
 	padding: 0 20px;
+}
+
+.fancy-select{
+	position: absolute;
+    width: 200px;
+    height: 51px;
+    padding-left: 10px;
+    font-size: 18px !important;
+	font-family: raleway, sans-serif !important;
+	background: url('/images/admin-dropdown.png') no-repeat right;
+	background-size: 51px 51px;
+	-webkit-appearance: none;
+}
+
+.quote{
+	font-size: 12px;
+    line-height: 19px;
+    color: #7F7F7F;
+	letter-spacing: 2px;
+    font-family: raleway, sans-serif;
+    font-weight: 500;
+}
+
+.menu-h1{
+	margin-top: 10px;
+}
+
+.download-btn{
+	display: block;
+	height: 51px;
+	width: 201px;
+	border: none;
+	background: url('/images/download_btn-normal.png');
+}
+
+.download-btn:hover{
+	background: url('/images/download_btn-rollover.png');
+}
+
+th{
+	background: #ECECEC;
 }
