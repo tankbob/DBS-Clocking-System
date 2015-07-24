@@ -25,39 +25,53 @@ class AdminHoursController extends Controller
      */
     public function index($job_id = null, $fromDate = null)
     {
-        $fromDate = '2015-7-4';
+        if(\Request::has('date')){
+            $fromDate = \Request::get('date');
+        }else{
+            $fromDate = date('Y-m-d', strtotime("last Saturday"));
+        }
 
-        $date = array();
-        $date[0] = date('Y-m-d', strtotime("last Saturday"));
+        if(\Request::has('job')){
+            $job_id = \Request::get('job');
+        }else{
+            $job_id = Job::first()->id;
+        }
+
+        $dates = array();
+        $dates[0] = date('Y-m-d', strtotime("last Saturday"));
         for($i = 1; $i < 10; $i++){
-            $date[$i] = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($date[$i - 1])), date('d', strtotime($date[$i - 1]))-7, date('Y', strtotime($date[$i - 1]))));
+            $dates[$i] = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($dates[$i - 1])), date('d', strtotime($dates[$i - 1]))-7, date('Y', strtotime($dates[$i - 1]))));
         }
 
-        if(!$fromDate){
-            $fromDate = $date[0];
-        }
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
         $page = 'hours';
-        $jobs = Job::all();
-        $job = $jobs->first();
-        $logTimes = LogTime::where('job_id', '=', $job->id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->with('User')->orderBy('user_id')->orderBy('date')->get();
+        $jobs = Job::lists('number', 'id');       
+
+        $logTimes = LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->with('User')->orderBy('user_id')->orderBy('date')->get();
 
         $logArray = array();
 
-        foreach($logTimes as $l){
-            if(!isset($logArray[$l->User->name])){
-                $logArray[$l->User->name] = ['O' => array(), 'H' => array(), 'N' => array()];
-            }
-        
-            if($l->time){
-                $logArray[$l->User->name]['N'][$l->date] = $l->time;
+        $users = LogTime::with('User')->where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->get(['user_id']);
+    
+        foreach($users as $user){
+            $logArray[$user->User->name] = array();
+            for($i = 0; $i <= 6; $i ++){
+                $logArray[$user->User->name][$i] = array();
             }
         }
+        
+        foreach($logTimes as $l){
+            $user_name = $l->User->name;
+            $log_type = $l->hour_type_id;
+            $log_time = $l->time;
+            $log_overtime = $l->overtime;
+            $log_date = (1 + date('w', strtotime($l->date))) % 7;
+            
+            $logArray[$user_name][$log_date] = ['type' => $log_type, 'time' => $log_time, 'overtime' => $log_overtime];
+        }
 
-    //    dd($logArray);
-
-        return View('backend.hours.hoursView', compact('page', 'jobs', 'logTimes'));
+        return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates'));
     }
 
     /**

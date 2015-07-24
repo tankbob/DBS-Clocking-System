@@ -40,7 +40,7 @@ class CreateLogTimesTable extends Migration
                             'user_id' => $user_id,
                             'time' => rand(1, 8),
                             'overtime' => '0',
-                            'hour_type_id' => 1,
+                            'hour_type_id' => rand(1, 3),
                             'date' => $date
                         ]); 
                     }elseif(rand(0, 10) > 8){
@@ -49,7 +49,7 @@ class CreateLogTimesTable extends Migration
                             'user_id' => $user_id,
                             'time' => '8',
                             'overtime' => rand(1, 2),
-                            'hour_type_id' => 1,
+                            'hour_type_id' => rand(1, 3),
                             'date' => $date
                         ]); 
                     }                                        

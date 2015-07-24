@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\LogTime;
+use App\User;
 
 class AdminPaymentController extends Controller
 {
@@ -33,7 +34,7 @@ class AdminPaymentController extends Controller
 
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
-        $payment = LogTime::with('user')->groupBy('user_id')->get(['user_id', min(['aproved'])]);
+        $payment = LogTime::with('user')->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->get(['user_id', min(['aproved'])]);
 
         return View('backend.payment.paymentView', compact('page', 'dates', 'fromDate', 'payment'));
     }
@@ -65,9 +66,33 @@ class AdminPaymentController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function show($id, $fromDate = null)
     {
-        //
+        $page = 'payment';
+
+        $dates[0] = date('Y-m-d', strtotime("last Saturday"));
+        for($i = 1; $i < 10; $i++){
+            $dates[$i] = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($dates[$i - 1])), date('d', strtotime($dates[$i - 1]))-7, date('Y', strtotime($dates[$i - 1]))));
+        }
+
+        if(!$fromDate){
+            $fromDate = $dates[0];
+        }
+
+        $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
+
+        $user = User::find($id);
+
+        $payment = LogTime::where('user_id', '=', $id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->get(['user_id', min(['aproved'])]);
+
+        dd($payment);
+
+        return View('backend.payment.paymentEdit', compact('page', 'fromDate', 'payment', 'user', 'dates'));
+    }
+
+    public function showDate($id, $fromDate){
+        $date = \Request::get('date');
+        return \Redirect::to('/admin/payment/'.$id.'/'.$date);
     }
 
     /**

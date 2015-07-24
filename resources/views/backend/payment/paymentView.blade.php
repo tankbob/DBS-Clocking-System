@@ -71,12 +71,12 @@
                     @foreach($payment as $p)
                     	<tr>
                     		<td class="paddingLeft">
-                    			<a href="/admin/payments/{{$p->user_id}}/{{$fromDate}}">
+                    			<a href="/admin/payment/{{$p->user_id}}/{{$fromDate}}">
 	                    			{{ $p->user->name }}
 	                    		</a>
                     		</td>
                     		<td class="paddingLeft">
-                    			<a href="/admin/payments/{{$p->user_id}}/{{$fromDate}}">
+                    			<a href="/admin/payment/{{$p->user_id}}/{{$fromDate}}">
                     				{{ $p->user->telephone }}
                     			</a>
                     		</td>
