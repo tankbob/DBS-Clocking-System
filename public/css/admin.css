@@ -357,3 +357,12 @@ h1 a:hover{
 th{
 	background: #ECECEC;
 }
+
+.blueCells{
+	color: #FFFFFF;
+	background: #1CA8DD;
+}
+
+.blueCells:hover{
+	background: #2487AD !important;
+}

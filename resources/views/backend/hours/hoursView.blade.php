@@ -15,9 +15,10 @@
 @stop
 
 @section('content')
-	{!! Form::open(['method' => 'POST', 'id' => 'hoursForm']) !!}
-		<div class="add-user-form col-sm-12">
+	
+	<div class="add-user-form col-sm-12">
 
+		{!! Form::open(['method' => 'POST', 'id' => 'hoursForm']) !!}
 			<div class="col-sm-12" style="margin-bottom:10px;">
 		    	<div class="col-sm-3 col-sm-offset-1">
 					<h1 class="menu-h1">
@@ -35,7 +36,7 @@
 				</div>
 			</div>
 
-			<div class="col-sm-12">
+			<div class="col-sm-12" style="margin-bottom:10px;">
 		    	<div class="col-sm-3 col-sm-offset-1">
 					<h1 class="menu-h1">
 						WEEK START:
@@ -49,91 +50,107 @@
 					</select>
 				</div>
 			</div>
+		{!! Form::close() !!}
+
+		<div class="col-sm-12">
+	    	<div class="col-sm-3 col-sm-offset-1">
+				<h1 class="menu-h1">
+					EXPORT PDF:
+				</h1>
+			</div>
+			<div class="col-sm-8">
+				{!! Form::open() !!}
+					<button class="download-btn"></button>
+				{!! Form::close() !!}
+			</div>
 		</div>
 
-	{!! Form::close() !!}
+	</div>
+
+	
 
 
+	<div class="col-sm-8 col-sm-offset-2">
+		<table id="datatables" class="table-responsive table-bordered table-hover" width="100%">
+			<thead>
+				<th>
+					Operative
+				</th>
+				<th>
+					Sat
+				</th>
+				<th>
+					Sun
+				</th>
+				<th>
+					Mon
+				</th>
+				<th>
+					Tues
+				</th>
+				<th>
+					Wed
+				</th>
+				<th>
+					Thurs
+				</th>
+				<th>
+					Fri
+				</th>
+				<th>
+					Total
+				</th>
+			</thead>
+			<tbody class="text-center">
+				@foreach($logArray as $user => $weeklyTimes)
 
-	<table>
-		<thead>
-			<th>
-				Operative
-			</th>
-			<th>
-				Sat
-			</th>
-			<th>
-				Sun
-			</th>
-			<th>
-				Mon
-			</th>
-			<th>
-				Tues
-			</th>
-			<th>
-				Wed
-			</th>
-			<th>
-				Thurs
-			</th>
-			<th>
-				Fri
-			</th>
-			<th>
-				Total
-			</th>
-		</thead>
-		<tbody>
-			@foreach($logArray as $user => $weeklyTimes)
-
-				<tr>
-					<td>
-						{{$user}}
-					</td>
-					<?php $total = 0; ?>
-					@foreach($weeklyTimes as $day => $time)
+					<tr>
 						<td>
-							@if(isset($time['time']))
-								{{$time['time']}}
-								<?php $total += $time['time']; ?>
-							@else
-								-
-							@endif
+							{{$user}}
 						</td>
-					@endforeach
+						<?php $total = 0; ?>
+						@foreach($weeklyTimes as $day => $time)
+							<td>
+								@if(isset($time['time']))
+									{{$time['time']}}
+									<?php $total += $time['time']; ?>
+								@else
+									-
+								@endif
+							</td>
+						@endforeach
 
-					<td>
-						{{$total}}
-					</td>
-
-				</tr>
-
-				<tr>
-					<td>
-						{{$user}}
-					</td>
-					<?php $total = 0; ?>
-					@foreach($weeklyTimes as $day => $time)
 						<td>
-							@if(isset($time['overtime']) && $time['overtime'])
-								{{$time['overtime']}}
-								<?php $total += $time['overtime']; ?>
-							@else
-								-
-							@endif
+							{{$total}}
 						</td>
-					@endforeach
 
-					<td>
-						{{$total}}
-					</td>
+					</tr>
 
-				</tr>
-			@endforeach
-		</tbody>
-	</table>
+					<tr class="blueCells">
+						<td>
+							Overtime
+						</td>
+						<?php $total = 0; ?>
+						@foreach($weeklyTimes as $day => $time)
+							<td>
+								@if(isset($time['overtime']) && $time['overtime'])
+									{{$time['overtime']}}
+									<?php $total += $time['overtime']; ?>
+								@else
+									-
+								@endif
+							</td>
+						@endforeach
+
+						<td>
+							{{$total}}
+						</td>
+
+					</tr>
+				@endforeach
+			</tbody>
+		</table>
+	</div>
 
 
 @stop
