@@ -32,6 +32,9 @@ Route::get('/admin/addoperative', 'AdminHoursController@addOperative');
 Route::post('/admin/addoperative', 'AdminHoursController@processAddOperative');
 
 Route::resource('/admin/jobs', 'AdminJobController');
+
+Route::post('/admin/missedhours', 'AdminPaymentController@addMissedHours');
+
 Route::resource('/admin/payment', 'AdminPaymentController');
 Route::post('/admin/payment', 'AdminPaymentController@index');
 Route::get('/admin/payment/{user_id}', 'AdminPaymentController@show');

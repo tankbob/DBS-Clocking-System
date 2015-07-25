@@ -11,6 +11,8 @@ use App\LogTime;
 use App\User;
 use App\HourType;
 
+use App\Http\Requests\MissedHoursRequest;
+
 class AdminPaymentController extends Controller
 {
     /**
@@ -99,7 +101,11 @@ class AdminPaymentController extends Controller
             $times[$w]['overtime'] += $logTime->overtime;
         }
 
-        return View('backend.payment.paymentEdit', compact('page', 'fromDate', 'payment', 'user', 'dates', 'times'));
+        $hourTypes = HourType::lists('value', 'id');
+
+        $missed = LogTime::where('date', '=', $fromDate)->where('job_id', '=', -1)->where('user_id', '=', $user_id)->first();
+
+        return View('backend.payment.paymentEdit', compact('page', 'fromDate', 'payment', 'user', 'dates', 'times', 'hourTypes', 'missed'));
     }
 
     /**
@@ -135,4 +141,31 @@ class AdminPaymentController extends Controller
     {
         //
     }
+
+    public function addMissedHours(MissedHoursRequest $request){
+        $logTime = LogTime::where('user_id', '=', $request->get('user_id'))->where('date', '=', $request->get('fromDate'))->where('job_id', '=', -1)->first();
+
+        if(!$logTime){
+            $logTime = new LogTime;
+        }
+
+        $logTime->user_id = $request->get('user_id');
+        $logTime->date = $request->get('fromDate');
+        $logTime->job_id = -1;
+        $logTime->aproved = 1;
+        if($request->get('hour_type_id') == 'overtime'){
+            $logTime->hour_type_id = 1;
+            $logTime->time = 0;
+            $logTime->overtime = $request->get('time');
+        }else{
+            $logTime->hour_type_id = $request->get('hour_type_id');
+            $logTime->time = $request->get('time');
+            $logTime->overtime = 0;
+        }
+        $logTime->save();
+        var_dump($logTime->id);
+
+        return \Redirect::back();
+    }
+
 }

@@ -145,12 +145,54 @@
 			        </div>
 			    </div>
 		    @endforeach
-
-
-
     	</div>
     </div>
 
+    @include('frontend.includes.errors')
+
+    <div class="add-user-form col-sm-12">
+    	<div class="col-sm-7 col-sm-offset-4 login-form">
+	    	{!! Form::open(['url' => '/admin/missedhours', 'method' => 'POST']) !!}
+
+	    		<input class="hidden" name="user_id" value="{{$user->id}}">
+	    		<input class="hidden" name="fromDate" value="{{$fromDate}}">
+
+	    		<div class="form-group">
+	    			<div class="col-sm-3">
+		            	<label for="time">
+		            		Hours:
+		            	</label>
+		            </div>
+		            <div class="col-sm-9">
+		            	{!! Form::text('time', @$missed->time + @$missed->overtime) !!}
+		            </div>
+	    		</div>
+
+	    		<div class="form-group">
+	    			<div class="col-sm-3">
+		            	<label for="hour_type_id">
+		            		Pay Type:
+		            	</label>
+		            </div>
+		            <div class="col-sm-9">
+		            	<select name="hour_type_id" class="fancy-select">
+		            		<option></option>
+		            		@foreach($hourTypes as $key => $val)
+		            			<option value="{{$key}}" @if($key == @$missed->hour_type_id) selected="selected" @endif>{{$val}}</option>
+		            		@endforeach
+		            		<option value="overtime"@if(@$missed->overtime) selected="selected" @endif>Overtime</option>
+		            	</select> 
+		            </div>
+	    		</div>
+
+	    		<div class="text-center">
+	    			<button class="update-btn"></button>
+	    		</div>
+
+	    	{!! Form::close() !!}
+    	</div>
+
+    </div>
 
 
 
