@@ -358,11 +358,15 @@ th{
 	background: #ECECEC;
 }
 
-.blueCells{
-	color: #FFFFFF;
+.blueCells, .blueCells a{
+	color: #FFFFFF !important;
 	background: #1CA8DD;
 }
 
-.blueCells:hover{
+.blueCells:hover, .blueCells:hover a{
 	background: #2487AD !important;
+}
+
+.popover-title{
+	color: #000000 !important;
 }
