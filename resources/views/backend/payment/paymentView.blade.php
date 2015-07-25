@@ -5,6 +5,11 @@
         $(document).ready(function() {
             $('#datatables').DataTable();
         } );
+    
+        function submitForm(id){
+            $('#form-'+id).submit();
+        }
+
     </script>
     
 @stop
@@ -69,14 +74,15 @@
                 </thead>
                 <tbody>
                     @foreach($payment as $p)
+
                     	<tr>
                     		<td class="paddingLeft">
-                    			<a href="/admin/payment/{{$p->user_id}}/{{$fromDate}}">
+                    			<a href="#" onclick="submitForm({{$p->user_id}})">
 	                    			{{ $p->user->name }}
 	                    		</a>
                     		</td>
                     		<td class="paddingLeft">
-                    			<a href="/admin/payment/{{$p->user_id}}/{{$fromDate}}">
+                    			<a href="#" onclick="submitForm({{$p->user_id}})">
                     				{{ $p->user->telephone }}
                     			</a>
                     		</td>
@@ -88,10 +94,19 @@
                     			@endif
                     		</td>
                     	</tr>
+                        
                     @endforeach
+
+
                 </tbody>
             </table>
         </div>
     </div>
+
+    @foreach($payment as $p)
+        {!!Form::open(['url' => '/admin/payment/'.$p->user_id, 'method' => 'POST', 'id' => "form-".$p->user_id])!!}
+            <input class="hidden" name="date" value="{{$fromDate}}">
+        {!!Form::close()!!}
+    @endforeach
 
 @stop

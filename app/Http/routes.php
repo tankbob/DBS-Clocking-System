@@ -34,8 +34,8 @@ Route::post('/admin/addoperative', 'AdminHoursController@processAddOperative');
 Route::resource('/admin/jobs', 'AdminJobController');
 Route::resource('/admin/payment', 'AdminPaymentController');
 Route::post('/admin/payment', 'AdminPaymentController@index');
-Route::get('/admin/payment/{user_id}/{date}', 'AdminPaymentController@show');
-Route::post('/admin/payment/{user_id}/{date}', 'AdminPaymentController@showDate');
+Route::get('/admin/payment/{user_id}', 'AdminPaymentController@show');
+Route::post('/admin/payment/{user_id}', 'AdminPaymentController@show');
 
 Route::post('/signin', 'WebController@signIn');
 Route::post('/viewdate', 'WebController@changeDate');

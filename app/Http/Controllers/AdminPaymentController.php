@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use App\LogTime;
 use App\User;
+use App\HourType;
 
 class AdminPaymentController extends Controller
 {
@@ -66,7 +67,7 @@ class AdminPaymentController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id, $fromDate = null)
+    public function show($user_id)
     {
         $page = 'payment';
 
@@ -75,24 +76,30 @@ class AdminPaymentController extends Controller
             $dates[$i] = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($dates[$i - 1])), date('d', strtotime($dates[$i - 1]))-7, date('Y', strtotime($dates[$i - 1]))));
         }
 
-        if(!$fromDate){
+        if(\Request::has('date')){
+            $fromDate = \Request::get('date');
+        }else{
             $fromDate = $dates[0];
         }
 
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
-        $user = User::find($id);
+        $user = User::find($user_id);
 
-        $payment = LogTime::where('user_id', '=', $id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->get(['user_id', min(['aproved'])]);
+        $times = array();
 
-        dd($payment);
+        for($i = 0; $i <= 6; $i++){
+            $times[$i] = array('overtime' => 0, 'Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0);
+        }
 
-        return View('backend.payment.paymentEdit', compact('page', 'fromDate', 'payment', 'user', 'dates'));
-    }
+        foreach(LogTime::with('HourType')->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->where('user_id', '=', $user_id)->get() as $logTime){
+            $w = (1+date('w', strtotime($logTime->date)))%7;
+            $type = $logTime->HourType->value;
+            $times[$w][$type] += $logTime->time;
+            $times[$w]['overtime'] += $logTime->overtime;
+        }
 
-    public function showDate($id, $fromDate){
-        $date = \Request::get('date');
-        return \Redirect::to('/admin/payment/'.$id.'/'.$date);
+        return View('backend.payment.paymentEdit', compact('page', 'fromDate', 'payment', 'user', 'dates', 'times'));
     }
 
     /**

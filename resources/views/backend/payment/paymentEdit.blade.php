@@ -4,6 +4,17 @@
 	Hours per Operative
 @stop
 
+@section('scripts')
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#daySelect').on('change', function(){
+				$('.timesDiv').addClass('hidden');
+				$('#times-'+$('#daySelect').val()).removeClass('hidden');
+			});
+		});
+	</script>
+@stop
+
 @section('content')
 
 	<div class="add-user-form col-sm-12">
@@ -78,6 +89,64 @@
 	            	</select>
 	            </div>
     		</div>
+
+    		@foreach($times as $i => $t)
+    			<div class="timesDiv @if($i > 0) hidden @endif " id="times-{{$i}}">
+		    		<div class="form-group">
+		    			<div class="col-sm-3">
+			            	<label>
+			            		Hours:
+			            	</label>
+			            </div>
+			            <div class="col-sm-9">
+				  			<p>
+					  			{{$t['Mon-Fri']}}
+				  			</p>          	
+			            </div>
+			        </div>
+
+		    		<div class="form-group">
+		    			<div class="col-sm-3">
+			            	<label>
+			            		Holiday:
+			            	</label>
+			            </div>
+			            <div class="col-sm-9">
+				  			<p>
+					  			{{$t['Holiday']}}
+				  			</p>          	
+			            </div>
+			        </div>
+
+		    		<div class="form-group">
+		    			<div class="col-sm-3">
+			            	<label>
+			            		Overtime:
+			            	</label>
+			            </div>
+			            <div class="col-sm-9">
+				  			<p>
+					  			{{$t['overtime']}}
+				  			</p>          	
+			            </div>
+			        </div>
+
+		    		<div class="form-group">
+		    			<div class="col-sm-3">
+			            	<label>
+			            		Weekends:
+			            	</label>
+			            </div>
+			            <div class="col-sm-9">
+				  			<p>
+					  			{{$t['Weekends']}}
+				  			</p>          	
+			            </div>
+			        </div>
+			    </div>
+		    @endforeach
+
+
 
     	</div>
     </div>
