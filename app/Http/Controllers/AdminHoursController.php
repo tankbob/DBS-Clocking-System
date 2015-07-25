@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use App\Job;
 use App\LogTime;
+use App\User;
 
 class AdminHoursController extends Controller
 {
@@ -55,23 +56,25 @@ class AdminHoursController extends Controller
         $users = LogTime::with('User')->where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->get(['user_id']);
     
         foreach($users as $user){
-            $logArray[$user->User->name] = array();
+            $logArray[$user->User->id] = array();
             for($i = 0; $i <= 6; $i ++){
-                $logArray[$user->User->name][$i] = array();
+                $logArray[$user->User->id][$i] = array();
             }
         }
         
         foreach($logTimes as $l){
-            $user_name = $l->User->name;
+            $user_id = $l->User->id;
             $log_type = $l->hour_type_id;
             $log_time = $l->time;
             $log_overtime = $l->overtime;
             $log_date = (1 + date('w', strtotime($l->date))) % 7;
             
-            $logArray[$user_name][$log_date] = ['type' => $log_type, 'time' => $log_time, 'overtime' => $log_overtime];
+            $logArray[$user_id][$log_date] = ['type' => $log_type, 'time' => $log_time, 'overtime' => $log_overtime];
         }
 
-        return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates'));
+        $users = User::lists('name', 'id');
+
+        return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users'));
     }
 
     /**
@@ -138,5 +141,31 @@ class AdminHoursController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function ajaxEdit(){
+        $user_id = \Request::get('user');
+        $job_id = \Request::get('job_id');
+        $date = date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+\Request::get('day'), date('Y', strtotime(\Request::get('startDate')))));
+    
+        $logTime = LogTime::where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->where('date', '=', $date)->first();
+
+        if(!$logTime){
+            $logTime = new LogTime;
+            $logTime->user_id = $user_id;
+            $logTime->job_id = $job_id;
+            $logTime->hour_type_id = 1;
+            $logTime->date = $date;
+        }
+
+        if(\Request::get('overtime') == 1){
+            $logTime->overtime = \Request::get('value');
+        }else{
+            $logTime->time = \Request::get('value');
+        }
+
+        $logTime->save();
+
+        return \Request::get('value');
     }
 }

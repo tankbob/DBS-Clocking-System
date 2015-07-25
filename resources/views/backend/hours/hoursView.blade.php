@@ -10,8 +10,18 @@
 			$('#date-select').on('change', function(){
 				$('#hoursForm').submit();
 			});
+	/*		$('.editable').editable({
+				params: function( params ) {
+				    params.user;
+				    return params;
+				}
+			});*/
 		});
 	</script>
+
+	<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
 @stop
 
 @section('content')
@@ -45,7 +55,7 @@
 				<div class="col-sm-8">
 					<select name="date" id='date-select' class="fancy-select">
 						@foreach($dates as $d)
-							<option value="{{$d}}" @if($d == @$fromDate) selected="selected" @endif>{{date('d/m/y', strtotime($d))}}</option>
+							<option value="{{$d}}" @if($d == $fromDate) selected="selected" @endif>{{date('d/m/y', strtotime($d))}}</option>
 						@endforeach	
 					</select>
 				</div>
@@ -106,17 +116,36 @@
 
 					<tr>
 						<td>
-							{{$user}}
+							{{ $users[$user] }}
 						</td>
 						<?php $total = 0; ?>
 						@foreach($weeklyTimes as $day => $time)
 							<td>
-								@if(isset($time['time']))
-									{{$time['time']}}
-									<?php $total += $time['time']; ?>
-								@else
-									-
-								@endif
+								<a href="#" id="{{$user}}-{{$day}}" class="editable" data-type="text" data-pk="1" data-url="/ajaxedit" data-title="Enter username">
+									@if(isset($time['time']) && $time['time'])
+										{{$time['time']}}
+										<?php $total += $time['time']; ?>
+										
+									@else
+										-
+									@endif
+								</a>
+								<script type="text/javascript">
+									$(document).ready(function(){
+										$("#{{$user}}-{{$day}}").editable({
+											params: function( params ) {
+											    params.user = '{{$user}}';
+											    params.day = '{{$day}}';
+											    params.job_id = '{{$job_id}}'
+											    params.startDate = '{{$fromDate}}';
+											    params.overtime = 0;
+
+											    return params;
+											}
+										})
+									});
+								</script>
+								
 							</td>
 						@endforeach
 
@@ -132,14 +161,33 @@
 						</td>
 						<?php $total = 0; ?>
 						@foreach($weeklyTimes as $day => $time)
+							
 							<td>
-								@if(isset($time['overtime']) && $time['overtime'])
-									{{$time['overtime']}}
-									<?php $total += $time['overtime']; ?>
-								@else
-									-
-								@endif
+								<a href="#" id="over-{{$user}}-{{$day}}" class="editable" data-type="text" data-pk="1" data-url="/ajaxedit" data-title="Enter username">
+									@if(isset($time['overtime']) && $time['overtime'])
+										{{$time['overtime']}}
+										<?php $total += $time['overtime']; ?>
+									@else
+										-
+									@endif
+								</a>
 							</td>
+							
+							<script type="text/javascript">
+								$(document).ready(function(){
+									$("#over-{{$user}}-{{$day}}").editable({
+										params: function( params ) {
+										    params.user = '{{$user}}';
+										    params.day = '{{$day}}';
+										    params.job_id = '{{$job_id}}'
+										    params.startDate = '{{$fromDate}}';
+										    params.overtime = 1;
+
+										    return params;
+										}
+									})
+								});
+							</script>
 						@endforeach
 
 						<td>
