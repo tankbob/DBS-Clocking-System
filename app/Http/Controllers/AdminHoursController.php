@@ -146,6 +146,7 @@ class AdminHoursController extends Controller
     public function ajaxEdit(){
         $user_id = \Request::get('user');
         $job_id = \Request::get('job_id');
+
         $date = date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+\Request::get('day'), date('Y', strtotime(\Request::get('startDate')))));
     
         $logTime = LogTime::where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->where('date', '=', $date)->first();
@@ -160,12 +161,25 @@ class AdminHoursController extends Controller
 
         if(\Request::get('overtime') == 1){
             $logTime->overtime = \Request::get('value');
+
+            $logTime->save();
+
+            $total = LogTime::where('date', '>=', \Request::get('startDate'))->where('date', '<=', date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+6, date('Y', strtotime(\Request::get('startDate'))))))->where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->sum('overtime');
+
         }else{
+
             $logTime->time = \Request::get('value');
+
+            $logTime->save();
+
+            $total = LogTime::where('date', '>=', \Request::get('startDate'))->where('date', '<=', date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+6, date('Y', strtotime(\Request::get('startDate'))))))->where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->sum('time');
         }
 
-        $logTime->save();
+        
 
-        return \Request::get('value');
+        return \Response::json(array(
+            'success' => true,
+            'total' => $total
+        ));
     }
 }

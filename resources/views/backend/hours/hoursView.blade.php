@@ -135,10 +135,10 @@
 										$("#{{$user}}-{{$day}}").editable({
 											value: @if(isset($time['time'])) value="{{$time['time']}}" @else value="0" @endif,
 											params: function( params ) {
-											    params.user = '{{$user}}';
-											    params.day = '{{$day}}';
-											    params.job_id = '{{$job_id}}'
-											    params.startDate = '{{$fromDate}}';
+											    params.user = "{{$user}}";
+											    params.day = "{{$day}}";
+											    params.job_id = "{{$job_id}}";
+											    params.startDate = "{{$fromDate}}";
 											    params.overtime = 0;
 
 											    return params;
@@ -154,7 +154,12 @@
 												{7: 7},
 												{8: 8},
 												{9: 9}
-											]
+											],
+											success: function(response, newValue) {
+											    if(response.success){
+											    	$("#total-"+{{$user}}).text(response.total);
+											    }
+											}
 										})
 									});
 								</script>
@@ -163,7 +168,9 @@
 						@endforeach
 
 						<td>
-							{{$total}}
+							<div id="total-{{$user}}">
+								{{$total}}
+							</div>
 						</td>
 
 					</tr>
@@ -189,7 +196,7 @@
 							<script type="text/javascript">
 								$(document).ready(function(){
 									$("#over-{{$user}}-{{$day}}").editable({
-										value: @if(isset($time['time'])) value="{{$time['time']}}" @else value="0" @endif,
+										value: @if(isset($time['time'])) value="{{$time['overtime']}}" @else value="0" @endif,
 										params: function( params ) {
 										    params.user = '{{$user}}';
 										    params.day = '{{$day}}';
@@ -210,14 +217,21 @@
 											{7: 7},
 											{8: 8},
 											{9: 9}
-										]
+										],
+										success: function(response, newValue) {
+										    if(response.success){
+										    	$("#over-total-"+{{$user}}).text(response.total);
+										    }
+										}
 									})
 								});
 							</script>
 						@endforeach
 
 						<td>
-							{{$total}}
+							<div id="over-total-{{$user}}">
+								{{$total}}
+							</div>
 						</td>
 
 					</tr>
