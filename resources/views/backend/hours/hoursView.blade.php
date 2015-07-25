@@ -121,7 +121,7 @@
 						<?php $total = 0; ?>
 						@foreach($weeklyTimes as $day => $time)
 							<td>
-								<a href="#" id="{{$user}}-{{$day}}" class="editable" data-type="text" data-pk="1" data-url="/ajaxedit" data-title="Enter username">
+								<a href="#" id="{{$user}}-{{$day}}" class="editable" data-type="select" data-pk="1" data-url="/ajaxedit" data-title="Enter value">
 									@if(isset($time['time']) && $time['time'])
 										{{$time['time']}}
 										<?php $total += $time['time']; ?>
@@ -133,6 +133,7 @@
 								<script type="text/javascript">
 									$(document).ready(function(){
 										$("#{{$user}}-{{$day}}").editable({
+											value: @if(isset($time['time'])) value="{{$time['time']}}" @else value="0" @endif,
 											params: function( params ) {
 											    params.user = '{{$user}}';
 											    params.day = '{{$day}}';
@@ -141,7 +142,19 @@
 											    params.overtime = 0;
 
 											    return params;
-											}
+											},
+											source: [
+												{0: 0},
+												{1: 1},
+												{2: 2},
+												{3: 3},
+												{4: 4},
+												{5: 5},
+												{6: 6},
+												{7: 7},
+												{8: 8},
+												{9: 9}
+											]
 										})
 									});
 								</script>
@@ -163,7 +176,7 @@
 						@foreach($weeklyTimes as $day => $time)
 							
 							<td>
-								<a href="#" id="over-{{$user}}-{{$day}}" class="editable" data-type="text" data-pk="1" data-url="/ajaxedit" data-title="Enter username">
+								<a href="#" id="over-{{$user}}-{{$day}}" class="editable" data-type="select" data-pk="1" data-url="/ajaxedit" data-title="Enter value">
 									@if(isset($time['overtime']) && $time['overtime'])
 										{{$time['overtime']}}
 										<?php $total += $time['overtime']; ?>
@@ -176,6 +189,7 @@
 							<script type="text/javascript">
 								$(document).ready(function(){
 									$("#over-{{$user}}-{{$day}}").editable({
+										value: @if(isset($time['time'])) value="{{$time['time']}}" @else value="0" @endif,
 										params: function( params ) {
 										    params.user = '{{$user}}';
 										    params.day = '{{$day}}';
@@ -184,7 +198,19 @@
 										    params.overtime = 1;
 
 										    return params;
-										}
+										},
+										source: [
+											{0: 0},
+											{1: 1},
+											{2: 2},
+											{3: 3},
+											{4: 4},
+											{5: 5},
+											{6: 6},
+											{7: 7},
+											{8: 8},
+											{9: 9}
+										]
 									})
 								});
 							</script>
