@@ -22,7 +22,11 @@ Route::get('/admin', 'AdminUsersController@index');
 Route::resource('/admin/users', 'AdminUsersController');
 Route::resource('/admin/operatives', 'AdminOperativesController');
 Route::resource('/admin/hours', 'AdminHoursController');
+
 Route::post('/admin/hours', 'AdminHoursController@index');
+
+Route::get('/admin/addoperative', 'AdminHoursController@addOperative');
+Route::post('/admin/addoperative', 'AdminHoursController@processAddOperative');
 
 Route::resource('/admin/jobs', 'AdminJobController');
 Route::resource('/admin/payment', 'AdminPaymentController');

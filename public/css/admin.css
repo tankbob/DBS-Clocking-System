@@ -139,6 +139,16 @@ h1 a:hover{
 	font-weight: 400;
 }
 
+.login-form p{
+	margin-bottom: 0;
+	letter-spacing: 2px;
+	line-height: 51px;
+	font-size: 14px;
+	font-family: raleway, sans-serif;
+	font-weight: 400;
+	padding-left: 10px;
+}
+
 .login-form .login-btn{
 	border-style: none;
 	height: 52px;
@@ -329,6 +339,10 @@ h1 a:hover{
 	-webkit-appearance: none;
 }
 
+.big-fancy-select{
+	width: 80% !important;
+}
+
 .quote{
 	font-size: 12px;
     line-height: 19px;
@@ -369,4 +383,16 @@ th{
 
 .popover-title{
 	color: #000000 !important;
+}
+
+.addOperativeBtn{
+	display: block;
+	height: 51px;
+	width: 400px;
+	border: none;
+	background: url('/images/add_new_operative_manually_btn-normal.png');
+}
+
+.addOperativeBtn:hover{
+	background: url('/images/add_new_operative_manually_btn-rollover.png');
 }

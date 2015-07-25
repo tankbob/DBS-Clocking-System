@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use App\Job;
 use App\LogTime;
 use App\User;
+use App\UserType;
+use App\HourType;
 
 class AdminHoursController extends Controller
 {
@@ -24,7 +26,7 @@ class AdminHoursController extends Controller
      *
      * @return Response
      */
-    public function index($job_id = null, $fromDate = null)
+    public function index()
     {
         if(\Request::has('date')){
             $fromDate = \Request::get('date');
@@ -155,7 +157,7 @@ class AdminHoursController extends Controller
             $logTime = new LogTime;
             $logTime->user_id = $user_id;
             $logTime->job_id = $job_id;
-            $logTime->hour_type_id = 1;
+            $logTime->hour_type_id = HourType::where('value', '=', 'Mon-Fri')->first()->id;
             $logTime->date = $date;
         }
 
@@ -182,4 +184,56 @@ class AdminHoursController extends Controller
             'total' => $total
         ));
     }
+
+    public function addOperative(){
+
+        $page = 'hours';
+
+        if(\Request::has('fromDate')){
+            $fromDate = \Request::get('fromDate');
+
+            /*Let's make sure than the get date is a saturday*/
+            $w = (1+date('w', strtotime($fromDate)))%7;
+            $fromDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))-$w, date('Y', strtotime($fromDate))));
+        }else{
+            $fromDate = date('Y-m-d', strtotime("last Saturday"));
+        }
+
+        $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
+
+        if(\Request::has('job_id')){
+            $job_id = \Request::get('job_id');
+        }else{
+            $job_id = Job::first()->id;
+        }
+
+        $users = User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->whereNotIn('id', LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->lists('user_id')->toArray())->lists('name', 'id');
+
+        $job = Job::find($job_id);
+
+        return View('backend.hours.addOperative', compact('page', 'job', 'job_id', 'fromDate', 'users'));
+    }
+
+    public function processAddOperative(){
+
+        $user_id = \Request::get('user_id');
+        $job_id = \Request::get('job');
+        $date = \Request::get('date');
+
+        $logTime = LogTime::where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->where('date', '=', $date)->first();
+
+        if(!$logTime){
+            $logTime = LogTime::create([
+                'user_id' => $user_id,
+                'job_id' => $job_id,
+                'overtime' => 0,
+                'time' => 0,
+                'date' => $date,
+                'hour_type_id' => HourType::where('value', '=', 'Mon-Fri')->first()->id
+            ]);
+        }
+       
+        return self::index();
+    }
+
 }
