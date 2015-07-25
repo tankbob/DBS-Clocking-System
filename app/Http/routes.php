@@ -23,6 +23,9 @@ Route::resource('/admin/users', 'AdminUsersController');
 Route::resource('/admin/operatives', 'AdminOperativesController');
 Route::resource('/admin/hours', 'AdminHoursController');
 
+Route::post('/admin/hours/approve', 'AdminHoursController@approve');
+Route::post('/admin/hours/unapprove', 'AdminHoursController@unapprove');
+
 Route::post('/admin/hours', 'AdminHoursController@index');
 
 Route::get('/admin/addoperative', 'AdminHoursController@addOperative');

@@ -396,3 +396,29 @@ th{
 .addOperativeBtn:hover{
 	background: url('/images/add_new_operative_manually_btn-rollover.png');
 }
+
+.approveBtn{
+	display: block;
+	height: 51px;
+	width: 172px;
+	border: none;
+	background: url('/images/approve-normal.png');
+}
+
+.approveBtn:hover{
+	background: url('/images/approve-normal.png');
+}
+
+
+
+.unapproveBtn{
+	display: block;
+	height: 51px;
+	width: 172px;
+	border: none;
+	background: url('/images/unapprove-rollover.png');
+}
+
+.unapproveBtn:hover{
+	background: url('/images/unapprove-rollover.png');
+}

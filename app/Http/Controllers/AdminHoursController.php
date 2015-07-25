@@ -76,7 +76,20 @@ class AdminHoursController extends Controller
 
         $users = User::lists('name', 'id');
 
-        return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users'));
+        $aproved = LogTime::where('date', '>=', $fromDate)->where('date', '<=', $toDate)->where('job_id', '=', $job_id)->groupBy('job_id')->get([min(['aproved'])])[0]->aproved;
+
+        $showAproved = false;
+        $showUnaproved = false;
+
+        if(!$aproved && $toDate < date('Y-m-d')){
+           $showAproved = true;
+        }else{
+            if($aproved){
+                $showUnaproved = true;
+            }
+        }
+
+        return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users', 'showAproved', 'showUnaproved'));
     }
 
     /**
@@ -158,6 +171,7 @@ class AdminHoursController extends Controller
             $logTime->user_id = $user_id;
             $logTime->job_id = $job_id;
             $logTime->hour_type_id = HourType::where('value', '=', 'Mon-Fri')->first()->id;
+            $logTime->aproved = 1;
             $logTime->date = $date;
         }
 
@@ -233,6 +247,26 @@ class AdminHoursController extends Controller
             ]);
         }
        
+        return self::index();
+    }
+
+    public function approve(){
+        $job_id = \Request::get('job');
+        $fromDate = \Request::get('date');
+        $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
+        
+        LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->update(['aproved' => '1']);
+
+        return self::index();
+    } 
+
+    public function unapprove(){
+        $job_id = \Request::get('job');
+        $fromDate = \Request::get('date');
+        $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
+        
+        LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->update(['aproved' => '0']);
+
         return self::index();
     }
 

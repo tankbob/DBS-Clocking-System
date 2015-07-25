@@ -32,7 +32,7 @@
 	
 	<div class="add-user-form col-sm-12">
 
-		{!! Form::open(['method' => 'POST', 'id' => 'hoursForm']) !!}
+		{!! Form::open(['url' => '/admin/hours', 'method' => 'POST', 'id' => 'hoursForm']) !!}
 			<div class="col-sm-12" style="margin-bottom:10px;">
 		    	<div class="col-sm-3 col-sm-offset-1">
 					<h1 class="menu-h1">
@@ -246,12 +246,28 @@
 	</div>
 
 	<div class="col-xs-12" style="margin-top:30px;">
-		<div class="col-xs-offset-2">
-			{!!Form::open(['url' => '/admin/addoperative', 'method' => 'GET', ])!!}
+		<div class="col-xs-6 col-xs-offset-2">
+			{!!Form::open(['url' => '/admin/addoperative', 'method' => 'GET'])!!}
 				<input class="hidden" name="job_id" value="{{$job_id}}">
 				<input class="hidden" name="fromDate" value="{{$fromDate}}">				
 				<button class="addOperativeBtn"></button>
 			{!!Form::close()!!}
+		</div>
+		<div class="col-xs-4">
+			@if($showAproved)
+				{!!Form::open(['url' => '/admin/hours/approve', 'method' => 'POST'])!!}
+					<input class="hidden" name="job" value="{{$job_id}}">
+					<input class="hidden" name="date" value="{{$fromDate}}">
+					<button class="approveBtn"></button>
+				{!!Form::close()!!}	
+			@endif
+			@if($showUnaproved)
+				{!!Form::open(['url' => '/admin/hours/unapprove', 'method' => 'POST'])!!}
+					<input class="hidden" name="job" value="{{$job_id}}">
+					<input class="hidden" name="date" value="{{$fromDate}}">
+					<button class="unapproveBtn"></button>
+				{!!Form::close()!!}	
+			@endif
 		</div>
 
 	</div>
