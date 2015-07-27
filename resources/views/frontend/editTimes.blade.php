@@ -65,16 +65,18 @@
 		@endforeach
 
 		@if(!isset($date))
-			<div class="text-center">
-	            <a class="addjob-btn" href="/addjob">
-	              
-	            </a>
-	        </div>
+			
 
 			<div class="text-center">
 	            <button class="update-btn">
 					
 	            </button>
+	        </div>
+
+	        <div class="text-center">
+	            <a class="addjob-btn" href="/addjob">
+	              
+	            </a>
 	        </div>
 	    
 
