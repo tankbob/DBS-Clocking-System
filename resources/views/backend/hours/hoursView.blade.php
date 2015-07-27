@@ -75,7 +75,9 @@
 				</h1>
 			</div>
 			<div class="col-sm-8">
-				{!! Form::open() !!}
+				{!! Form::open(['url' => '/pdf', 'method' => 'POST']) !!}
+					<input name="job" value="{{$job_id}}" class="hidden">
+					<input name="date" value="{{$fromDate}}" class="hidden">
 					<button class="download-btn"></button>
 				{!! Form::close() !!}
 			</div>

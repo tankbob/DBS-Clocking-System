@@ -13,6 +13,8 @@ use App\User;
 use App\UserType;
 use App\HourType;
 
+use mikehaertl\wkhtmlto\Pdf;
+
 class AdminHoursController extends Controller
 {
 
@@ -275,6 +277,68 @@ class AdminHoursController extends Controller
         LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->update(['aproved' => '0']);
 
         return self::index('The hours has been unaproved.');
+    }
+
+    public function pdf(){
+
+     //   $fromDate = \Request::get('date');
+        $fromDate = '2015-07-18';
+     //   $job_id = \Request::get('job');
+        $job_id = 3;
+        $job = Job::find($job_id);
+
+        $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
+
+
+        
+        $logTimes = LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->with('User')->orderBy('user_id')->orderBy('date')->get();
+
+        $logArray = array();
+
+        $users = LogTime::with('User', 'HourType')->where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->get(['user_id']);
+        foreach($users as $user){
+            $logArray[$user->User->name] = array();
+            for($i = 0; $i <= 6; $i ++){
+                $logArray[$user->User->name][$i] = array();
+            }
+        }
+        
+        foreach($logTimes as $l){
+            $userName = $l->User->name;
+            $log_type = $l->HourType->value;
+            $log_time = $l->time;
+            $log_overtime = $l->overtime;
+            $log_date = (1 + date('w', strtotime($l->date))) % 7;
+            
+            $logArray[$userName][$log_date] = ['type' => $log_type, 'time' => $log_time, 'overtime' => $log_overtime];
+        }
+    //   return View('demo')->with('logArray', $logArray)->with('job', $job->number)->with('fromDate', $fromDate)->with('toDate', $toDate);
+        $pdf = new Pdf(array(
+            'no-outline',         // Make Chrome not complain
+            'margin-top'    => 0,
+            'margin-right'  => 0,
+            'margin-bottom' => 0,
+            'margin-left'   => 0,
+            'image-dpi' => 300,
+            'image-quality' => 80
+
+            // Default page options
+        ));
+
+        $data = array();
+
+        // Add a page. To override above page defaults, you could add
+        // another $options array as second argument.
+        $pdf->addPage(View('demo')->with('logArray', $logArray)->with('job', $job->number)->with('fromDate', $fromDate)->with('toDate', $toDate));
+
+        if (!$pdf->send()) {
+            throw new Exception('Could not create PDF: '.$pdf->getError());
+        }
+
+        $content = $pdf->toString();
+        if ($content === false) {
+            throw new Exception('Could not create PDF: '.$pdf->getError());
+        }
     }
 
 }
