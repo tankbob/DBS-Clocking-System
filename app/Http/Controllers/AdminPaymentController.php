@@ -15,6 +15,11 @@ use App\Http\Requests\MissedHoursRequest;
 
 class AdminPaymentController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
     /**
      * Display a listing of the resource.
      *
