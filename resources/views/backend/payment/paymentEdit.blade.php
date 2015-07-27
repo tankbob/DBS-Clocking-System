@@ -13,6 +13,14 @@
 			});
 		});
 	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#date-select').on('change', function(){
+				$('#viewdate').submit();
+			});
+		});
+</script>
 @stop
 
 @section('content')
@@ -23,7 +31,7 @@
                 EDIT OPERATIVE HOURS:
     		</h1>
     		<h1>
-    			<a href="/admin/payments">
+    			<a href="/admin/payment">
     				< BACK
     			</a>
     		</h1>
@@ -45,7 +53,15 @@
 	            	<label for="date">Week Start:</label>
             	</div>
             	<div class="col-sm-9">
-					@include('backend.includes.date')
+					{!! Form::open(['method' => 'GET', 'id' => 'viewdate']) !!}
+
+						<select name="date" id='date-select' class="fancy-select">
+							@foreach($dates as $d)
+								<option value="{{$d}}" @if($d == @$fromDate) selected="selected" @endif>{{date('d/m/y', strtotime($d))}}</option>
+							@endforeach	
+						</select>
+
+					{!! Form::close() !!}
 				</div>
 			</div>
 
