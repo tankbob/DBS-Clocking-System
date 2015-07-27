@@ -201,7 +201,7 @@ return [
         'HTML'      => Illuminate\Html\HtmlFacade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
-        'Excel' => 'Maatwebsite\Excel\Facades\Excel',
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];
