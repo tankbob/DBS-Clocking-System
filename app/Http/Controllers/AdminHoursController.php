@@ -76,15 +76,18 @@ class AdminHoursController extends Controller
 
         $users = User::lists('name', 'id');
 
-        $aproved = LogTime::where('date', '>=', $fromDate)->where('date', '<=', $toDate)->where('job_id', '=', $job_id)->groupBy('job_id')->get([min(['aproved'])])[0]->aproved;
+        $approved = LogTime::where('date', '>=', $fromDate)->where('date', '<=', $toDate)->where('job_id', '=', $job_id)->groupBy('job_id')->get([min(['aproved'])]);
+        if(isset($approved[0])){
+            $approved =  $approved[0]->aproved;
+        }
 
         $showAproved = false;
         $showUnaproved = false;
 
-        if(!$aproved && $toDate < date('Y-m-d')){
+        if(!$approved && $toDate < date('Y-m-d')){
            $showAproved = true;
         }else{
-            if($aproved){
+            if($approved){
                 $showUnaproved = true;
             }
         }

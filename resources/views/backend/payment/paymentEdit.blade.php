@@ -23,7 +23,7 @@
                 EDIT OPERATIVE HOURS:
     		</h1>
     		<h1>
-    			<a @if($page == 'users') href="/admin/payments" @else href="/admin/operatives" @endif>
+    			<a href="/admin/payments">
     				< BACK
     			</a>
     		</h1>
