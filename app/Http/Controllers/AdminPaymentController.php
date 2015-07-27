@@ -177,4 +177,85 @@ class AdminPaymentController extends Controller
         return \Redirect::back()->with('success', 'The missed hours has been edited.');
     }
 
+    public function operativeCsv(){
+        $user_id = \Request::get('user_id');
+        $fromDate = \Request::get('fromDate');
+
+        $userName = User::find($user_id)->first()->name;
+
+        $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
+
+        $times = array();
+
+        for($i = 0; $i <= 6; $i++){
+            $times[$i] = array('overtime' => 0, 'Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0);
+        }
+
+        foreach(LogTime::with('HourType')->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->where('user_id', '=', $user_id)->get() as $logTime){
+            $w = (1+date('w', strtotime($logTime->date)))%7;
+            $type = $logTime->HourType->value;
+            $times[$w][$type] += $logTime->time;
+            $times[$w]['overtime'] += $logTime->overtime;
+        }
+
+        $missed = LogTime::with('HourType')->where('date', '=', $fromDate)->where('job_id', '=', -1)->where('user_id', '=', $user_id)->first();
+
+        $excel = \Excel::create('file', function($excel) use($times, $userName, $fromDate, $toDate, $missed){
+            $excel->setTitle('Our new awesome title');
+             $excel->sheet('XXXX', function($sheet)  use($times, $userName, $fromDate, $toDate, $missed){
+                $sheet->cell('A1', $userName);
+                $sheet->cell('A2', 'FROM');
+                $sheet->cell('B2', date('d/m/Y', strtotime($fromDate)));
+                $sheet->cell('A3', 'TO');
+                $sheet->cell('B3', date('d/m/Y', strtotime($toDate)));
+
+                $sheet->cell('B5', 'Mon-Fri Hours');
+                $sheet->cell('C5', 'Weekend Hours');
+                $sheet->cell('D5', 'Holiday Hours');
+                $sheet->cell('E5', 'Overtime');
+
+                $number = 6;
+
+                $mfTotal = 0;
+                $wTotal = 0;
+                $hTotal = 0;
+                $oTotal = 0; 
+
+                foreach($times as $day => $times){
+                    $sheet->cell('A'.$number, date('D d/m/Y', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+$day, date('Y', strtotime($fromDate)))));
+                    $sheet->cell('B'.$number, $times['Mon-Fri']);
+                    $mfTotal += $times['Mon-Fri'];
+                    $sheet->cell('C'.$number, $times['Weekends']);
+                    $wTotal += $times['Weekends'];
+                    $sheet->cell('D'.$number, $times['Holiday']);
+                    $hTotal += $times['Holiday'];
+                    $sheet->cell('E'.$number, $times['overtime']);
+                    $oTotal += $times['overtime'];
+                    $number ++;
+                }
+                $sheet->cell('A'.$number, 'Total');
+                $sheet->cell('B'.$number, $mfTotal);
+                $sheet->cell('C'.$number, $wTotal);
+                $sheet->cell('D'.$number, $hTotal);
+                $sheet->cell('E'.$number, $oTotal);
+
+                if($missed && $missed->time){
+                    $number +=2;
+                    $sheet->cell('A'.$number, 'Missed Hours');
+
+                    $sheet->cell('B'.$number, $missed->time);
+                    $sheet->cell('C'.$number, $missed->HourType->value);
+
+
+
+                }
+
+
+            });
+        })->download('xls');
+
+        dd($times);
+
+    }
+
 }

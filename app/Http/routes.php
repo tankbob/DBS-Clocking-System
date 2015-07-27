@@ -35,6 +35,8 @@ Route::resource('/admin/jobs', 'AdminJobController');
 
 Route::post('/admin/missedhours', 'AdminPaymentController@addMissedHours');
 
+Route::post('/admin/payment/operativecsv', 'AdminPaymentController@operativeCsv');
+
 Route::resource('/admin/payment', 'AdminPaymentController');
 Route::post('/admin/payment', 'AdminPaymentController@index');
 Route::get('/admin/payment/{user_id}', 'AdminPaymentController@show');

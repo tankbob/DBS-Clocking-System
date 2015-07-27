@@ -77,7 +77,11 @@
 					</label>
 				</div>
 				<div class="col-sm-3">
-					{!! Form::open() !!}
+					{!! Form::open(['url' => '/admin/payment/operativecsv', 'method' => 'POST']) !!}
+
+						<input class="hidden" name="user_id" value="{{$user->id}}">
+	    				<input class="hidden" name="fromDate" value="{{$fromDate}}">
+	    				
 						<button class="download-btn"></button>
 					{!! Form::close() !!}
 				</div>

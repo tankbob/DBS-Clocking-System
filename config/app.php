@@ -147,6 +147,7 @@ return [
         Illuminate\Html\HtmlServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -200,6 +201,7 @@ return [
         'HTML'      => Illuminate\Html\HtmlFacade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
+        'Excel' => 'Maatwebsite\Excel\Facades\Excel',
     ],
 
 ];
