@@ -25,6 +25,8 @@
 
 @section('content')
 
+	@include('backend.includes.errors')
+
 	<div class="add-user-form col-sm-12">
     	<div class="col-sm-3 col-sm-offset-1">
     		<h1>
@@ -163,8 +165,6 @@
 		    @endforeach
     	</div>
     </div>
-
-    @include('frontend.includes.errors')
 
     <div class="add-user-form col-sm-12">
     	<div class="col-sm-7 col-sm-offset-4 login-form">

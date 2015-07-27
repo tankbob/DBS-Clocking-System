@@ -29,6 +29,8 @@
 @stop
 
 @section('content')
+
+	@include('backend.includes.errors')
 	
 	<div class="add-user-form col-sm-12">
 

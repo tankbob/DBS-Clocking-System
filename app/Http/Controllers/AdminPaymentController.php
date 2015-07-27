@@ -80,6 +80,10 @@ class AdminPaymentController extends Controller
 
         if(\Request::has('date')){
             $fromDate = \Request::get('date');
+
+            /*Let's make sure than the get date is a saturday*/
+            $w = (1+date('w', strtotime($fromDate)))%7;
+            $fromDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))-$w, date('Y', strtotime($fromDate))));
         }else{
             $fromDate = $dates[0];
         }
@@ -165,7 +169,7 @@ class AdminPaymentController extends Controller
         $logTime->save();
         var_dump($logTime->id);
 
-        return \Redirect::back();
+        return \Redirect::back()->with('success', 'The missed hours has been edited.');
     }
 
 }

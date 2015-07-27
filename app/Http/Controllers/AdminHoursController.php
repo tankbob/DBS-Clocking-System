@@ -26,7 +26,7 @@ class AdminHoursController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index($msg = null)
     {
         if(\Request::has('date')){
             $fromDate = \Request::get('date');
@@ -92,7 +92,12 @@ class AdminHoursController extends Controller
             }
         }
 
-        return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users', 'showAproved', 'showUnaproved'));
+        if($msg){
+            return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users', 'showAproved', 'showUnaproved', 'msg'));
+        }else{
+            return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users', 'showAproved', 'showUnaproved'));
+        }
+        
     }
 
     /**
@@ -250,7 +255,7 @@ class AdminHoursController extends Controller
             ]);
         }
        
-        return self::index();
+        return self::index('The operative has been added successfully.');
     }
 
     public function approve(){
@@ -260,7 +265,7 @@ class AdminHoursController extends Controller
         
         LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->update(['aproved' => '1']);
 
-        return self::index();
+        return self::index('The hours has been aproved.');
     } 
 
     public function unapprove(){
@@ -270,7 +275,7 @@ class AdminHoursController extends Controller
         
         LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->update(['aproved' => '0']);
 
-        return self::index();
+        return self::index('The hours has been unaproved.');
     }
 
 }
