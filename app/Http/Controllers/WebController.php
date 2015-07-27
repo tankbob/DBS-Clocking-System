@@ -32,7 +32,7 @@ class WebController extends Controller
         	return View('frontend.editTimes', compact('logTimes'));
         }else{
             //First time the guy log time today, redirect to the sign in page
-            $jobs = Job::lists('number', 'id');
+            $jobs = Job::where('active', '=', 1)->lists('number', 'id');
             $hourTypes = HourType::lists('value', 'id');
             return View('frontend.selectJob', compact('jobs', 'hourTypes'));
         }
@@ -79,7 +79,7 @@ class WebController extends Controller
     }
 
     public function addJob(){
-		$jobs = Job::lists('number', 'id');
+		$jobs = Job::where('active', '=', '1')->whereNotIn('id', LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', date('Y-m-d'))->lists('job_id')->toArray())->lists('number', 'id');
 		$hourTypes = HourType::lists('value', 'id');
     	return View('frontend.addJob', compact('jobs', 'hourTypes'));
     }
