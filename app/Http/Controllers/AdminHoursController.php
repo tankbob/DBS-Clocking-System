@@ -56,7 +56,6 @@ class AdminHoursController extends Controller
         $logArray = array();
 
         $users = LogTime::with('User')->where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->get(['user_id']);
-    
         foreach($users as $user){
             $logArray[$user->User->id] = array();
             for($i = 0; $i <= 6; $i ++){

@@ -210,6 +210,63 @@
 
     </div>
 
+     <div class="add-user-form col-sm-12">
+            <div class="col-sm-3 col-sm-offset-1">
+                <h1>
+                    OPERATIVE PAY RATE:
+                </h1>
+                <span class="advice-span">*Reference Only</span>
+            </div>
+            
+            <div class="col-sm-7 login-form">
+
+                <div class="form-group">
+                    <div class="col-xs-3">
+                        <label for="standard_salary">Standard &pound;:</label>
+                    </div>
+                    <div class="col-xs-9">
+                       {!! Form::text('standard_salary', $user->standard_salary, ['class' => 'login-input', 'disabled' => true]) !!}                
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-3">
+                        <label for="weekends_5_salary">Weekends 5 &pound;:</label>
+                    </div>
+                    <div class="col-xs-9">
+                       {!! Form::text('weekends_5_salary', $user->weekends_5_salary, ['class' => 'login-input', 'disabled' => true]) !!}                
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-3">
+                        <label for="weekends_9_salary">Weekends 9 &pound;:</label>
+                    </div>
+                    <div class="col-xs-9">
+                       {!! Form::text('weekends_9_salary', $user->weekends_9_salary, ['class' => 'login-input', 'disabled' => true]) !!}                
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-3">
+                        <label for="holiday_salary">Holiday &pound;:</label>
+                    </div>
+                    <div class="col-xs-9">
+                       {!! Form::text('holiday_salary', $user->holiday_salary, ['class' => 'login-input', 'disabled' => true]) !!}                
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-3">
+                        <label for="overtime_salary">Overtime &pound;:</label>
+                    </div>
+                    <div class="col-xs-9">
+                       {!! Form::text('overtime_salary', $user->overtime_salary, ['class' => 'login-input', 'disabled' => true]) !!}                
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
 
 @stop
