@@ -78,16 +78,16 @@
                     	<tr>
                     		<td class="paddingLeft">
                     			<a href="#" onclick="submitForm({{$p->user_id}})">
-	                    			{{ $p->user->name }}
+	                    			{{ $p->name }}
 	                    		</a>
                     		</td>
                     		<td class="paddingLeft">
                     			<a href="#" onclick="submitForm({{$p->user_id}})">
-                    				{{ $p->user->telephone }}
+                    				{{ $p->telephone }}
                     			</a>
                     		</td>
                     		<td class="text-center">
-                    			@if($p->aproved)
+                    			@if($p->approved)
                     				<div class="success-btn center-div"></div>
                     			@else
                     				<div class="cross-btn center-div"></div>
