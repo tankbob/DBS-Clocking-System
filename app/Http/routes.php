@@ -47,7 +47,7 @@ Route::post('/admin/payment/{user_id}', 'AdminPaymentController@show');
 
 Route::post('/signin', 'WebController@signIn');
 Route::post('/viewdate', 'WebController@changeDate');
-Route::post('/edittimes', 'Webcontroller@editTimes');
+Route::post('/edittimes', 'WebController@editTimes');
 Route::post('/addjob', 'WebController@processAddJob');
 
 Route::get('/', 'WebController@index');
