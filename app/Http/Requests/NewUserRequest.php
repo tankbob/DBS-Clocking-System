@@ -24,7 +24,7 @@ class NewUserRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name' => 'required|unique:users',
             'email' => 'required|email',
             'password' => 'required|min:6'
         ];

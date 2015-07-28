@@ -14,7 +14,7 @@
 
 @section('content')
 
-	@include('frontend.includes.errors')
+	@include('backend.includes.errors')
 
     @if($page == 'users')
         {!! Form::open(['url' => "/admin/users/$user->id", 'method' => 'PUT']) !!}
@@ -22,6 +22,7 @@
         {!! Form::open(['url' => "/admin/operatives/$user->id", 'method' => 'PUT']) !!}
     @endif
 
+    <input class="hidden" value="{{$user->id}}" name="id">
 
     <div class="add-user-form col-sm-12">
     	<div class="col-sm-3 col-sm-offset-1">

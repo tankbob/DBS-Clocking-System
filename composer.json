@@ -11,7 +11,8 @@
         "barryvdh/laravel-debugbar": "*",
         "greggilbert/recaptcha": "dev-master",
         "maatwebsite/excel": "~2.0.0",
-        "mikehaertl/phpwkhtmltopdf": "2.0.3"
+        "mikehaertl/phpwkhtmltopdf": "2.0.3",
+        "doctrine/dbal": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
