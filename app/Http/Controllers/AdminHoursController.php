@@ -279,9 +279,8 @@ class AdminHoursController extends Controller
 
     public function pdf(){
 
-     //   $fromDate = \Request::get('date');
-        $fromDate = '2015-07-18';
-     //   $job_id = \Request::get('job');
+        $fromDate = \Request::get('date');
+        $job_id = \Request::get('job');
         $job_id = 3;
         $job = Job::find($job_id);
 
@@ -323,9 +322,7 @@ class AdminHoursController extends Controller
 
         $data = array();
 
-        // Add a page. To override above page defaults, you could add
-        // another $options array as second argument.
-        $pdf->addPage(View('demo')->with('logArray', $logArray)->with('job', $job->number)->with('fromDate', $fromDate)->with('toDate', $toDate));
+        $pdf->addPage(View('backend.pdf.hourspdf')->with('logArray', $logArray)->with('job', $job->number)->with('fromDate', $fromDate)->with('toDate', $toDate));
 
         if (!$pdf->send()) {
             throw new Exception('Could not create PDF: '.$pdf->getError());

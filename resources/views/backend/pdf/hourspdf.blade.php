@@ -70,7 +70,7 @@
 
 
         <div id="content">
-            <h2>Hours worked in Job: {{$job}} from {{$fromDate}} to {{$toDate}}</h2>
+            <h2>Hours worked in Job: {{$job}} from {{date('d/m/Y', strtotime($fromDate))}} to {{date('d/m/Y', strtotime($toDate))}}</h2>
             
 
         </div>
