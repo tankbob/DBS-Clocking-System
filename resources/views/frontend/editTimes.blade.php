@@ -40,7 +40,7 @@
 
 				<div class="form-group text-center">
 					{!! Form::label($logTime->id.'[time]', 'Hours:') !!}
-					<select name="{{$logTime->id}}[time]" @if(isset($date)) disabled="true" @endif>
+					<select name="{{$logTime->id}}[time]" @if(isset($date)) disabled="true" class="disabled-select" @endif>
 						@for($i = 0; $i <= 9; $i++)
 							<option value="{{$i}}" @if($logTime->time == $i) selected="selected" @endif>
 								{{$i}} hrs
@@ -51,7 +51,7 @@
 
 				<div class="form-group text-center">
 					{!! Form::label($logTime->id.'[overtime]', 'Overtime:') !!}
-					<select name="{{$logTime->id}}[overtime]" @if(isset($date)) disabled="true" @endif>
+					<select name="{{$logTime->id}}[overtime]" @if(isset($date)) disabled="true" class="disabled-select" @endif>
 						<option value="0"> Add O.T. </option>
 						@for($i = 1; $i <= 9; $i++)
 							<option value="{{$i}}" @if($logTime->overtime == $i) selected="selected" @endif>

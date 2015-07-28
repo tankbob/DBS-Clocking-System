@@ -26,7 +26,7 @@ class WebController extends Controller
 
     public function index()
     {
-        $logTimes = LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', date('Y-m-d'))->with('Job', 'HourType')->get();
+        $logTimes = LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', date('Y-m-d'))->whereIn('job_id', Job::lists('id')->toArray())->with('Job', 'HourType')->get();
         if(count($logTimes)){
             //Redirect to the edit times page
         	return View('frontend.editTimes', compact('logTimes'));
@@ -64,7 +64,7 @@ class WebController extends Controller
     			//NO allow to check more than 1 week.
     		return \Redirect::to('/');
     	}else{
-    		$logTimes = LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', $date)->with('Job', 'HourType')->get();
+    		$logTimes = LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', $date)->whereIn('job_id', Job::lists('id')->toArray())->with('Job', 'HourType')->get();
     		return View('frontend.editTimes', compact('logTimes', 'date'));
     	}
     }
