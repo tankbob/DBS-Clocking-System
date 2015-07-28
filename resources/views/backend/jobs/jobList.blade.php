@@ -9,6 +9,13 @@
         $(document).ready(function() {
             $('#datatables').DataTable();
         } );
+
+        function deleteJob(id){
+            event.preventDefault();
+            if(confirm("Are you sure you want to delete this job? All information will be lost.")){
+                $('#deleteForm'+id).submit();
+            }
+        }
     </script>
 @stop
 
@@ -141,12 +148,8 @@
                                 {!! Form::close() !!}
 
                             </td>                            
-                            <td class="text-center"> 
-                                {!! Form::open(['url' => "/admin/jobs/$job->id", 'method' => 'DELETE']) !!}
-                                    
-                                    <button class="cross-btn"></button>
-                                {!! Form::close() !!}
-                                
+                            <td class="text-center">                    
+                                <a class="cross-btn" onclick="deleteJob({{$job->id}})"></a> 
                             </td>
                         </tr>
                     @endforeach
@@ -155,5 +158,11 @@
         </div>
     </div>
     <div class="clear-float"></div>
+
+    @foreach($jobs as $job)
+        {!! Form::open(['url' => "/admin/jobs/$job->id", 'method' => 'DELETE', 'id' => 'deleteForm'.$job->id]) !!}
+
+        {!! Form::close() !!}
+    @endforeach
 
 @stop

@@ -13,8 +13,14 @@
         $(document).ready(function() {
             $('#datatables').DataTable();
         } );
+
+        function deleteUser(id){
+            event.preventDefault();
+            if(confirm("Are you sure you want to delete this user? All information will be lost.")){
+                $('#deleteForm'+id).submit();
+            }
+        }
     </script>
-    
 @stop
 
 @section('content')
@@ -121,12 +127,13 @@
                             <td class="text-center">
                                 @if($user->id != Auth::user()->id)
                                     @if($page == 'users')
-                                        {!! Form::open(['url' => "/admin/users/$user->id", 'method' => 'DELETE']) !!}
+                                        {!! Form::open(['url' => "/admin/users/$user->id", 'method' => 'DELETE', 'id' => 'deleteForm'.$user->id]) !!}
                                     @else
-                                        {!! Form::open(['url' => "/admin/operatives/$user->id", 'method' => 'DELETE']) !!}
+                                        {!! Form::open(['url' => "/admin/operatives/$user->id", 'method' => 'DELETE', 'id' => 'deleteForm'.$user->id]) !!}
                                     @endif
-                                        <button class="cross-btn"></button>
-                                    {!! Form::close() !!}
+                                        {!! Form::close() !!}
+                                        <a href="#" class="cross-btn" onclick="deleteUser({{$user->id}})"></a>
+                                    
                                 @endif
                             </td>
                         </tr>
@@ -136,4 +143,14 @@
         </div>
     </div>
     <div class="clear-float"></div>
+    @foreach($users as $user)
+        @if($user->id != Auth::user()->id)
+            @if($page == 'users')
+                {!! Form::open(['url' => "/admin/users/$user->id", 'method' => 'DELETE', 'id' => 'deleteForm'.$user->id]) !!}
+            @else
+                {!! Form::open(['url' => "/admin/operatives/$user->id", 'method' => 'DELETE', 'id' => 'deleteForm'.$user->id]) !!}
+            @endif
+            {!! Form::close() !!}
+        @endif
+    @endforeach
 @stop

@@ -259,6 +259,11 @@ h1 a:hover{
 }
 
 .cross-btn{
+	display: block;
+	position: relative;
+	margin: auto;
+	left: 0;
+	right: 0;
 	border: none;
 	height: 15px;
 	width: 15px;
