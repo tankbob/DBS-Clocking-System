@@ -78,10 +78,7 @@ class AdminHoursController extends Controller
 
         $users = User::lists('name', 'id');
 
-        $approved = LogTime::where('date', '>=', $fromDate)->where('date', '<=', $toDate)->where('job_id', '=', $job_id)->groupBy('job_id')->get([min(['aproved'])]);
-        if(isset($approved[0])){
-            $approved =  $approved[0]->aproved;
-        }
+        $approved = LogTime::where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('job_id', '=', $job_id)->min('aproved');
 
         $showAproved = false;
         $showUnaproved = false;
@@ -265,7 +262,7 @@ class AdminHoursController extends Controller
         $fromDate = \Request::get('date');
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
         
-        LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->update(['aproved' => '1']);
+        LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->update(['aproved' => '1']);
 
         return self::index('The hours has been aproved.');
     } 
@@ -275,7 +272,7 @@ class AdminHoursController extends Controller
         $fromDate = \Request::get('date');
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
         
-        LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->update(['aproved' => '0']);
+        LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->update(['aproved' => '0']);
 
         return self::index('The hours has been unaproved.');
     }
@@ -289,8 +286,6 @@ class AdminHoursController extends Controller
         $job = Job::find($job_id);
 
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
-
-
         
         $logTimes = LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->with('User')->orderBy('user_id')->orderBy('date')->get();
 
