@@ -6,7 +6,7 @@
 
 @section('content')
 
-	@include('frontend.includes.errors')
+	@include('backend.includes.errors')
 
 	<div class="col-sm-3 col-sm-offset-1">
 		<h1>

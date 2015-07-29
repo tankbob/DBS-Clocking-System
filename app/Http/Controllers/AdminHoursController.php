@@ -78,23 +78,23 @@ class AdminHoursController extends Controller
 
         $users = User::lists('name', 'id');
 
-        $approved = LogTime::where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('job_id', '=', $job_id)->min('aproved');
+        $approved = LogTime::where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('job_id', '=', $job_id)->min('approved');
 
-        $showAproved = false;
-        $showUnaproved = false;
+        $showApproved = false;
+        $showUnapproved = false;
 
         if(!$approved && $toDate < date('Y-m-d')){
-           $showAproved = true;
+           $showApproved = true;
         }else{
             if($approved){
-                $showUnaproved = true;
+                $showUnapproved = true;
             }
         }
 
         if($msg){
-            return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users', 'showAproved', 'showUnaproved', 'msg'));
+            return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users', 'showApproved', 'showUnapproved', 'msg'));
         }else{
-            return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users', 'showAproved', 'showUnaproved'));
+            return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users', 'showApproved', 'showUnapproved'));
         }
     }
 
@@ -177,7 +177,7 @@ class AdminHoursController extends Controller
             $logTime->user_id = $user_id;
             $logTime->job_id = $job_id;
             $logTime->hour_type_id = HourType::where('value', '=', 'Mon-Fri')->first()->id;
-            $logTime->aproved = 1;
+            $logTime->approved = 1;
             $logTime->date = $date;
         }
 
@@ -261,9 +261,9 @@ class AdminHoursController extends Controller
         $fromDate = \Request::get('date');
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
         
-        LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->update(['aproved' => '1']);
+        LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->update(['approved' => '1']);
 
-        return self::index('The hours has been aproved.');
+        return self::index('The hours has been approved.');
     } 
 
     public function unapprove(){
@@ -271,9 +271,9 @@ class AdminHoursController extends Controller
         $fromDate = \Request::get('date');
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
         
-        LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->update(['aproved' => '0']);
+        LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->update(['approved' => '0']);
 
-        return self::index('The hours has been unaproved.');
+        return self::index('The hours has been unapproved.');
     }
 
     public function pdf(){

@@ -258,14 +258,14 @@
 			{!!Form::close()!!}
 		</div>
 		<div class="col-xs-4">
-			@if($showAproved)
+			@if($showApproved)
 				{!!Form::open(['url' => '/admin/hours/approve', 'method' => 'POST'])!!}
 					<input class="hidden" name="job" value="{{$job_id}}">
 					<input class="hidden" name="date" value="{{$fromDate}}">
 					<button class="approveBtn"></button>
 				{!!Form::close()!!}	
 			@endif
-			@if($showUnaproved)
+			@if($showUnapproved)
 				{!!Form::open(['url' => '/admin/hours/unapprove', 'method' => 'POST'])!!}
 					<input class="hidden" name="job" value="{{$job_id}}">
 					<input class="hidden" name="date" value="{{$fromDate}}">

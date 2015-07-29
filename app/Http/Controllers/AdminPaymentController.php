@@ -49,7 +49,7 @@ class AdminPaymentController extends Controller
 
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
-        $payment = LogTime::leftJoin('users', 'user_id', '=', 'users.id')->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->get(['name', 'telephone', 'user_id', \DB::raw('MIN(aproved) as approved')]);
+        $payment = LogTime::leftJoin('users', 'user_id', '=', 'users.id')->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->get(['name', 'telephone', 'user_id', \DB::raw('MIN(approved) as approved')]);
 
         return View('backend.payment.paymentView', compact('page', 'dates', 'fromDate', 'payment'));
     }
@@ -168,7 +168,7 @@ class AdminPaymentController extends Controller
         $logTime->user_id = $request->get('user_id');
         $logTime->date = $request->get('fromDate');
         $logTime->job_id = -1;
-        $logTime->aproved = 1;
+        $logTime->approved = 1;
         if($request->get('hour_type_id') == 'overtime'){
             $logTime->hour_type_id = 1;
             $logTime->time = 0;
@@ -224,7 +224,7 @@ class AdminPaymentController extends Controller
 
         $missed = LogTime::with('HourType')->where('job_id', '=', '-1')->where('date', '>=', $fromDate)->where('user_id', '=', $user_id)->first();
 
-        $approvement = LogTime::leftJoin('jobs', 'job_id', '=', 'jobs.id')->where('user_id', '=', $user_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('job_id', Job::lists('id')->toArray())->groupBy('job_id')->get(['number', \DB::raw('MIN(aproved) as approved')]);
+        $approvement = LogTime::leftJoin('jobs', 'job_id', '=', 'jobs.id')->where('user_id', '=', $user_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('job_id', Job::lists('id')->toArray())->groupBy('job_id')->get(['number', \DB::raw('MIN(approved) as approved')]);
 
         foreach($approvement as $ap){
             $logArray[$ap->number]['approved'] = $ap->approved;
