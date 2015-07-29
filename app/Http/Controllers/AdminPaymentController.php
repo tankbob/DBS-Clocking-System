@@ -219,6 +219,12 @@ class AdminPaymentController extends Controller
 
         $missed = LogTime::with('HourType')->where('job_id', '=', '-1')->where('date', '>=', $fromDate)->where('user_id', '=', $user_id)->first();
 
+        $approvement = LogTime::leftJoin('jobs', 'job_id', '=', 'jobs.id')->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('job_id')->whereIn('job_id', Job::lists('id')->toArray())->get(['number', \DB::raw('MIN(aproved) as approved')]);
+
+        foreach($approvement as $ap){
+            $logArray[$ap->number]['approved'] = $ap->approved;
+        }
+
         $excel = \Excel::create('file', function($excel) use ($fromDate, $toDate, $logArray, $missed){
         $excel->setTitle('Payment');
             $excel->sheet('Payment', function($sheet)  use ($fromDate, $toDate, $logArray, $missed){
@@ -256,6 +262,12 @@ class AdminPaymentController extends Controller
                         for($i = 0; $i <7; $i++){
                             $sheet->cell($letters[$i].($number+$offset), $days[$i][$type]);
                         }
+                    }
+
+                    if($days['approved']){
+                        $sheet->cell('J'.$number, 'Yes');
+                    }else{
+                        $sheet->cell('J'.$number, 'No');
                     }
 
                     $number += 4;    
