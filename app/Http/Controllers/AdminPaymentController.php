@@ -37,8 +37,13 @@ class AdminPaymentController extends Controller
             $dates[$i] = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($dates[$i - 1])), date('d', strtotime($dates[$i - 1]))-7, date('Y', strtotime($dates[$i - 1]))));
         }
 
-        $fromDate = \Request::get('date');
-        if(!$fromDate){
+        if(\Request::has('date')){
+            $fromDate = \Request::get('date');
+
+            /*Let's make sure than the get date is a saturday*/
+            $w = (1+date('w', strtotime($fromDate)))%7;
+            $fromDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))-$w, date('Y', strtotime($fromDate))));
+        }else{
             $fromDate = $dates[0];
         }
 

@@ -5,11 +5,12 @@
         $(document).ready(function() {
             $('#datatables').DataTable();
         } );
-    
-        function submitForm(id){
-            $('#form-'+id).submit();
-        }
 
+        $(document).ready(function(){
+            $('#date-select').on('change', function(){
+                $('#viewdate').submit();
+            });
+        });
     </script>
     
 @stop
@@ -28,7 +29,15 @@
 			</h1>
 		</div>
 		<div class="col-sm-8">
-			@include('backend.includes.date')
+			{!! Form::open(['method' => 'GET', 'id' => 'viewdate']) !!}
+
+            <select name="date" id='date-select' class="fancy-select">
+                @foreach($dates as $d)
+                    <option value="{{$d}}" @if($d == @$fromDate) selected="selected" @endif>{{date('d/m/y', strtotime($d))}}</option>
+                @endforeach 
+            </select>
+
+        {!! Form::close() !!}
 		</div>
 
 		<div style="clear:both; height: 10px; width: 100%;"></div>
@@ -78,12 +87,12 @@
 
                     	<tr>
                     		<td class="paddingLeft">
-                    			<a href="#" onclick="submitForm({{$p->user_id}})">
+                    			<a href="/admin/payment/{{$p->user_id}}?date={{$fromDate}}">
 	                    			{{ $p->name }}
 	                    		</a>
                     		</td>
                     		<td class="paddingLeft">
-                    			<a href="#" onclick="submitForm({{$p->user_id}})">
+                    			<a href="/admin/payment/{{$p->user_id}}?date={{$fromDate}}">
                     				{{ $p->telephone }}
                     			</a>
                     		</td>
@@ -103,11 +112,5 @@
             </table>
         </div>
     </div>
-
-    @foreach($payment as $p)
-        {!!Form::open(['url' => '/admin/payment/'.$p->user_id, 'method' => 'POST', 'id' => "form-".$p->user_id])!!}
-            <input class="hidden" name="date" value="{{$fromDate}}">
-        {!!Form::close()!!}
-    @endforeach
 
 @stop

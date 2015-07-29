@@ -33,7 +33,7 @@
                 EDIT OPERATIVE HOURS:
     		</h1>
     		<h1>
-    			<a href="/admin/payment">
+    			<a href="/admin/payment?date={{$fromDate}}">
     				< BACK
     			</a>
     		</h1>
