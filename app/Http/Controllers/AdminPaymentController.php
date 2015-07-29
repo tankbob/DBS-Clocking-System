@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use App\LogTime;
 use App\User;
+use App\Job;
 use App\HourType;
 use App\UserType;
 
@@ -104,7 +105,7 @@ class AdminPaymentController extends Controller
             $times[$i] = array('overtime' => 0, 'Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0);
         }
 
-        foreach(LogTime::with('HourType')->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->where('user_id', '=', $user_id)->get() as $logTime){
+        foreach(LogTime::with('HourType')->whereIn('job_id', Job::lists('id'))->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->where('user_id', '=', $user_id)->get() as $logTime){
             $w = (1+date('w', strtotime($logTime->date)))%7;
             $type = $logTime->HourType->value;
             $times[$w][$type] += $logTime->time;
@@ -178,6 +179,15 @@ class AdminPaymentController extends Controller
         return \Redirect::back()->with('success', 'The missed hours has been edited.');
     }
 
+
+
+
+
+
+
+
+
+
     public function operativeCsv(){
         $user_id = \Request::get('user_id');
         $fromDate = \Request::get('fromDate');
@@ -188,73 +198,112 @@ class AdminPaymentController extends Controller
 
         $times = array();
 
-        for($i = 0; $i <= 6; $i++){
-            $times[$i] = array('overtime' => 0, 'Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0);
+        $jobs = LogTime::where('job_id', '>', 0)->whereIn('job_id', Job::lists('id'))->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('job_id')->with('Job')->get(['job_id']);
+
+        $logArray = array();
+
+        foreach($jobs as $job){
+            $logArray[$job->Job->number] = array();
+            for($i = 0; $i <= 6; $i ++){
+                $logArray[$job->Job->number][$i] = ['Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0, 'overtime' => 0];
+            }
         }
 
-        foreach(LogTime::with('HourType')->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->where('user_id', '=', $user_id)->get() as $logTime){
+        foreach(LogTime::with('HourType', 'Job')->whereIn('job_id', Job::lists('id'))->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->where('user_id', '=', $user_id)->get() as $logTime){
             $w = (1+date('w', strtotime($logTime->date)))%7;
             $type = $logTime->HourType->value;
-            $times[$w][$type] += $logTime->time;
-            $times[$w]['overtime'] += $logTime->overtime;
+            $jobNumb = $logTime->Job->number;
+            $logArray[$jobNumb][$w][$type] = $logTime->time;
+            $logArray[$jobNumb][$w]['overtime'] = $logTime->overtime;
         }
 
-        $missed = LogTime::with('HourType')->where('date', '=', $fromDate)->where('job_id', '=', -1)->where('user_id', '=', $user_id)->first();
+        $missed = LogTime::with('HourType')->where('job_id', '=', '-1')->where('date', '>=', $fromDate)->where('user_id', '=', $user_id)->first();
 
-        $excel = \Excel::create('file', function($excel) use($times, $userName, $fromDate, $toDate, $missed){
-            $excel->setTitle($userName);
-             $excel->sheet($userName, function($sheet)  use($times, $userName, $fromDate, $toDate, $missed){
-                $sheet->cell('A1', $userName);
-                $sheet->cell('A2', 'FROM');
-                $sheet->cell('B2', date('d/m/Y', strtotime($fromDate)));
-                $sheet->cell('A3', 'TO');
-                $sheet->cell('B3', date('d/m/Y', strtotime($toDate)));
-
-                $sheet->cell('B5', 'Mon-Fri Hours');
-                $sheet->cell('C5', 'Weekend Hours');
-                $sheet->cell('D5', 'Holiday Hours');
-                $sheet->cell('E5', 'Overtime');
-
-                $number = 6;
-
-                $mfTotal = 0;
-                $wTotal = 0;
-                $hTotal = 0;
-                $oTotal = 0; 
-
-                foreach($times as $day => $times){
-                    $sheet->cell('A'.$number, date('D d/m/Y', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+$day, date('Y', strtotime($fromDate)))));
-                    $sheet->cell('B'.$number, $times['Mon-Fri']);
-                    $mfTotal += $times['Mon-Fri'];
-                    $sheet->cell('C'.$number, $times['Weekends']);
-                    $wTotal += $times['Weekends'];
-                    $sheet->cell('D'.$number, $times['Holiday']);
-                    $hTotal += $times['Holiday'];
-                    $sheet->cell('E'.$number, $times['overtime']);
-                    $oTotal += $times['overtime'];
-                    $number ++;
+        $excel = \Excel::create('file', function($excel) use ($fromDate, $toDate, $logArray, $missed){
+        $excel->setTitle('Payment');
+            $excel->sheet('Payment', function($sheet)  use ($fromDate, $toDate, $logArray, $missed){
+                $sheet->cell('A1', 'Operative names');
+                $sheet->cell('B1', 'Hour type');
+                $letter = 'C';
+                for($i = 0; $i <7; $i++){
+                    $sheet->cell($letter.'1', date('D d/m/Y', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+$i, date('Y', strtotime($fromDate)))));
+                    $letter++;
                 }
-                $sheet->cell('A'.$number, 'Total');
-                $sheet->cell('B'.$number, $mfTotal);
-                $sheet->cell('C'.$number, $wTotal);
-                $sheet->cell('D'.$number, $hTotal);
-                $sheet->cell('E'.$number, $oTotal);
+                $sheet->cell('J1', 'Approved');
 
-                if($missed && $missed->time){
-                    $number +=2;
-                    $sheet->cell('A'.$number, 'Missed Hours');
+                $number = 2;
 
-                    $sheet->cell('B'.$number, $missed->time);
-                    $sheet->cell('C'.$number, $missed->HourType->value);
+                $letters = [
+                    0 => 'C',
+                    1 => 'D',
+                    2 => 'E',
+                    3 => 'F',
+                    4 => 'G',
+                    5 => 'H',
+                    6 => 'I',
+                ];
 
+                foreach($logArray as $name => $days){
+                    $letter = 'C';
+                    $sheet->cell('A'.$number, $name);
+                    $sheet->cell('B'.$number, 'Mon-Fri');
+                    $sheet->cell('B'.($number+1), 'Weekends');
+                    $sheet->cell('B'.($number+2), 'Holiday');
+                    $sheet->cell('B'.($number+3), 'overtime');
 
+                    
+                    foreach(['Mon-Fri' => 0, 'Weekends' => 1, 'Holiday' => 2, 'overtime' => 3] as $type => $offset){
+                        for($i = 0; $i <7; $i++){
+                            $sheet->cell($letters[$i].($number+$offset), $days[$i][$type]);
+                        }
+                    }
 
+                    $number += 4;    
                 }
 
-
+                if($missed){
+                    if($missed->time){
+                        $sheet->cell('A'.$number, 'Missed Hours');
+                        $sheet->cell('B'.$number, $missed->HourType->value);
+                        $sheet->cell('C'.$number, $missed->time);
+                    }elseif($missed->overtime){
+                        $sheet->cell('A'.$number, 'Missed Hours');
+                        $sheet->cell('B'.$number, 'overtime');
+                        $sheet->cell('C'.$number, $missed->overtime);
+                    }
+                    
+                }
             });
         })->download('xls');
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function paymentCsv(){
         $fromDate = \Request::get('fromDate');
