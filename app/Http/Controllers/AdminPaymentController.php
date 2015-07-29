@@ -271,6 +271,7 @@ class AdminPaymentController extends Controller
             for($i = 0; $i <= 6; $i ++){
                 $logArray[$user->User->name][$i] = ['Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0, 'overtime' => 0];
             }
+            $logArray[$user->User->name]['missed'] = ['Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0, 'overtime' => 0];
         }
 
         $ht = HourType::lists('value', 'id')->toArray();
@@ -282,13 +283,17 @@ class AdminPaymentController extends Controller
             $log_overtime = $l->overtime;
             $log_date = (1 + date('w', strtotime($l->date))) % 7;
             
-            $logArray[$user_name][$log_date][$log_type] += $log_time;
-            $logArray[$user_name][$log_date]['overtime'] += $log_overtime;
+            if($l->job_id == -1){
+                if($log_overtime && $log_type == 'Mon-Fri'){
+                    $logArray[$user_name]['missed']['overtime'] += $log_overtime;
+                }else{
+                    $logArray[$user_name]['missed'][$log_type] += $log_time;
+                }
+            }else{
+                $logArray[$user_name][$log_date][$log_type] += $log_time;
+                $logArray[$user_name][$log_date]['overtime'] += $log_overtime;
+            }
         }
-
-        $missed = LogTime::with('HourType')->where('date', '=', $fromDate)->where('job_id', '=', -1)->first();
-
-        dd($missed);
 
         $excel = \Excel::create('file', function($excel) use ($fromDate, $toDate, $logArray){
         $excel->setTitle('Payment');
@@ -325,10 +330,12 @@ class AdminPaymentController extends Controller
                     
                     foreach(['Mon-Fri' => 0, 'Weekends' => 1, 'Holiday' => 2, 'overtime' => 3] as $type => $offset){
                         for($i = 0; $i <7; $i++){
-                            $sheet->cell(''.$letters[$i].($number+$offset), $days[$i][$type]);
+                            $sheet->cell($letters[$i].($number+$offset), $days[$i][$type]);
                         }
+                        $sheet->cell('J'.($number+$offset), $days['missed'][$type]);
                     }
-                    $number += 4;
+
+                    $number += 4;    
                 }
             });
         })->download('xls');
