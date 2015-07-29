@@ -12,7 +12,7 @@
 
         function deleteJob(id){
             event.preventDefault();
-            if(confirm("Are you sure you want to delete this job? All information will be lost.")){
+            if(confirm("Are you sure you want to delete this job? All information will be lost and the times logged for this job will disappear.")){
                 $('#deleteForm'+id).submit();
             }
         }
