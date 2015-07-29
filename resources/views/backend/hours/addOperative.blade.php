@@ -4,16 +4,6 @@
 	Add Operative to work sheet
 @stop
 
-@section('scripts')
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$('#backSubmit').on('click', function(){
-				$('#backForm').submit();
-			});
-		});
-	</script>
-@stop
-
 @section('content')
 	@include('frontend.includes.errors')
 
@@ -24,14 +14,9 @@
     		</h1>
 
     		<h1>
-    			{!!Form::open(['url' => '/admin/hours', 'method' => 'POST', 'id' => 'backForm'])!!}
-	    			<input class="hidden" name="date" value="{{$fromDate}}">
-	    			<input class="hidden" name="job" value="{{$job_id}}">
-
-	    			<a href='#' id="backSubmit">
-	    				< BACK
-	    			</a>
-    			{!!Form::close()!!}
+    			<a href='/admin/hours/?job={{$job_id}}&date={{$fromDate}}' id="backSubmit">
+	    			< BACK
+	    		</a>
     		</h1>
     	</div>
 

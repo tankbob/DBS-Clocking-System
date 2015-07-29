@@ -30,22 +30,26 @@ class AdminHoursController extends Controller
      */
     public function index($msg = null)
     {
-        if(\Request::has('date')){
-            $fromDate = \Request::get('date');
-        }else{
-            $fromDate = date('Y-m-d', strtotime("last Saturday"));
-        }
-
-        if(\Request::has('job')){
-            $job_id = \Request::get('job');
-        }else{
-            $job_id = Job::first()->id;
-        }
-
         $dates = array();
         $dates[0] = date('Y-m-d', strtotime("last Saturday"));
         for($i = 1; $i < 10; $i++){
             $dates[$i] = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($dates[$i - 1])), date('d', strtotime($dates[$i - 1]))-7, date('Y', strtotime($dates[$i - 1]))));
+        }
+
+        if(\Request::has('date')){
+            $fromDate = \Request::get('date');
+
+            /*Let's make sure than the get date is a saturday*/
+            $w = (1+date('w', strtotime($fromDate)))%7;
+            $fromDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))-$w, date('Y', strtotime($fromDate))));
+        }else{
+            $fromDate = $dates[0];
+        }
+
+        if(\Request::has('job') && Job::find(\Request::get('job'))){
+            $job_id = \Request::get('job');
+        }else{
+            $job_id = Job::first()->id;
         }
 
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
@@ -221,8 +225,8 @@ class AdminHoursController extends Controller
 
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
-        if(\Request::has('job_id')){
-            $job_id = \Request::get('job_id');
+        if(\Request::has('job') && Job::find(\Request::get('job'))){
+            $job_id = \Request::get('job');
         }else{
             $job_id = Job::first()->id;
         }
@@ -253,7 +257,7 @@ class AdminHoursController extends Controller
             ]);
         }
        
-        return self::index('The operative has been added successfully.');
+        return \Redirect::to('admin/hours?job='.$job_id.'&date='.$date)->with('success', 'The operative has been added successfully');
     }
 
     public function approve(){

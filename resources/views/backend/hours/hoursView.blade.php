@@ -34,7 +34,7 @@
 	
 	<div class="add-user-form col-sm-12">
 
-		{!! Form::open(['url' => '/admin/hours', 'method' => 'POST', 'id' => 'hoursForm']) !!}
+		{!! Form::open(['url' => '/admin/hours', 'method' => 'GET', 'id' => 'hoursForm']) !!}
 			<div class="col-sm-12" style="margin-bottom:10px;">
 		    	<div class="col-sm-3 col-sm-offset-1">
 					<h1 class="menu-h1">
