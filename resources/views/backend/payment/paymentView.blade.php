@@ -45,7 +45,8 @@
 		</div>
 
 		<div class="col-sm-8">
-			{!! Form::open() !!}
+			{!! Form::open(['url' => '/admin/payment/paymentcsv', 'method' => 'post']) !!}
+                <input class="hidden" name="fromDate" value="{{$fromDate}}">
 				<button class="download-btn"></button>
 			{!! Form::close() !!}
 		</div>

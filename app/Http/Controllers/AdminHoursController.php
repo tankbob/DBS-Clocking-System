@@ -96,7 +96,6 @@ class AdminHoursController extends Controller
         }else{
             return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users', 'showAproved', 'showUnaproved'));
         }
-        
     }
 
     /**
