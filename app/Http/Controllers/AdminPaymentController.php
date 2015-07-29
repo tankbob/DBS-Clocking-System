@@ -219,7 +219,7 @@ class AdminPaymentController extends Controller
 
         $missed = LogTime::with('HourType')->where('job_id', '=', '-1')->where('date', '>=', $fromDate)->where('user_id', '=', $user_id)->first();
 
-        $approvement = LogTime::leftJoin('jobs', 'job_id', '=', 'jobs.id')->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('job_id')->whereIn('job_id', Job::lists('id')->toArray())->get(['number', \DB::raw('MIN(aproved) as approved')]);
+        $approvement = LogTime::leftJoin('jobs', 'job_id', '=', 'jobs.id')->where('user_id', '=', $user_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('job_id', Job::lists('id')->toArray())->groupBy('job_id')->get(['number', \DB::raw('MIN(aproved) as approved')]);
 
         foreach($approvement as $ap){
             $logArray[$ap->number]['approved'] = $ap->approved;
