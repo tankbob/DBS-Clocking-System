@@ -95,11 +95,11 @@
     	</div>
     </div>
 
-    <div class="col-xs-12 col-xs-offset1">
+    <div class="col-xs-12">
         <h1 class="col-xs-offset-1">
             JOB NUMBER LOCATIONS:
          </h1>
-        <div class="col-sm-8 col-sm-offset-2">
+        <div class="col-md-8 col-md-offset-2">
             <table id="datatables" class="table-responsive table-bordered table-hover"  class="display" cellspacing="0" width="100%">
                 <thead>
                     <tr>
