@@ -167,7 +167,7 @@
 
 
         <div id="footer">
-            Target Ink © 2015 DBS Contracts Ltd.
+            Target Ink &copy; 2015 DBS Contracts Ltd.
         </div>
     </div>
 
