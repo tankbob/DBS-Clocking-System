@@ -269,7 +269,9 @@ class AdminPaymentController extends Controller
                         }
                     }
 
-                    if($days['approved']){
+                    if(!isset($days['approved'])){
+
+                    }elseif($days['approved']){
                         $sheet->cell('J'.$number, 'Yes');
                     }else{
                         $sheet->cell('J'.$number, 'No');
