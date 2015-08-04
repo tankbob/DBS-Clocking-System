@@ -4,7 +4,7 @@
 			{!! Form::label('date', 'Date:') !!}
 
 			<select name='date' id='date-select'>
-				@for($iDay = 6; $iDay > 0; $iDay--)
+				@for($iDay = ((1 + date('w')) % 7); $iDay > 0; $iDay--)
 					<option value="{{ date('Y-m-d', strtotime("-" . $iDay . " day")) }}" @if(isset($date) && $date == date('Y-m-d', strtotime("-" . $iDay . " day"))) selected="selected" @endif>
 						{{ date('d/m/y', strtotime("-" . $iDay . " day")) }}
 					</option>
