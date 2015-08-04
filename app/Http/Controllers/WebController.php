@@ -60,7 +60,7 @@ class WebController extends Controller
     public function showDate($date){
     	if($date == date('Y-m-d')){
     		return \Redirect::to('/');
-    	}elseif(date_diff(date_create(date('Y-m-d')), date_create($date))->format('%a') > 6){
+    	}elseif(date_diff(date_create(date('Y-m-d')), date_create($date))->format('%a') > ((1 + date('w')) % 7)){
     			//NO allow to check more than 1 week.
     		return \Redirect::to('/');
     	}else{
