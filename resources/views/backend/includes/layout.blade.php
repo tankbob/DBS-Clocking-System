@@ -32,15 +32,14 @@
 </head>
 <body>
 
-    
-        @include('backend.includes.header')
+    @include('backend.includes.header')
 
-        @include('backend.includes.menu')
+    @include('backend.includes.menu')
 
-        @yield('content')
+    @yield('content')
 
-        @include('backend.includes.footer')
-    
+    @include('backend.includes.footer')
+
 
 </body>
 </html>
