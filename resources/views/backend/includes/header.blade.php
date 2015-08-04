@@ -1,13 +1,14 @@
 <div class="header text-center-sm">
-	<div class="headerContainer">
+	<div class="headerContainer container">
+		
+		<img class="headerLogo" src="/images/dbs_logo.jpg" width="178" height="107" alt="DBS Contracts" data-mu-svgfallback="images/dbslogo_poster_.png">
 		@if(Auth::user())
-			<div class="col-xs-4 col-xs-offset-8">
+			<div class="">
 				{!! Form::open(['url' => '/auth/logout', 'method' => 'GET']) !!}
 					<input type="text" class="hidden" name="page" value="admin">
 					<button class="logout-btn" href="/auth/logout"></button>
 				{!! Form::close() !!}
 			</div>
 		@endif
-		<img class="col-xs-offset-2 headerLogo" src="/images/dbs_logo.jpg" width="173" height="104" alt="DBS Contracts" data-mu-svgfallback="images/dbslogo_poster_.png">
 	</div>
 </div>

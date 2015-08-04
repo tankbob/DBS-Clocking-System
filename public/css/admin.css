@@ -22,9 +22,9 @@ h1 a:hover{
 
 .header{
 	width: 100%;
-	height: 194px;
+	height: 174px;
 	border-bottom: solid;
-	border-color: #262930;
+	border-color: #C1C1C1;
 	border-width: 1px;
 }
 
@@ -35,8 +35,10 @@ h1 a:hover{
 }
 
 .headerLogo{
-	margin-top: 45px;
+	margin-top: 33px;
 	margin-left: 20px;
+	width: 178px;
+	height: 107px
 }
 
 .logout-btn{
@@ -46,7 +48,7 @@ h1 a:hover{
 	display: block;
 	position: absolute;
 	top: 20px;
-	left: 113px;
+	right: 20px;
 	border: none;
 }
 
@@ -435,4 +437,9 @@ th{
 
 .unapproveBtn:hover{
 	background: url('/images/unapprove-rollover.png');
+}
+
+.container{
+	width: 980px !important;
+	padding: 0 !important;
 }
