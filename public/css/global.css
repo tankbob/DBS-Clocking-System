@@ -80,7 +80,7 @@ body{
 	font-weight: 400;
 }
 
-.form-group input, .form-group select, .form-group option{
+.form-group input, .form-group select{
 	width: 180px;
 	height: 44px;
 	border: solid;
@@ -90,13 +90,14 @@ body{
 	font-family: open-sans, sans-serif;
 	font-size: 18px;
 	padding-left: 10px;
-	outline: none;	
+	outline: none;
 }
 
-form-group select{
+.form-group select{
 	background: url('/images/ddarrow.jpg') no-repeat right ;
 	background-size: 18px 12px;
 	-webkit-appearance: none;
+	-moz-appearance: none;
 }
 
 .signin-btn{

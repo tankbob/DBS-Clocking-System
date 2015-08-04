@@ -344,6 +344,7 @@ h1 a:hover{
 	background: url('/images/admin-dropdown.png') no-repeat right;
 	background-size: 51px 51px;
 	-webkit-appearance: none;
+	-moz-appearance: none;
 }
 
 .big-fancy-select{
