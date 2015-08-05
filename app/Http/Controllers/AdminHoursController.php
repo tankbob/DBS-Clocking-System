@@ -180,7 +180,7 @@ class AdminHoursController extends Controller
             $logTime = new LogTime;
             $logTime->user_id = $user_id;
             $logTime->job_id = $job_id;
-            $logTime->hour_type_id = HourType::where('value', '=', 'Mon-Fri')->first()->id;
+            $logTime->hour_type_id = HourType::where('value', '=', 'Normal')->first()->id;
             $logTime->approved = 1;
             $logTime->date = $date;
         }
@@ -253,7 +253,7 @@ class AdminHoursController extends Controller
                 'overtime' => 0,
                 'time' => 0,
                 'date' => $date,
-                'hour_type_id' => HourType::where('value', '=', 'Mon-Fri')->first()->id
+                'hour_type_id' => HourType::where('value', '=', 'Normal')->first()->id
             ]);
         }
        

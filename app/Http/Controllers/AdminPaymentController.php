@@ -113,7 +113,17 @@ class AdminPaymentController extends Controller
         foreach(LogTime::with('HourType')->whereIn('job_id', Job::lists('id'))->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->where('user_id', '=', $user_id)->get() as $logTime){
             $w = (1+date('w', strtotime($logTime->date)))%7;
             $type = $logTime->HourType->value;
-            $times[$w][$type] += $logTime->time;
+            if($type == 'Holiday'){
+                $times[$w]['Holiday'] += $logTime->time;
+            }else{
+                //CHECK FOR WEEKENDS
+                //$w is the day of the week starting in 0=> sat, 1 => sun
+                if($w <= 1){
+                    $times[$w]['Weekends'] += $logTime->time;
+                }else{
+                    $times[$w]['Mon-Fri'] += $logTime->time;
+                }
+            }
             $times[$w]['overtime'] += $logTime->overtime;
         }
 
@@ -218,7 +228,18 @@ class AdminPaymentController extends Controller
             $w = (1+date('w', strtotime($logTime->date)))%7;
             $type = $logTime->HourType->value;
             $jobNumb = $logTime->Job->number;
-            $logArray[$jobNumb][$w][$type] = $logTime->time;
+            //NEED TO CHECK SAME THAN THE OTHER
+            if($type == 'Holiday'){
+                $logArray[$jobNumb][$w]['Holiday'] += $logTime->time;
+            }else{
+                //CHECK FOR WEEKENDS
+                //$w is the day of the week starting in 0=> sat, 1 => sun
+                if($w <= 1){
+                   $logArray[$jobNumb][$w]['Weekends'] += $logTime->time;
+                }else{
+                    $logArray[$jobNumb][$w]['Mon-Fri'] += $logTime->time;
+                }
+            }
             $logArray[$jobNumb][$w]['overtime'] = $logTime->overtime;
         }
 
@@ -355,10 +376,31 @@ class AdminPaymentController extends Controller
                 if($log_overtime && $log_type == 'Mon-Fri'){
                     $logArray[$user_name]['missed']['overtime'] += $log_overtime;
                 }else{
-                    $logArray[$user_name]['missed'][$log_type] += $log_time;
+                    if($log_type == 'Holiday'){
+                        $logArray[$user_name]['missed']['Holiday'] += $log_time;
+                    }else{
+                        //CHECK FOR WEEKENDS
+                        //$w is the day of the week starting in 0=> sat, 1 => sun
+                        if($log_date <= 1){
+                           $logArray[$user_name]['missed']['Weekends'] += $log_time;
+                        }else{
+                            $logArray[$user_name]['missed']['Mon-Fri'] += $log_time;
+                        }
+                    }
                 }
             }else{
-                $logArray[$user_name][$log_date][$log_type] += $log_time;
+                 //NEED TO CHECK SAME THAN THE OTHER
+                if($log_type == 'Holiday'){
+                    $logArray[$user_name][$log_date]['Holiday'] += $log_time;
+                }else{
+                    //CHECK FOR WEEKENDS
+                    //$w is the day of the week starting in 0=> sat, 1 => sun
+                    if($log_date <= 1){
+                       $logArray[$user_name][$log_date]['Weekends'] += $log_time;
+                    }else{
+                        $logArray[$user_name][$log_date]['Mon-Fri'] += $log_time;
+                    }
+                }
                 $logArray[$user_name][$log_date]['overtime'] += $log_overtime;
             }
         }

@@ -21,8 +21,7 @@ class CreateHourTypesTable extends Migration
             $table->timestamps();
         });
 
-        HourType::create(['value' => 'Mon-Fri']);
-        HourType::create(['value' => 'Weekends']);
+        HourType::create(['value' => 'Normal']);
         HourType::create(['value' => 'Holiday']);
     }
 
