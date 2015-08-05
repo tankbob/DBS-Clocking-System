@@ -183,7 +183,7 @@ h1 a:hover{
 
 .add-user-form{
 	border-bottom: solid;
-	border-color: #262930;
+	border-color: #C1C1C1;
 	border-width: 1px;
 	padding: 0 0 40px 0 !important;
 	margin-bottom: 40px;
@@ -197,7 +197,7 @@ h1 a:hover{
 }
 
 #datatables tr{
-	height: 50px;
+	height: 47px;
 }
 
 #datatables a{
@@ -220,10 +220,11 @@ h1 a:hover{
 	font-size: 16px;
 	font-family: raleway, sans-serif;
 	margin-bottom: 10px;
-	float: left;
+	float: right;
 }
 
 #datatables_filter{
+	display: none;
 	letter-spacing: 2px;
 	color: #262930;
 	font-size: 16px;

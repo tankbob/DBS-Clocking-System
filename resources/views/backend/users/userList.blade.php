@@ -94,15 +94,14 @@
         </div>
     </div>
 
-    <div class="col-xs-12 col-xs-offset1">
-        <h1 class="col-xs-offset-1">
+   
+        <h1 class="col-xs-12">
             @if($page == 'users')
                USER LIST:
             @else
                 OPERATIVE LIST:
             @endif
          </h1>
-        <div class="col-sm-8 col-sm-offset-2">
             <table id="datatables" class="table-responsive table-bordered table-hover"  class="display" cellspacing="0" width="100%">
                 <thead>
                     <tr>
@@ -140,8 +139,8 @@
                     @endforeach
                 </tbody>
             </table>
-        </div>
-    </div>
+        
+    
     <div class="clear-float"></div>
     @foreach($users as $user)
         @if($user->id != Auth::user()->id)
