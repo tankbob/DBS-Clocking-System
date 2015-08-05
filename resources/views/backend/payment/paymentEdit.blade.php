@@ -175,7 +175,7 @@
 	    	{!! Form::open(['url' => '/admin/missedhours', 'method' => 'POST']) !!}
 
 	    		<input class="hidden" name="user_id" value="{{$user->id}}">
-	    		<input class="hidden" name="fromDate" value="{{$fromDate}}">
+	    		<input class="hidden" name="date" value="{{$fromDate}}">
 
 	    		<div class="form-group">
 	    			<div class="col-sm-3">
@@ -195,12 +195,12 @@
 		            	</label>
 		            </div>
 		            <div class="col-sm-9">
-		            	<select name="hour_type_id" class="fancy-select">
+		            	<select name="hour_type" class="fancy-select">
 		            		<option></option>
-		            		@foreach($hourTypes as $key => $val)
-		            			<option value="{{$key}}" @if($key == @$missed->hour_type_id) selected="selected" @endif>{{$val}}</option>
-		            		@endforeach
-		            		<option value="overtime"@if(@$missed->overtime) selected="selected" @endif>Overtime</option>
+		            		<option value="Mon-Fri" @if(@$missed->hour_type == "Mon-Fri") selected="selected" @endif>Mon-Fri</option>
+		            		<option value="Weekends" @if(@$missed->hour_type == "Weekends") selected="selected" @endif>Weekends</option>
+		            		<option value="Holiday" @if(@$missed->hour_type == "Holiday") selected="selected" @endif>Holiday</option>
+		            		<option value="Overtime" @if(@$missed->hour_type == "Overtime") selected="selected" @endif>Overtime</option>
 		            	</select> 
 		            </div>
 	    		</div>

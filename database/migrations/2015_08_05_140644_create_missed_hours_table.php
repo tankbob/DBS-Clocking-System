@@ -17,7 +17,7 @@ class CreateMissedHoursTable extends Migration
             $table->integer('user_id');
             $table->integer('time');
             $table->date('date');
-            $table->integer('hour_type');
+            $table->string('hour_type');
             $table->softDeletes();
             $table->timestamps();
         });

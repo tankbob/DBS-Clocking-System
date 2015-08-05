@@ -25,7 +25,7 @@ class MissedHoursRequest extends Request
     {
         return [
             'time' => 'required|numeric|min:0',
-            'hour_type_id' => 'required' 
+            'hour_type' => 'required' 
         ];
     }
 
