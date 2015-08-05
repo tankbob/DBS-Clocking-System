@@ -27,13 +27,13 @@ class WebController extends Controller
     public function index()
     {
         $logTimes = LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', date('Y-m-d'))->whereIn('job_id', Job::lists('id')->toArray())->with('Job', 'HourType')->get();
+        $hourTypes = HourType::lists('value', 'id');
         if(count($logTimes)){
             //Redirect to the edit times page
-        	return View('frontend.editTimes', compact('logTimes'));
+        	return View('frontend.editTimes', compact('logTimes', 'hourTypes'));
         }else{
             //First time the guy log time today, redirect to the sign in page
-            $jobs = Job::where('active', '=', 1)->lists('number', 'id');
-            $hourTypes = HourType::lists('value', 'id');
+            $jobs = Job::where('active', '=', 1)->lists('number', 'id');         
             return View('frontend.selectJob', compact('jobs', 'hourTypes'));
         }
         
@@ -64,8 +64,9 @@ class WebController extends Controller
     			//NO allow to check more than 1 week.
     		return \Redirect::to('/');
     	}else{
+            $hourTypes = HourType::lists('value', 'id');
     		$logTimes = LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', $date)->whereIn('job_id', Job::lists('id')->toArray())->with('Job', 'HourType')->get();
-    		return View('frontend.editTimes', compact('logTimes', 'date'));
+    		return View('frontend.editTimes', compact('logTimes', 'date', 'hourTypes'));
     	}
     }
 

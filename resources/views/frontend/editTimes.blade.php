@@ -34,7 +34,11 @@
 
 					{!! Form::label($logTime->id.'[hour_type_id]', 'Hour Type:') !!}
 
-					{!! Form::text($logTime->id.'[hour_type_id]', $logTime->HourType->value, ['disabled' => 'true']) !!}
+					<select name="{{$logTime->id}}[hour_type_id]" @if(isset($date)) disabled="true" class="disabled-select" @endif>
+						@foreach($hourTypes as $ht_id => $ht_val)
+							<option value="{{$ht_id}}" @if($logTime->hour_type_id == $ht_id) selected="selected" @endif>{{$ht_val}}</option>
+						@endforeach
+					</select>
 
 				</div>
 
