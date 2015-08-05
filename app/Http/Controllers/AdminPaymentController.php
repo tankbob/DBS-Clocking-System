@@ -228,7 +228,7 @@ class AdminPaymentController extends Controller
             $logArray[$jobNumb][$w]['Overtime'] = $logTime->overtime;
         }
 
-        $OLDMISSED = LogTime::with('HourType')->where('job_id', '=', '-1')->where('date', '>=', $fromDate)->where('user_id', '=', $user_id)->first();
+        $missed = $missedHours = MissedHour::with('User')->where('user_id', '=', $user_id)->where('date', '>=', $fromDate)->first();
 
         $approvement = LogTime::leftJoin('jobs', 'job_id', '=', 'jobs.id')->where('user_id', '=', $user_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('job_id', Job::lists('id')->toArray())->groupBy('job_id')->get(['number', \DB::raw('MIN(approved) as approved')]);
 
@@ -236,9 +236,9 @@ class AdminPaymentController extends Controller
             $logArray[$ap->number]['approved'] = $ap->approved;
         }
 
-        $excel = \Excel::create('file', function($excel) use ($fromDate, $toDate, $logArray, $OLDMISSED){
+        $excel = \Excel::create('file', function($excel) use ($fromDate, $toDate, $logArray, $missed){
         $excel->setTitle('Payment');
-            $excel->sheet('Payment', function($sheet)  use ($fromDate, $toDate, $logArray, $OLDMISSED){
+            $excel->sheet('Payment', function($sheet)  use ($fromDate, $toDate, $logArray, $missed){
                 $sheet->cell('A1', 'Operative names');
                 $sheet->cell('B1', 'Hour type');
                 $letter = 'C';
@@ -286,17 +286,10 @@ class AdminPaymentController extends Controller
                     $number += 4;    
                 }
 
-                if($OLDMISSED){
-                    if($OLDMISSED->time){
-                        $sheet->cell('A'.$number, 'OLDMISSED Hours');
-                        $sheet->cell('B'.$number, $OLDMISSED->HourType->value);
-                        $sheet->cell('C'.$number, $OLDMISSED->time);
-                    }elseif($OLDMISSED->overtime){
-                        $sheet->cell('A'.$number, 'OLDMISSED Hours');
-                        $sheet->cell('B'.$number, 'Overtime');
-                        $sheet->cell('C'.$number, $OLDMISSED->overtime);
-                    }
-                    
+                if($missed){
+                    $sheet->cell('A'.$number, 'Missed Hours');
+                    $sheet->cell('B'.$number, $missed->hour_type);
+                    $sheet->cell('C'.$number, $missed->time);
                 }
             });
         })->download('xls');

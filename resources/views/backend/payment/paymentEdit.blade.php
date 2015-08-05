@@ -148,7 +148,7 @@
 			            </div>
 			            <div class="col-sm-9">
 				  			<p>
-					  			{{$t['overtime']}}
+					  			{{$t['Overtime']}}
 				  			</p>          	
 			            </div>
 			        </div>
