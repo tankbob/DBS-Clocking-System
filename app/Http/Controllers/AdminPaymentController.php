@@ -108,7 +108,7 @@ class AdminPaymentController extends Controller
         $times = array();
 
         for($i = 0; $i <= 6; $i++){
-            $times[$i] = array('overtime' => 0, 'Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0);
+            $times[$i] = array('Overtime' => 0, 'Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0);
         }
 
         foreach(LogTime::with('HourType')->whereIn('job_id', Job::lists('id'))->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->where('user_id', '=', $user_id)->get() as $logTime){
@@ -125,7 +125,7 @@ class AdminPaymentController extends Controller
                     $times[$w]['Mon-Fri'] += $logTime->time;
                 }
             }
-            $times[$w]['overtime'] += $logTime->overtime;
+            $times[$w]['Overtime'] += $logTime->overtime;
         }
 
         $hourTypes = HourType::lists('value', 'id');
@@ -205,7 +205,7 @@ class AdminPaymentController extends Controller
         foreach($jobs as $job){
             $logArray[$job->Job->number] = array();
             for($i = 0; $i <= 6; $i ++){
-                $logArray[$job->Job->number][$i] = ['Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0, 'overtime' => 0];
+                $logArray[$job->Job->number][$i] = ['Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0, 'Overtime' => 0];
             }
         }
 
@@ -225,7 +225,7 @@ class AdminPaymentController extends Controller
                     $logArray[$jobNumb][$w]['Mon-Fri'] += $logTime->time;
                 }
             }
-            $logArray[$jobNumb][$w]['overtime'] = $logTime->overtime;
+            $logArray[$jobNumb][$w]['Overtime'] = $logTime->overtime;
         }
 
         $OLDMISSED = LogTime::with('HourType')->where('job_id', '=', '-1')->where('date', '>=', $fromDate)->where('user_id', '=', $user_id)->first();
@@ -266,10 +266,10 @@ class AdminPaymentController extends Controller
                     $sheet->cell('B'.$number, 'Mon-Fri');
                     $sheet->cell('B'.($number+1), 'Weekends');
                     $sheet->cell('B'.($number+2), 'Holiday');
-                    $sheet->cell('B'.($number+3), 'overtime');
+                    $sheet->cell('B'.($number+3), 'Overtime');
 
                     
-                    foreach(['Mon-Fri' => 0, 'Weekends' => 1, 'Holiday' => 2, 'overtime' => 3] as $type => $offset){
+                    foreach(['Mon-Fri' => 0, 'Weekends' => 1, 'Holiday' => 2, 'Overtime' => 3] as $type => $offset){
                         for($i = 0; $i <7; $i++){
                             $sheet->cell($letters[$i].($number+$offset), $days[$i][$type]);
                         }
@@ -293,7 +293,7 @@ class AdminPaymentController extends Controller
                         $sheet->cell('C'.$number, $OLDMISSED->time);
                     }elseif($OLDMISSED->overtime){
                         $sheet->cell('A'.$number, 'OLDMISSED Hours');
-                        $sheet->cell('B'.$number, 'overtime');
+                        $sheet->cell('B'.$number, 'Overtime');
                         $sheet->cell('C'.$number, $OLDMISSED->overtime);
                     }
                     
@@ -343,9 +343,9 @@ class AdminPaymentController extends Controller
         foreach($users as $user){
             $logArray[$user->User->name] = array();
             for($i = 0; $i <= 6; $i ++){
-                $logArray[$user->User->name][$i] = ['Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0, 'overtime' => 0];
+                $logArray[$user->User->name][$i] = ['Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0, 'Overtime' => 0];
             }
-            $logArray[$user->User->name]['OLDMISSED'] = ['Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0, 'overtime' => 0];
+            $logArray[$user->User->name]['missed'] = ['Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0, 'Overtime' => 0];
         }
 
         $ht = HourType::lists('value', 'id')->toArray();
@@ -357,37 +357,23 @@ class AdminPaymentController extends Controller
             $log_overtime = $l->overtime;
             $log_date = (1 + date('w', strtotime($l->date))) % 7;
             
-            if($l->job_id == -1){
-                if($log_overtime && $log_type == 'Mon-Fri'){
-                    $logArray[$user_name]['OLDMISSED']['overtime'] += $log_overtime;
-                }else{
-                    if($log_type == 'Holiday'){
-                        $logArray[$user_name]['OLDMISSED']['Holiday'] += $log_time;
-                    }else{
-                        //CHECK FOR WEEKENDS
-                        //$w is the day of the week starting in 0=> sat, 1 => sun
-                        if($log_date <= 1){
-                           $logArray[$user_name]['OLDMISSED']['Weekends'] += $log_time;
-                        }else{
-                            $logArray[$user_name]['OLDMISSED']['Mon-Fri'] += $log_time;
-                        }
-                    }
-                }
+            if($log_type == 'Holiday'){
+                $logArray[$user_name][$log_date]['Holiday'] += $log_time;
             }else{
-                 //NEED TO CHECK SAME THAN THE OTHER
-                if($log_type == 'Holiday'){
-                    $logArray[$user_name][$log_date]['Holiday'] += $log_time;
+                //CHECK FOR WEEKENDS
+                if($log_date <= 1){
+                    $logArray[$user_name][$log_date]['Weekends'] += $log_time;
                 }else{
-                    //CHECK FOR WEEKENDS
-                    //$w is the day of the week starting in 0=> sat, 1 => sun
-                    if($log_date <= 1){
-                       $logArray[$user_name][$log_date]['Weekends'] += $log_time;
-                    }else{
-                        $logArray[$user_name][$log_date]['Mon-Fri'] += $log_time;
-                    }
+                    $logArray[$user_name][$log_date]['Mon-Fri'] += $log_time;
                 }
-                $logArray[$user_name][$log_date]['overtime'] += $log_overtime;
             }
+            $logArray[$user_name][$log_date]['Overtime'] += $log_overtime;
+        }
+        $missedHours = MissedHour::with('User')->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('date', '>=', $fromDate)->get();
+
+        foreach($missedHours as $m){
+            $user_name = $m->User->name;
+            $logArray[$user_name]['missed'][$m->hour_type] = $m->time;
         }
 
         $excel = \Excel::create('file', function($excel) use ($fromDate, $toDate, $logArray){
@@ -400,7 +386,7 @@ class AdminPaymentController extends Controller
                     $sheet->cell($letter.'1', date('D d/m/Y', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+$i, date('Y', strtotime($fromDate)))));
                     $letter++;
                 }
-                $sheet->cell('J1', 'OLDMISSED hours');
+                $sheet->cell('J1', 'Missed hours');
 
                 $number = 2;
 
@@ -420,14 +406,14 @@ class AdminPaymentController extends Controller
                     $sheet->cell('B'.$number, 'Mon-Fri');
                     $sheet->cell('B'.($number+1), 'Weekends');
                     $sheet->cell('B'.($number+2), 'Holiday');
-                    $sheet->cell('B'.($number+3), 'overtime');
+                    $sheet->cell('B'.($number+3), 'Overtime');
 
                     
-                    foreach(['Mon-Fri' => 0, 'Weekends' => 1, 'Holiday' => 2, 'overtime' => 3] as $type => $offset){
+                    foreach(['Mon-Fri' => 0, 'Weekends' => 1, 'Holiday' => 2, 'Overtime' => 3] as $type => $offset){
                         for($i = 0; $i <7; $i++){
                             $sheet->cell($letters[$i].($number+$offset), $days[$i][$type]);
                         }
-                        $sheet->cell('J'.($number+$offset), $days['OLDMISSED'][$type]);
+                        $sheet->cell('J'.($number+$offset), $days['missed'][$type]);
                     }
 
                     $number += 4;    
