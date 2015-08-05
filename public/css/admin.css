@@ -345,7 +345,7 @@ h1 a:hover{
 
 .fancy-select{
 	position: absolute;
-    width: 200px;
+    width: 201px;
     height: 51px;
     padding-left: 10px;
     font-size: 18px !important;
@@ -431,6 +431,7 @@ th{
 }
 
 .approveBtn{
+	float: right;
 	display: block;
 	height: 51px;
 	width: 172px;
@@ -449,6 +450,7 @@ th{
 
 
 .unapproveBtn{
+	float: right;
 	display: block;
 	height: 51px;
 	width: 172px;

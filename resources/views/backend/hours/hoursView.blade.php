@@ -35,13 +35,15 @@
 	<div class="add-user-form col-sm-12">
 
 		{!! Form::open(['url' => '/admin/hours', 'method' => 'GET', 'id' => 'hoursForm']) !!}
+			
 			<div class="col-sm-12" style="margin-bottom:10px;">
-		    	<div class="col-sm-3 col-sm-offset-1">
+			    <div class="col-sm-3">
 					<h1 class="menu-h1">
 						JOB NUMBER:
 					</h1>
 				</div>
-				<div class="col-sm-8">
+
+				<div class="col-sm-9">
 					<select name="job" id='job-select' class="fancy-select">
 						@foreach($jobs as $id => $number)
 							<option value="{{$id}}" @if($id == $job_id) selected="selected" @endif>
@@ -53,12 +55,12 @@
 			</div>
 
 			<div class="col-sm-12" style="margin-bottom:10px;">
-		    	<div class="col-sm-3 col-sm-offset-1">
+		    	<div class="col-sm-3">
 					<h1 class="menu-h1">
 						WEEK START:
 					</h1>
 				</div>
-				<div class="col-sm-8">
+				<div class="col-sm-9">
 					<select name="date" id='date-select' class="fancy-select">
 						@foreach($dates as $d)
 							<option value="{{$d}}" @if($d == $fromDate) selected="selected" @endif>{{date('d/m/y', strtotime($d))}}</option>
@@ -69,12 +71,12 @@
 		{!! Form::close() !!}
 
 		<div class="col-sm-12">
-	    	<div class="col-sm-3 col-sm-offset-1">
+	    	<div class="col-sm-3">
 				<h1 class="menu-h1">
 					EXPORT PDF:
 				</h1>
 			</div>
-			<div class="col-sm-8">
+			<div class="col-sm-9">
 				{!! Form::open(['url' => '/admin/hours/pdf', 'method' => 'POST', 'target' => '#blank']) !!}
 					<input name="job" value="{{$job_id}}" class="hidden">
 					<input name="date" value="{{$fromDate}}" class="hidden">
@@ -87,130 +89,66 @@
 
 	
 
-	<div class="col-xs-12">
-		<div class="col-md-8 col-md-offset-2">
-			<table id="datatables" class="table-responsive table-bordered table-hover" width="100%">
-				<thead>
-					<th>
-						Operative
-					</th>
-					<th>
-						Sat
-					</th>
-					<th>
-						Sun
-					</th>
-					<th>
-						Mon
-					</th>
-					<th>
-						Tues
-					</th>
-					<th>
-						Wed
-					</th>
-					<th>
-						Thurs
-					</th>
-					<th>
-						Fri
-					</th>
-					<th>
-						Total
-					</th>
-				</thead>
-				<tbody class="text-center">
-					@foreach($logArray as $user => $weeklyTimes)
+	<div class="col-xs-12 add-user-form">
+		<table id="datatables" class="table-responsive table-bordered table-hover" width="100%">
+			<thead>
+				<th>
+					Operative
+				</th>
+				<th>
+					Sat
+				</th>
+				<th>
+					Sun
+				</th>
+				<th>
+					Mon
+				</th>
+				<th>
+					Tues
+				</th>
+				<th>
+					Wed
+				</th>
+				<th>
+					Thurs
+				</th>
+				<th>
+					Fri
+				</th>
+				<th>
+					Total
+				</th>
+			</thead>
+			<tbody class="text-center">
+				@foreach($logArray as $user => $weeklyTimes)
 
-						<tr>
+					<tr>
+						<td>
+							{{ $users[$user] }}
+						</td>
+						<?php $total = 0; ?>
+						@foreach($weeklyTimes as $day => $time)
 							<td>
-								{{ $users[$user] }}
-							</td>
-							<?php $total = 0; ?>
-							@foreach($weeklyTimes as $day => $time)
-								<td>
-									<a href="#" id="{{$user}}-{{$day}}" class="editable" data-type="select" data-pk="1" data-url="/ajaxedit" data-title="Enter value">
-										@if(isset($time['time']) && $time['time'])
-											{{$time['time']}}
-											<?php $total += $time['time']; ?>
-											
-										@else
-											-
-										@endif
-									</a>
-									<script type="text/javascript">
-										$(document).ready(function(){
-											$("#{{$user}}-{{$day}}").editable({
-												value: @if(isset($time['time'])) value="{{$time['time']}}" @else value="0" @endif,
-												params: function( params ) {
-												    params.user = "{{$user}}";
-												    params.day = "{{$day}}";
-												    params.job_id = "{{$job_id}}";
-												    params.startDate = "{{$fromDate}}";
-												    params.overtime = 0;
-
-												    return params;
-												},
-												source: [
-													{0: 0},
-													{1: 1},
-													{2: 2},
-													{3: 3},
-													{4: 4},
-													{5: 5},
-													{6: 6},
-													{7: 7},
-													{8: 8},
-													{9: 9}
-												],
-												success: function(response, newValue) {
-												    if(response.success){
-												    	$("#total-"+{{$user}}).text(response.total);
-												    }
-												}
-											})
-										});
-									</script>
-									
-								</td>
-							@endforeach
-
-							<td>
-								<div id="total-{{$user}}">
-									{{$total}}
-								</div>
-							</td>
-
-						</tr>
-
-						<tr class="blueCells">
-							<td>
-								Overtime
-							</td>
-							<?php $total = 0; ?>
-							@foreach($weeklyTimes as $day => $time)
-								
-								<td>
-									<a href="#" id="over-{{$user}}-{{$day}}" class="editable" data-type="select" data-pk="1" data-url="/ajaxedit" data-title="Enter value">
-										@if(isset($time['overtime']) && $time['overtime'])
-											{{$time['overtime']}}
-											<?php $total += $time['overtime']; ?>
-										@else
-											-
-										@endif
-									</a>
-								</td>
-								
+								<a href="#" id="{{$user}}-{{$day}}" class="editable" data-type="select" data-pk="1" data-url="/ajaxedit" data-title="Enter value">
+									@if(isset($time['time']) && $time['time'])
+										{{$time['time']}}
+										<?php $total += $time['time']; ?>
+										
+									@else
+										-
+									@endif
+								</a>
 								<script type="text/javascript">
 									$(document).ready(function(){
-										$("#over-{{$user}}-{{$day}}").editable({
-											value: @if(isset($time['time'])) value="{{$time['overtime']}}" @else value="0" @endif,
+										$("#{{$user}}-{{$day}}").editable({
+											value: @if(isset($time['time'])) value="{{$time['time']}}" @else value="0" @endif,
 											params: function( params ) {
-											    params.user = '{{$user}}';
-											    params.day = '{{$day}}';
-											    params.job_id = '{{$job_id}}'
-											    params.startDate = '{{$fromDate}}';
-											    params.overtime = 1;
+											    params.user = "{{$user}}";
+											    params.day = "{{$day}}";
+											    params.job_id = "{{$job_id}}";
+											    params.startDate = "{{$fromDate}}";
+											    params.overtime = 0;
 
 											    return params;
 											},
@@ -228,36 +166,98 @@
 											],
 											success: function(response, newValue) {
 											    if(response.success){
-											    	$("#over-total-"+{{$user}}).text(response.total);
+											    	$("#total-"+{{$user}}).text(response.total);
 											    }
 											}
 										})
 									});
 								</script>
-							@endforeach
-
-							<td>
-								<div id="over-total-{{$user}}">
-									{{$total}}
-								</div>
+								
 							</td>
+						@endforeach
 
-						</tr>
-					@endforeach
-				</tbody>
-			</table>
-		</div>
+						<td>
+							<div id="total-{{$user}}">
+								{{$total}}
+							</div>
+						</td>
+
+					</tr>
+
+					<tr class="blueCells">
+						<td>
+							Overtime
+						</td>
+						<?php $total = 0; ?>
+						@foreach($weeklyTimes as $day => $time)
+							
+							<td>
+								<a href="#" id="over-{{$user}}-{{$day}}" class="editable" data-type="select" data-pk="1" data-url="/ajaxedit" data-title="Enter value">
+									@if(isset($time['overtime']) && $time['overtime'])
+										{{$time['overtime']}}
+										<?php $total += $time['overtime']; ?>
+									@else
+										-
+									@endif
+								</a>
+							</td>
+							
+							<script type="text/javascript">
+								$(document).ready(function(){
+									$("#over-{{$user}}-{{$day}}").editable({
+										value: @if(isset($time['time'])) value="{{$time['overtime']}}" @else value="0" @endif,
+										params: function( params ) {
+										    params.user = '{{$user}}';
+										    params.day = '{{$day}}';
+										    params.job_id = '{{$job_id}}'
+										    params.startDate = '{{$fromDate}}';
+										    params.overtime = 1;
+
+										    return params;
+										},
+										source: [
+											{0: 0},
+											{1: 1},
+											{2: 2},
+											{3: 3},
+											{4: 4},
+											{5: 5},
+											{6: 6},
+											{7: 7},
+											{8: 8},
+											{9: 9}
+										],
+										success: function(response, newValue) {
+										    if(response.success){
+										    	$("#over-total-"+{{$user}}).text(response.total);
+										    }
+										}
+									})
+								});
+							</script>
+						@endforeach
+
+						<td>
+							<div id="over-total-{{$user}}">
+								{{$total}}
+							</div>
+						</td>
+
+					</tr>
+				@endforeach
+			</tbody>
+		</table>
 	</div>
 
 	<div class="col-xs-12" style="margin-top:30px;">
-		<div class="col-xs-6 col-xs-offset-2">
+		<div class="col-xs-6">
 			{!!Form::open(['url' => '/admin/addoperative', 'method' => 'GET'])!!}
 				<input class="hidden" name="job_id" value="{{$job_id}}">
 				<input class="hidden" name="fromDate" value="{{$fromDate}}">				
 				<button class="addOperativeBtn"></button>
 			{!!Form::close()!!}
 		</div>
-		<div class="col-xs-4">
+		<div class="col-xs-6">
 			@if($showApproved)
 				{!!Form::open(['url' => '/admin/hours/approve', 'method' => 'POST'])!!}
 					<input class="hidden" name="job" value="{{$job_id}}">
