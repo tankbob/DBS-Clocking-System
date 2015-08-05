@@ -293,14 +293,14 @@ h1 a:hover{
 
 .update-btn{
 	margin: 15px 0;
-	width: 220px;
-	height: 64px;
-	background: url('/images/update_btn-normal.png');
+	width: 172px;
+	height: 52px;
+	background: url('/images/be_update_btn-normal.png');
 	border: none;
 }
 
 .update-btn:hover{
-	background: url('/images/update_btn-rollover.png');
+	background: url('/images/be_update_btn-rollover.png');
 }
 
 .advice-span{
