@@ -27,7 +27,7 @@
 
 	@include('backend.includes.errors')
 
-    <div class="add-user-form col-sm-12">
+    
     	<div class="col-sm-5">
     		<h1>
                 @if($page == 'users')
@@ -92,7 +92,7 @@
                
             {!! Form::close() !!}
         </div>
-    </div>
+    
 
    
         <h1 class="col-xs-12">

@@ -24,8 +24,8 @@
 
     <input class="hidden" value="{{$user->id}}" name="id">
 
-    <div class="add-user-form col-sm-12">
-    	<div class="col-sm-3 col-sm-offset-1">
+    <div class="add-user-form col-xs-12">
+    	<div class="col-sm-5">
     		<h1>
                 @if($page == 'users')
                     EDIT USER:
@@ -67,7 +67,7 @@
             	</div>
             	<div class="col-xs-9">
 	                <input type="password" name="password" id="password" class="login-input">
-	                <span class="advice-span">Leave password field blank to keep the same password</span>
+	                <div class="advice-span">Leave password field blank to keep the same password</div>
             	</div>
             </div>
 
@@ -91,12 +91,12 @@
     </div> 
 
     @if($page == 'operatives')
-        <div class="add-user-form col-sm-12">
-            <div class="col-sm-3 col-sm-offset-1">
+        <div class="col-sm-12">
+            <div class="col-sm-5">
                 <h1>
                     OPERATIVE PAY RATE:
                 </h1>
-                <span class="advice-span">*Reference Only</span>
+                <div class="advice-span">*Reference Only</div>
             </div>
             
             <div class="col-sm-7 login-form">

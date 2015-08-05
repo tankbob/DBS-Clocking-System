@@ -469,3 +469,7 @@ th{
 	min-width: 980px !important;
 	padding: 0 !important;
 }
+
+div{
+	padding: 0 !important;
+}
