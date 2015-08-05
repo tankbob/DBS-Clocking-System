@@ -51,6 +51,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->hasMany('App\LogTime', 'user_id');
     }
 
+    public function MissedHours(){
+        return $this->hasMany('App\MissedHour', 'user_id');
+    }
+
     public function Jobs(){
         return $this->belongsToMany('App\Job', 'log_times', 'job_id', 'user_id');    
     }
