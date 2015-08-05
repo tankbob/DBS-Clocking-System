@@ -297,6 +297,10 @@ h1 a:hover{
 	height: 52px;
 	background: url('/images/be_update_btn-normal.png');
 	border: none;
+	-webkit-transition: all .5s ease .0s;
+    -moz-transition: all .5s ease .0s;
+    -o-transition: all .5s ease .0s;
+    transition: all .5s ease .0s;
 }
 
 .update-btn:hover{
@@ -380,6 +384,10 @@ input{
 	width: 201px;
 	border: none;
 	background: url('/images/download_btn-normal.png');
+	-webkit-transition: all .5s ease .0s;
+    -moz-transition: all .5s ease .0s;
+    -o-transition: all .5s ease .0s;
+    transition: all .5s ease .0s;
 }
 
 .download-btn:hover{
@@ -409,6 +417,10 @@ th{
 	width: 400px;
 	border: none;
 	background: url('/images/add_new_operative_manually_btn-normal.png');
+	-webkit-transition: all .5s ease .0s;
+    -moz-transition: all .5s ease .0s;
+    -o-transition: all .5s ease .0s;
+    transition: all .5s ease .0s;
 }
 
 .addOperativeBtn:hover{
@@ -421,6 +433,10 @@ th{
 	width: 172px;
 	border: none;
 	background: url('/images/approve-normal.png');
+	-webkit-transition: all .5s ease .0s;
+    -moz-transition: all .5s ease .0s;
+    -o-transition: all .5s ease .0s;
+    transition: all .5s ease .0s;
 }
 
 .approveBtn:hover{
@@ -435,6 +451,10 @@ th{
 	width: 172px;
 	border: none;
 	background: url('/images/unapprove-rollover.png');
+	-webkit-transition: all .5s ease .0s;
+    -moz-transition: all .5s ease .0s;
+    -o-transition: all .5s ease .0s;
+    transition: all .5s ease .0s;
 }
 
 .unapproveBtn:hover{
