@@ -36,7 +36,9 @@
 
     @include('backend.includes.menu')
 
-    @yield('content')
+    <div class="container">
+        @yield('content')
+    </div>
 
     @include('backend.includes.footer')
 

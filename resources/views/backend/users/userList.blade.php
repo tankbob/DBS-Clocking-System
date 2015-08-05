@@ -28,7 +28,7 @@
 	@include('backend.includes.errors')
 
     <div class="add-user-form col-sm-12">
-    	<div class="col-sm-3 col-sm-offset-1">
+    	<div class="col-sm-5">
     		<h1>
                 @if($page == 'users')
     		      	ADD USER:
