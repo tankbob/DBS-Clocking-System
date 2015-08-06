@@ -189,12 +189,11 @@ class AdminHoursController extends Controller
 
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
-        if(\Request::has('job') && Job::find(\Request::get('job'))){
-            $job_id = \Request::get('job');
+        if(\Request::has('job_id') && Job::find(\Request::get('job_id'))){
+            $job_id = \Request::get('job_id');
         }else{
             $job_id = Job::first()->id;
         }
-
         $users = User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->whereNotIn('id', LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->lists('user_id')->toArray())->lists('name', 'id');
 
         $job = Job::find($job_id);

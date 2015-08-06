@@ -8,7 +8,7 @@
 	@include('frontend.includes.errors')
 
     <div class="add-user-form col-sm-12">
-    	<div class="col-sm-3 no-side-padding col-sm-offset-1">
+    	<div class="col-sm-5">
     		<h1>
                 MANUAL OPERATIVE:
     		</h1>
