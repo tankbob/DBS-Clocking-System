@@ -248,7 +248,6 @@ class AdminHoursController extends Controller
 
         $fromDate = \Request::get('date');
         $job_id = \Request::get('job');
-        $job_id = 3;
         $job = Job::find($job_id);
 
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
