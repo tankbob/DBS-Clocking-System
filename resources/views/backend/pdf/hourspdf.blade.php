@@ -59,6 +59,11 @@
             height: 104px;
         }
 
+        .blackCells{
+            color: #FFFFFF !important;
+             background: #25292F;
+        }
+
     </style>
 </head>
 <body>
@@ -119,7 +124,6 @@
                             <td>
                                 @if(isset($time['time']) && $time['time'])
                                     {{$time['time']}}
-                                    ({{$time['type']}})
                                     <?php $total += $time['time']; ?>
 
                                 @else
@@ -147,6 +151,32 @@
                                 @if(isset($time['overtime']) && $time['overtime'])
                                     {{$time['overtime']}}
                                     <?php $total += $time['overtime']; ?>
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            
+                        @endforeach
+
+                        <td>
+                            <div>
+                                {{$total}}
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr class="blackCells">
+                        <td>
+                            Holiday
+                        </td>
+                        <?php $total = 0; ?>
+                        @foreach($weeklyTimes as $day => $time)
+                            
+                            <td>
+                                @if(isset($time['holiday']) && $time['holiday'])
+                                    {{$time['holiday']}}
+                                    <?php $total += $time['holiday']; ?>
                                 @else
                                     -
                                 @endif

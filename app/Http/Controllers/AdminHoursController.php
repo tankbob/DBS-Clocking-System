@@ -272,7 +272,13 @@ class AdminHoursController extends Controller
             $log_overtime = $l->overtime;
             $log_date = (1 + date('w', strtotime($l->date))) % 7;
             
-            $logArray[$userName][$log_date] = ['type' => $log_type, 'time' => $log_time, 'overtime' => $log_overtime];
+
+            if($log_type == 'Holiday'){
+                $logArray[$userName][$log_date]['holiday'] = $log_time;
+            }else{
+                $logArray[$userName][$log_date]['time'] = $log_time;
+            }
+            $logArray[$userName][$log_date]['overtime'] = $log_overtime;
         }
     //   return View('demo')->with('logArray', $logArray)->with('job', $job->number)->with('fromDate', $fromDate)->with('toDate', $toDate);
         $pdf = new Pdf(array(
