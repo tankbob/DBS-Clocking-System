@@ -102,7 +102,7 @@
                 OPERATIVE LIST:
             @endif
          </h1>
-            <table id="datatables" class="table-responsive table-bordered table-hover"  class="display" cellspacing="0" width="96%">
+            <table id="datatables" class="table-responsive table-bordered table-hover" cellspacing="0" width="96%">
                 <thead>
                     <tr>
                         <th width="75%">
