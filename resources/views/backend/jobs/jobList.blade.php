@@ -100,7 +100,7 @@
             JOB NUMBER LOCATIONS:
          </h1>
         <div class="col-sm-12">
-            <table id="datatables" class="table-responsive table-bordered table-hover"  class="display" cellspacing="0" width="100%">
+            <table id="datatables" class="table-responsive table-bordered table-hover"  class="display" cellspacing="0" width="96%">
                 <thead>
                     <tr>
                         <th>
