@@ -456,7 +456,7 @@ th{
 	height: 51px;
 	width: 172px;
 	border: none;
-	background: url('/images/approve-normal.png');
+	background: url('/images/approve_normal.png');
 	-webkit-transition: all .5s ease .0s;
     -moz-transition: all .5s ease .0s;
     -o-transition: all .5s ease .0s;
@@ -464,7 +464,7 @@ th{
 }
 
 .approveBtn:hover{
-	background: url('/images/approve-normal.png');
+	background: url('/images/approve_rollover.png');
 }
 
 .unapproveBtn{
@@ -473,7 +473,7 @@ th{
 	height: 51px;
 	width: 172px;
 	border: none;
-	background: url('/images/unapprove-rollover.png');
+	background: url('/images/unapprove_normal.png');
 	-webkit-transition: all .5s ease .0s;
     -moz-transition: all .5s ease .0s;
     -o-transition: all .5s ease .0s;
@@ -481,7 +481,7 @@ th{
 }
 
 .unapproveBtn:hover{
-	background: url('/images/unapprove-rollover.png');
+	background: url('/images/unapprove_rollover.png');
 }
 
 .container{
