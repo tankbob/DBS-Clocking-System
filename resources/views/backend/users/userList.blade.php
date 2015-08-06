@@ -47,7 +47,7 @@
             @endif
 
                 <div class="form-group">
-                	<div class="col-xs-3">
+                	<div class="col-sm-3 no-side-padding">
     	            	<label for="name">Name:</label>
                 	</div>
                 	<div class="col-xs-9">
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="form-group">
-                	<div class="col-xs-3">
+                	<div class="col-sm-3 no-side-padding">
     	            	<label for="email">Email:</label>
                 	</div>
                 	<div class="col-xs-9">
@@ -65,7 +65,7 @@
                 </div>
 
                 <div class="form-group">
-                	<div class="col-xs-3">
+                	<div class="col-sm-3 no-side-padding">
     	            	<label for="password">Password:</label>
                 	</div>
                 	<div class="col-xs-9">
@@ -75,7 +75,7 @@
 
                 @if($page == 'operatives')
                     <div class="form-group">
-                        <div class="col-xs-3">
+                        <div class="col-sm-3 no-side-padding">
                             <label for="telephone">Telephone:</label>
                         </div>
                         <div class="col-xs-9">
@@ -84,7 +84,7 @@
                     </div>
                 @endif
 
-                <div class="text-center">
+                <div class="col-sm-9 col-sm-offset-3">
                     <button class="submit-btn">
 
                     </button>
@@ -102,7 +102,7 @@
                 OPERATIVE LIST:
             @endif
          </h1>
-            <table id="datatables" class="table-responsive table-bordered table-hover"  class="display" cellspacing="0" width="100%">
+            <table id="datatables" class="table-responsive table-bordered table-hover"  class="display" cellspacing="0" width="96%">
                 <thead>
                     <tr>
                         <th width="75%">

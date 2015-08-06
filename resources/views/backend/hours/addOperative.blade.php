@@ -8,7 +8,7 @@
 	@include('frontend.includes.errors')
 
     <div class="add-user-form col-sm-12">
-    	<div class="col-sm-3 col-sm-offset-1">
+    	<div class="col-sm-3 no-side-padding col-sm-offset-1">
     		<h1>
                 MANUAL OPERATIVE:
     		</h1>
@@ -23,7 +23,7 @@
     	<div class="col-sm-7 login-form">
     		{!!Form::open(['method', 'POST'])!!}
     			<div class="form-group">
-	            	<div class="col-xs-3">
+	            	<div class="col-sm-3 no-side-padding">
 		            	<label for="user_id">Name:</label>
 	            	</div>
 	            	<div class="col-xs-9">
@@ -31,7 +31,7 @@
 	            	</div>
 	            </div>
 	            <div class="form-group">
-	            	<div class="col-xs-3">
+	            	<div class="col-sm-3 no-side-padding">
 		            	<label for="job">Job:</label>
 	            	</div>
 	            	<div class="col-xs-9">
@@ -40,7 +40,7 @@
 	            	</div>
 	            </div>
 	            <div class="form-group">
-	            	<div class="col-xs-3">
+	            	<div class="col-sm-3 no-side-padding">
 		            	<label for="date">Week Start:</label>
 	            	</div>
 	            	<div class="col-xs-9">
@@ -49,7 +49,7 @@
 	            	</div>
 	            </div>
 
-	            <div class="text-center">
+	            <div class="col-sm-9 col-sm-offset-3">
 	            <button class="update-btn"></button>
 	            </div>
     		{!!Form::close()!!}

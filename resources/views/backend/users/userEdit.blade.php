@@ -44,7 +44,7 @@
     	<div class="col-sm-7 login-form">
     
             <div class="form-group">
-            	<div class="col-xs-3">
+            	<div class="col-sm-3 no-side-padding">
 	            	<label for="name">Name:</label>
             	</div>
             	<div class="col-xs-9">
@@ -53,7 +53,7 @@
             </div>
 
             <div class="form-group">
-            	<div class="col-xs-3">
+            	<div class="col-sm-3 no-side-padding">
 	            	<label for="email">Email:</label>
             	</div>
             	<div class="col-xs-9">
@@ -62,7 +62,7 @@
             </div>
 
             <div class="form-group">
-            	<div class="col-xs-3">
+            	<div class="col-sm-3 no-side-padding">
 	            	<label for="password">Password:</label>
             	</div>
             	<div class="col-xs-9">
@@ -73,7 +73,7 @@
 
             @if($page == 'operatives')
                 <div class="form-group">
-                    <div class="col-xs-3">
+                    <div class="col-sm-3 no-side-padding">
                         <label for="telephone">Telephone:</label>
                     </div>
                     <div class="col-xs-9">
@@ -82,7 +82,7 @@
                 </div>
             @endif
 
-            <div class="text-center">
+            <div class="col-sm-9 col-sm-offset-3">
                 <button class="update-btn">
 
                 </button>
@@ -102,7 +102,7 @@
             <div class="col-sm-7 login-form">
 
                 <div class="form-group">
-                    <div class="col-xs-3">
+                    <div class="col-sm-3 no-side-padding">
                         <label for="standard_salary">Standard &pound;:</label>
                     </div>
                     <div class="col-xs-9">
@@ -111,7 +111,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-xs-3">
+                    <div class="col-sm-3 no-side-padding">
                         <label for="weekends_5_salary">Weekends 5 &pound;:</label>
                     </div>
                     <div class="col-xs-9">
@@ -120,7 +120,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-xs-3">
+                    <div class="col-sm-3 no-side-padding">
                         <label for="weekends_9_salary">Weekends 9 &pound;:</label>
                     </div>
                     <div class="col-xs-9">
@@ -129,7 +129,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-xs-3">
+                    <div class="col-sm-3 no-side-padding">
                         <label for="holiday_salary">Holiday &pound;:</label>
                     </div>
                     <div class="col-xs-9">
@@ -138,7 +138,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-xs-3">
+                    <div class="col-sm-3 no-side-padding">
                         <label for="overtime_salary">Overtime &pound;:</label>
                     </div>
                     <div class="col-xs-9">

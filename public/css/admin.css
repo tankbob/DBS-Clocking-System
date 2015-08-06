@@ -138,7 +138,7 @@ h1 a:hover{
 	letter-spacing: 2px;
 	color: #666666;
 	line-height: 19px;
-	font-size: 16px;
+	font-size: 15px;
 	font-family: raleway, sans-serif;
 	font-weight: 400;
 }
@@ -193,6 +193,7 @@ h1 a:hover{
   letter-spacing: 2px;
   color: #262930;
   font-size: 16px;
+margin: 0 20px;
   font-family: raleway, sans-serif;
 }
 
@@ -231,6 +232,14 @@ h1 a:hover{
 	font-family: raleway, sans-serif;
 	margin-bottom: 10px;
 	float: right;
+}
+
+.hoursTable tr, .hoursTable td{
+	border-top: none !important;
+	border-bottom: none !important;
+}
+
+.hoursTable{
 }
 
 #datatables_info{
@@ -312,6 +321,8 @@ h1 a:hover{
 	color: #787878;
 	font-size: 12px;
 	font-family: raleway, sans-serif;
+	margin-top: -12px;
+
 }
 
 .not-active {
@@ -456,8 +467,6 @@ th{
 	background: url('/images/approve-normal.png');
 }
 
-
-
 .unapproveBtn{
 	float: right;
 	display: block;
@@ -481,6 +490,7 @@ th{
 	padding: 0 !important;
 }
 
-div{
-	padding: 0 !important;
+.no-side-padding{
+	padding-left: 0 !important;
+	padding-right: 0 !important;
 }

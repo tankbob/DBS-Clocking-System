@@ -23,7 +23,7 @@
 @section('content')
 	
 	<div class="add-user-form col-sm-12">
-    	<div class="col-sm-3 col-sm-offset-1">
+    	<div class="col-sm-3 no-side-padding col-sm-offset-1">
 			<h1 class="menu-h1">
 				WEEK START:
 			</h1>
@@ -42,7 +42,7 @@
 
 		<div style="clear:both; height: 10px; width: 100%;"></div>
 
-		<div class="col-sm-3 col-sm-offset-1">
+		<div class="col-sm-3 no-side-padding col-sm-offset-1">
 			<h1 class="menu-h1">
 				EXPORT CSV:
 			</h1>

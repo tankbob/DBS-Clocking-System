@@ -24,7 +24,7 @@
 	@include('backend.includes.errors')
 
     <div class="add-user-form col-sm-12">
-    	<div class="col-sm-3 col-sm-offset-1">
+    	<div class="col-sm-3 no-side-padding col-sm-offset-1">
     		<h1>
                 ADD JOB:
     		</h1>
@@ -33,7 +33,7 @@
     		{!! Form::open(['url' => '/admin/jobs', 'method' => 'POST']) !!}
 
     			<div class="form-group">
-                	<div class="col-xs-3">
+                	<div class="col-sm-3 no-side-padding">
     	            	<label for="number">Job Number:</label>
                 	</div>
                 	<div class="col-xs-9">
@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="form-group">
-                	<div class="col-xs-3">
+                	<div class="col-sm-3 no-side-padding">
     	            	<label for="screen_name">Screen Name:</label>
                 	</div>
                 	<div class="col-xs-9">
@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="form-group">
-                	<div class="col-xs-3">
+                	<div class="col-sm-3 no-side-padding">
     	            	<label for="address">Address:</label>
                 	</div>
                 	<div class="col-xs-9">
@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="form-group">
-                	<div class="col-xs-3">
+                	<div class="col-sm-3 no-side-padding">
     	            	<label for="postcode">Postcode:</label>
                 	</div>
                 	<div class="col-xs-9">
@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="form-group">
-                	<div class="col-xs-3">
+                	<div class="col-sm-3 no-side-padding">
     	            	<label for="contractor">Main Contractor:</label>
                 	</div>
                 	<div class="col-xs-9">
@@ -78,7 +78,7 @@
                 </div>
 
                 <div class="form-group">
-                	<div class="col-xs-3">
+                	<div class="col-sm-3 no-side-padding">
     	            	<label for="foreman">Foreman:</label>
                 	</div>
                 	<div class="col-xs-9">

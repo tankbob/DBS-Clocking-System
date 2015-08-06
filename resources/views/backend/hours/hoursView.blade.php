@@ -37,7 +37,7 @@
 		{!! Form::open(['url' => '/admin/hours', 'method' => 'GET', 'id' => 'hoursForm']) !!}
 			
 			<div class="col-sm-12" style="margin-bottom:10px;">
-			    <div class="col-sm-3">
+			    <div class="col-sm-3 no-side-padding">
 					<h1 class="menu-h1">
 						JOB NUMBER:
 					</h1>
@@ -55,7 +55,7 @@
 			</div>
 
 			<div class="col-sm-12" style="margin-bottom:10px;">
-		    	<div class="col-sm-3">
+		    	<div class="col-sm-3 no-side-padding">
 					<h1 class="menu-h1">
 						WEEK START:
 					</h1>
@@ -71,7 +71,7 @@
 		{!! Form::close() !!}
 
 		<div class="col-sm-12">
-	    	<div class="col-sm-3">
+	    	<div class="col-sm-3 no-side-padding">
 				<h1 class="menu-h1">
 					EXPORT PDF:
 				</h1>
@@ -90,7 +90,7 @@
 	
 
 	<div class="col-xs-12 add-user-form">
-		<table id="datatables" class="table-responsive table-bordered table-hover" width="100%">
+		<table id="datatables" class="hoursTable table-responsive table-bordered" width="96%">
 			<thead>
 				<th>
 					Operative

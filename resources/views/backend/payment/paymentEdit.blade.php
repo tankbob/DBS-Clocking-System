@@ -28,7 +28,7 @@
 	@include('backend.includes.errors')
 
 	<div class="add-user-form col-sm-12">
-    	<div class="col-sm-3 col-sm-offset-1">
+    	<div class="col-sm-3 no-side-padding col-sm-offset-1">
     		<h1>
                 EDIT OPERATIVE HOURS:
     		</h1>
@@ -42,7 +42,7 @@
     	<div class="col-sm-7 login-form">
 
     		<div class="form-group">
-            	<div class="col-sm-3">
+            	<div class="col-sm-3 no-side-padding">
 	            	<label for="name">Operative:</label>
             	</div>
             	<div class="col-sm-9">
@@ -51,7 +51,7 @@
             </div>
 
             <div class="form-group">
-            	<div class="col-sm-3">
+            	<div class="col-sm-3 no-side-padding">
 	            	<label for="date">Week Start:</label>
             	</div>
             	<div class="col-sm-9">
@@ -68,7 +68,7 @@
 			</div>
 
 			<div class="form-group">
-            	<div class="col-sm-3">
+            	<div class="col-sm-3 no-side-padding">
 	            	<label for="csv">
 						EXPORT CSV:
 						<div class="quote">
@@ -76,7 +76,7 @@
 						</div>
 					</label>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-3 no-side-padding">
 					{!! Form::open(['url' => '/admin/payment/operativecsv', 'method' => 'POST']) !!}
 
 						<input class="hidden" name="user_id" value="{{$user->id}}">
@@ -94,7 +94,7 @@
     	<div class="col-sm-7 col-sm-offset-4 login-form">
 
     		<div class="form-group">
-    			<div class="col-sm-3">
+    			<div class="col-sm-3 no-side-padding">
 	            	<label for="day">
 	            		Day:
 	            	</label>
@@ -115,7 +115,7 @@
     		@foreach($times as $i => $t)
     			<div class="timesDiv @if($i > 0) hidden @endif " id="times-{{$i}}">
 		    		<div class="form-group">
-		    			<div class="col-sm-3">
+		    			<div class="col-sm-3 no-side-padding">
 			            	<label>
 			            		Hours:
 			            	</label>
@@ -128,7 +128,7 @@
 			        </div>
 
 		    		<div class="form-group">
-		    			<div class="col-sm-3">
+		    			<div class="col-sm-3 no-side-padding">
 			            	<label>
 			            		Holiday:
 			            	</label>
@@ -141,7 +141,7 @@
 			        </div>
 
 		    		<div class="form-group">
-		    			<div class="col-sm-3">
+		    			<div class="col-sm-3 no-side-padding">
 			            	<label>
 			            		Overtime:
 			            	</label>
@@ -154,7 +154,7 @@
 			        </div>
 
 		    		<div class="form-group">
-		    			<div class="col-sm-3">
+		    			<div class="col-sm-3 no-side-padding">
 			            	<label>
 			            		Weekends:
 			            	</label>
@@ -178,7 +178,7 @@
 	    		<input class="hidden" name="date" value="{{$fromDate}}">
 
 	    		<div class="form-group">
-	    			<div class="col-sm-3">
+	    			<div class="col-sm-3 no-side-padding">
 		            	<label for="time">
 		            		Hours:
 		            	</label>
@@ -189,7 +189,7 @@
 	    		</div>
 
 	    		<div class="form-group">
-	    			<div class="col-sm-3">
+	    			<div class="col-sm-3 no-side-padding">
 		            	<label for="hour_type_id">
 		            		Pay Type:
 		            	</label>
@@ -215,7 +215,7 @@
     </div>
 
      <div class="add-user-form col-sm-12">
-            <div class="col-sm-3 col-sm-offset-1">
+            <div class="col-sm-3 no-side-padding col-sm-offset-1">
                 <h1>
                     OPERATIVE PAY RATE:
                 </h1>
@@ -225,7 +225,7 @@
             <div class="col-sm-7 login-form">
 
                 <div class="form-group">
-                    <div class="col-xs-3">
+                    <div class="col-sm-3 no-side-padding">
                         <label for="standard_salary">Standard &pound;:</label>
                     </div>
                     <div class="col-xs-9">
@@ -234,7 +234,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-xs-3">
+                    <div class="col-sm-3 no-side-padding">
                         <label for="weekends_5_salary">Weekends 5 &pound;:</label>
                     </div>
                     <div class="col-xs-9">
@@ -243,7 +243,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-xs-3">
+                    <div class="col-sm-3 no-side-padding">
                         <label for="weekends_9_salary">Weekends 9 &pound;:</label>
                     </div>
                     <div class="col-xs-9">
@@ -252,7 +252,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-xs-3">
+                    <div class="col-sm-3 no-side-padding">
                         <label for="holiday_salary">Holiday &pound;:</label>
                     </div>
                     <div class="col-xs-9">
@@ -261,7 +261,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-xs-3">
+                    <div class="col-sm-3 no-side-padding">
                         <label for="overtime_salary">Overtime &pound;:</label>
                     </div>
                     <div class="col-xs-9">
