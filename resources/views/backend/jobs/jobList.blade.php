@@ -24,7 +24,7 @@
 	@include('backend.includes.errors')
 
     <div class="add-user-form col-sm-12">
-    	<div class="col-sm-3 no-side-padding col-sm-offset-1">
+    	<div class="col-sm-5 no-side-padding col-sm-offset">
     		<h1>
                 ADD JOB:
     		</h1>
@@ -95,11 +95,11 @@
     	</div>
     </div>
 
-    <div class="col-xs-12">
-        <h1 class="col-xs-offset-1">
+    <div class="col-sm-12">
+        <h1>
             JOB NUMBER LOCATIONS:
          </h1>
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-sm-12">
             <table id="datatables" class="table-responsive table-bordered table-hover"  class="display" cellspacing="0" width="100%">
                 <thead>
                     <tr>

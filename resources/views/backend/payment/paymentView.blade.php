@@ -21,14 +21,16 @@
 
 
 @section('content')
+    
+    @include('backend.includes.errors')
 	
 	<div class="add-user-form col-sm-12">
-    	<div class="col-sm-3 no-side-padding col-sm-offset-1">
+    	<div class="col-sm-3 no-side-padding">
 			<h1 class="menu-h1">
 				WEEK START:
 			</h1>
 		</div>
-		<div class="col-sm-8">
+		<div class="col-sm-9">
 			{!! Form::open(['method' => 'GET', 'id' => 'viewdate']) !!}
 
             <select name="date" id='date-select' class="fancy-select">
@@ -42,7 +44,7 @@
 
 		<div style="clear:both; height: 10px; width: 100%;"></div>
 
-		<div class="col-sm-3 no-side-padding col-sm-offset-1">
+		<div class="col-sm-3 no-side-padding">
 			<h1 class="menu-h1">
 				EXPORT CSV:
 			</h1>
@@ -53,21 +55,23 @@
 			</div>
 		</div>
 
-		<div class="col-sm-8">
+		<div class="col-sm-9">
 			{!! Form::open(['url' => '/admin/payment/paymentcsv', 'method' => 'post']) !!}
                 <input class="hidden" name="fromDate" value="{{$fromDate}}">
 				<button class="download-btn"></button>
 			{!! Form::close() !!}
 		</div>
 
-		</div>
 	</div>
+	
 
-	<div class="col-xs-12 col-xs-offset1">
-        <h1 class="col-xs-offset-1">
-        	OPERATIVES WORKSHEET LIST:
-         </h1>
-        <div class="col-sm-8 col-sm-offset-2">
+	<div class="col-xs-12">
+        <div class="col-sm-12 no-side-padding">
+            <h1>
+            	OPERATIVES WORKSHEET LIST:
+             </h1>
+        </div>
+        <div class="col-sm-12">
             <table id="datatables" class="table-responsive table-bordered table-hover"  class="display" cellspacing="0" width="100%">
                 <thead>
                     <tr>

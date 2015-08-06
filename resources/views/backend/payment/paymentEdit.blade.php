@@ -27,8 +27,8 @@
 
 	@include('backend.includes.errors')
 
-	<div class="add-user-form col-sm-12">
-    	<div class="col-sm-3 no-side-padding col-sm-offset-1">
+	<div class="col-sm-12">
+    	<div class="col-sm-5">
     		<h1>
                 EDIT OPERATIVE HOURS:
     		</h1>
@@ -76,7 +76,7 @@
 						</div>
 					</label>
 				</div>
-				<div class="col-sm-3 no-side-padding">
+				<div class="col-sm-3">
 					{!! Form::open(['url' => '/admin/payment/operativecsv', 'method' => 'POST']) !!}
 
 						<input class="hidden" name="user_id" value="{{$user->id}}">
@@ -91,7 +91,7 @@
     </div>
 
     <div class="add-user-form col-sm-12">
-    	<div class="col-sm-7 col-sm-offset-4 login-form">
+    	<div class="col-sm-7 col-sm-offset-5 login-form">
 
     		<div class="form-group">
     			<div class="col-sm-3 no-side-padding">
@@ -171,7 +171,12 @@
     </div>
 
     <div class="add-user-form col-sm-12">
-    	<div class="col-sm-7 col-sm-offset-4 login-form">
+    	<div class="col-sm-12">
+    		<h1>
+                ADD MISSED HOURS:
+    		</h1>
+    	</div>
+    	<div class="col-sm-7 col-sm-offset-5 login-form">
 	    	{!! Form::open(['url' => '/admin/missedhours', 'method' => 'POST']) !!}
 
 	    		<input class="hidden" name="user_id" value="{{$user->id}}">
@@ -205,7 +210,7 @@
 		            </div>
 	    		</div>
 
-	    		<div class="text-center">
+	    		<div class="col-sm-9 col-sm-offset-3">
 	    			<button class="update-btn"></button>
 	    		</div>
 
@@ -215,14 +220,14 @@
     </div>
 
      <div class="add-user-form col-sm-12">
-            <div class="col-sm-3 no-side-padding col-sm-offset-1">
+            <div class="col-sm-12 no-side-padding">
                 <h1>
                     OPERATIVE PAY RATE:
                 </h1>
-                <span class="advice-span">*Reference Only</span>
+                <div class="advice-span">*Reference Only</div>
             </div>
             
-            <div class="col-sm-7 login-form">
+            <div class="col-sm-7 col-sm-offset-5 login-form">
 
                 <div class="form-group">
                     <div class="col-sm-3 no-side-padding">
