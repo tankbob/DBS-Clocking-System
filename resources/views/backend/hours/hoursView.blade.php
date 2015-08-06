@@ -130,7 +130,7 @@
 						<?php $total = 0; ?>
 						@foreach($weeklyTimes as $day => $time)
 							<td>
-								<a href="#" id="{{$user}}-{{$day}}" class="editable" data-type="select" data-pk="1" data-url="/ajaxedit" data-title="Enter value">
+								<a href="#" id="{{$user}}-{{$day}}" class="editable" data-type="select" data-pk="1" data-url="/ajaxedittime" data-title="Enter value">
 									@if(isset($time['time']) && $time['time'])
 										{{$time['time']}}
 										<?php $total += $time['time']; ?>
@@ -148,7 +148,6 @@
 											    params.day = "{{$day}}";
 											    params.job_id = "{{$job_id}}";
 											    params.startDate = "{{$fromDate}}";
-											    params.overtime = 0;
 
 											    return params;
 											},
@@ -166,7 +165,9 @@
 											],
 											success: function(response, newValue) {
 											    if(response.success){
-											    	$("#total-"+{{$user}}).text(response.total);
+											    	$("#total-"+{{$user}}).text(response.totalTime);
+											    	$("#holiday-total-"+{{$user}}).text(response.totalHoliday);
+											    	$("#holiday-"+{{$user}}+"-"+{{$day}}).text("-");
 											    }
 											}
 										})
@@ -184,7 +185,7 @@
 
 					</tr>
 
-					<tr class="blueCells">
+					<tr class="blackCells">
 						<td>
 							Overtime
 						</td>
@@ -192,7 +193,7 @@
 						@foreach($weeklyTimes as $day => $time)
 							
 							<td>
-								<a href="#" id="over-{{$user}}-{{$day}}" class="editable" data-type="select" data-pk="1" data-url="/ajaxedit" data-title="Enter value">
+								<a href="#" id="over-{{$user}}-{{$day}}" class="editable" data-type="select" data-pk="1" data-url="/ajaxeditovertime" data-title="Enter value">
 									@if(isset($time['overtime']) && $time['overtime'])
 										{{$time['overtime']}}
 										<?php $total += $time['overtime']; ?>
@@ -211,8 +212,6 @@
 										    params.day = '{{$day}}';
 										    params.job_id = '{{$job_id}}'
 										    params.startDate = '{{$fromDate}}';
-										    params.overtime = 1;
-
 										    return params;
 										},
 										source: [
@@ -239,6 +238,66 @@
 
 						<td>
 							<div id="over-total-{{$user}}">
+								{{$total}}
+							</div>
+						</td>
+
+					</tr>
+
+					<tr class="blueCells">
+						<td>
+							Holiday
+						</td>
+						<?php $total = 0; ?>
+						@foreach($weeklyTimes as $day => $time)
+							<td>
+								<a href="#" id="holiday-{{$user}}-{{$day}}" class="editable" data-type="select" data-pk="1" data-url="/ajaxeditholiday" data-title="Enter value">
+									@if(isset($time['holiday']) && $time['holiday'])
+										{{$time['holiday']}}
+										<?php $total += $time['holiday']; ?>
+									@else
+										-
+									@endif
+								</a>
+							</td>
+							
+							<script type="text/javascript">
+								$(document).ready(function(){
+									$("#holiday-{{$user}}-{{$day}}").editable({
+										value: @if(isset($time['holiday'])) value="{{$time['holiday']}}" @else value="0" @endif,
+										params: function( params ) {
+										    params.user = '{{$user}}';
+										    params.day = '{{$day}}';
+										    params.job_id = '{{$job_id}}'
+										    params.startDate = '{{$fromDate}}';
+										    return params;
+										},
+										source: [
+											{0: 0},
+											{1: 1},
+											{2: 2},
+											{3: 3},
+											{4: 4},
+											{5: 5},
+											{6: 6},
+											{7: 7},
+											{8: 8},
+											{9: 9}
+										],
+										success: function(response, newValue) {
+										    if(response.success){
+										    	$("#total-"+{{$user}}).text(response.totalTime);
+											    $("#holiday-total-"+{{$user}}).text(response.totalHoliday);
+											    $("#"+{{$user}}+"-"+{{$day}}).text("-");
+										    }
+										}
+									})
+								});
+							</script>
+						@endforeach
+
+						<td>
+							<div id="holiday-total-{{$user}}">
 								{{$total}}
 							</div>
 						</td>

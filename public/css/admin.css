@@ -407,7 +407,16 @@ th{
 }
 
 .blueCells:hover, .blueCells:hover a{
-	background: #2487AD !important;
+	background: #1CA8DD !important;
+}
+
+.blackCells, .blackCells a{
+	color: #FFFFFF !important;
+	background: #25292F;
+}
+
+.blackCells:hover, .blackCells:hover a{
+	background: #25292F !important;
 }
 
 .popover-title{

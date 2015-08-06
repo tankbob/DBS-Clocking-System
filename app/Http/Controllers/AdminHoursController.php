@@ -57,7 +57,7 @@ class AdminHoursController extends Controller
         $page = 'hours';
         $jobs = Job::lists('number', 'id');
 
-        $logTimes = LogTime::where('job_id', '=', $job_id)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->with('User')->orderBy('user_id')->orderBy('date')->get();
+        $logTimes = LogTime::where('job_id', '=', $job_id)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->with('User', 'HourType')->orderBy('user_id')->orderBy('date')->get();
 
         $users = LogTime::with('User')->where('job_id', '=', $job_id)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->get(['user_id']);
 
@@ -72,14 +72,19 @@ class AdminHoursController extends Controller
         
         foreach($logTimes as $l){
             $user_id = $l->User->id;
-            $log_type = $l->hour_type_id;
+            $log_type = $l->HourType->value;
             $log_time = $l->time;
             $log_overtime = $l->overtime;
-            $log_date = (1 + date('w', strtotime($l->date))) % 7;
-            
-            $logArray[$user_id][$log_date] = ['type' => $log_type, 'time' => $log_time, 'overtime' => $log_overtime];
-        }
 
+            $log_date = (1 + date('w', strtotime($l->date))) % 7;
+
+            if($log_type == 'Holiday'){
+                $logArray[$user_id][$log_date]['holiday'] = $l->time;
+            }else{
+                $logArray[$user_id][$log_date]['time'] = $l->time;
+            }
+            $logArray[$user_id][$log_date]['overtime'] = $log_overtime;
+        }
         $users = User::lists('name', 'id');
 
         $approved = LogTime::where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('job_id', '=', $job_id)->min('approved');
@@ -166,47 +171,6 @@ class AdminHoursController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function ajaxEdit(){
-        $user_id = \Request::get('user');
-        $job_id = \Request::get('job_id');
-
-        $date = date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+\Request::get('day'), date('Y', strtotime(\Request::get('startDate')))));
-    
-        $logTime = LogTime::where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->where('date', '=', $date)->first();
-
-        if(!$logTime){
-            $logTime = new LogTime;
-            $logTime->user_id = $user_id;
-            $logTime->job_id = $job_id;
-            $logTime->hour_type_id = HourType::where('value', '=', 'Normal')->first()->id;
-            $logTime->approved = 1;
-            $logTime->date = $date;
-        }
-
-        if(\Request::get('overtime') == 1){
-            $logTime->overtime = \Request::get('value');
-
-            $logTime->save();
-
-            $total = LogTime::where('date', '>=', \Request::get('startDate'))->where('date', '<=', date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+6, date('Y', strtotime(\Request::get('startDate'))))))->where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->sum('overtime');
-
-        }else{
-
-            $logTime->time = \Request::get('value');
-
-            $logTime->save();
-
-            $total = LogTime::where('date', '>=', \Request::get('startDate'))->where('date', '<=', date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+6, date('Y', strtotime(\Request::get('startDate'))))))->where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->sum('time');
-        }
-
-        
-
-        return \Response::json(array(
-            'success' => true,
-            'total' => $total
-        ));
     }
 
     public function addOperative(){
@@ -335,6 +299,88 @@ class AdminHoursController extends Controller
         if ($content === false) {
             throw new Exception('Could not create PDF: '.$pdf->getError());
         }
+    }
+
+    public function ajaxEditOvertime(){
+        $user_id = \Request::get('user');
+        $job_id = \Request::get('job_id');
+
+        $date = date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+\Request::get('day'), date('Y', strtotime(\Request::get('startDate')))));
+    
+        $logTime = LogTime::where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->where('date', '=', $date)->first();
+
+        if(!$logTime){
+            $logTime = new LogTime;
+            $logTime->user_id = $user_id;
+            $logTime->job_id = $job_id;
+            $logTime->hour_type_id = HourType::where('value', '=', 'Normal')->first()->id;
+            $logTime->approved = 1;
+            $logTime->date = $date;
+        }
+        $logTime->overtime = \Request::get('value');
+        $logTime->save();
+        $total = LogTime::where('date', '>=', \Request::get('startDate'))->where('date', '<=', date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+6, date('Y', strtotime(\Request::get('startDate'))))))->where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->sum('overtime');
+
+        return \Response::json(array(
+            'success' => true,
+            'total' => $total
+        ));
+    }
+
+    public function ajaxEditTime(){
+        $user_id = \Request::get('user');
+        $job_id = \Request::get('job_id');
+
+        $date = date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+\Request::get('day'), date('Y', strtotime(\Request::get('startDate')))));
+    
+        $logTime = LogTime::where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->where('date', '=', $date)->first();
+
+        if(!$logTime){
+            $logTime = new LogTime;
+            $logTime->user_id = $user_id;
+            $logTime->job_id = $job_id;
+            $logTime->approved = 1;
+            $logTime->date = $date;
+        }
+        $logTime->hour_type_id = HourType::where('value', '=', 'Normal')->first()->id;
+        $logTime->time = \Request::get('value');
+        $logTime->save();
+        $totalTime = LogTime::where('hour_type_id', '=', HourType::where('value', '=', 'Normal')->first()->id)->where('date', '>=', \Request::get('startDate'))->where('date', '<=', date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+6, date('Y', strtotime(\Request::get('startDate'))))))->where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->sum('time');
+        $totalHoliday = LogTime::where('hour_type_id', '=', HourType::where('value', '=', 'Holiday')->first()->id)->where('date', '>=', \Request::get('startDate'))->where('date', '<=', date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+6, date('Y', strtotime(\Request::get('startDate'))))))->where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->sum('time');
+
+        return \Response::json(array(
+            'success' => true,
+            'totalTime' => $totalTime,
+            'totalHoliday' => $totalHoliday
+        ));
+    }
+
+    public function ajaxEditHoliday(){
+        $user_id = \Request::get('user');
+        $job_id = \Request::get('job_id');
+
+        $date = date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+\Request::get('day'), date('Y', strtotime(\Request::get('startDate')))));
+    
+        $logTime = LogTime::where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->where('date', '=', $date)->first();
+
+        if(!$logTime){
+            $logTime = new LogTime;
+            $logTime->user_id = $user_id;
+            $logTime->job_id = $job_id;
+            $logTime->approved = 1;
+            $logTime->date = $date;
+        }
+        $logTime->hour_type_id = HourType::where('value', '=', 'Holiday')->first()->id;
+        $logTime->time = \Request::get('value');
+        $logTime->save();
+        $totalTime = LogTime::where('hour_type_id', '=', HourType::where('value', '=', 'Normal')->first()->id)->where('date', '>=', \Request::get('startDate'))->where('date', '<=', date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+6, date('Y', strtotime(\Request::get('startDate'))))))->where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->sum('time');
+        $totalHoliday = LogTime::where('hour_type_id', '=', HourType::where('value', '=', 'Holiday')->first()->id)->where('date', '>=', \Request::get('startDate'))->where('date', '<=', date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+6, date('Y', strtotime(\Request::get('startDate'))))))->where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->sum('time');
+
+        return \Response::json(array(
+            'success' => true,
+            'totalTime' => $totalTime,
+            'totalHoliday' => $totalHoliday
+        ));
     }
 
 }
