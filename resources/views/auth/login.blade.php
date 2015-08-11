@@ -4,20 +4,15 @@
     Login
 @stop
 
-@section('scripts')
-    <link rel="stylesheet" type="text/css" href="/css/login.css">
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('#footer-login-logo').attr('src', '/images/approvedlogo.svg');
-        });
-    </script>
+@section('footer-logo')
+    <img src="{{ url('images/approvedlogo.svg') }}" class="footer-login-logo" id="footer-login-logo">
 @stop
+
+@section('body-class') page-login @stop
 
 @section('content')
     <div class="col-xs-12 login-form">
-        
         @include('frontend.includes.errors')
-
         <form method="POST" action="/auth/login">
             {!! csrf_field() !!}
 
@@ -26,17 +21,14 @@
             </div>
 
             <div class="text-center">
-                <input type="password" name="password" id="password" class="login-input" placeholder="Password">
+                <input type="password" name="password" id="password" class="login-input" placeholder="Password" style="margin-top: 10px;">
             </div>
 
             <input class="hidden" name="loginType" value="Operative">
 
             <div class="text-center">
-                <button class="submit-btn">
-                  
-                </button>
+                <button class="submit-btn"></button>
             </div>
-           
         </form>
     </div>
 @stop
