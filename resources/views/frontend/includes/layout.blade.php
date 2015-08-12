@@ -18,7 +18,8 @@
             <div class="pull-right">
                 @if(Auth::user())
                     <div>
-                        <a class="logout-btn pull-right" href="/auth/logout"></a>
+                        <a class="logout-btn hidden-xs pull-right" href="/auth/logout"></a>
+                        <a class="logout-btn-mobile visible-xs pull-right" href="/auth/logout"></a>
                     </div>
                 @endif
                 <div class="hidden-xs headerPhone">01622 715 919</div>
@@ -30,7 +31,7 @@
         @yield('content')
     </div>
     
-    <div class="text-center footer">
+    <div class="text-center footer container">
         <div class="footer-note">
             <p><span class="orange">Please note:</span> You can edit your detail for today’s date only - all details must have been updated by <span class="orange">12am</span></p>
             <p>For any further information please call  the office on <span class="orange big-text">01622 715 919</span></p>

@@ -186,7 +186,7 @@ body * {
     background: url('/images/update_btn-rollover.png');
 }
 
-.logout-btn {
+.logout-btn, .logout-btn-mobile {
     width: 77px;
     height: 28px;
     background: url('/images/logout-normal.png');
@@ -195,18 +195,34 @@ body * {
     top: 20px;
 }
 
-.logout-btn:hover {
+.logout-btn:hover, .logout-btn-mobile:hover {
     background: url('/images/logout-rollover.png');
 }
+
+
+.logout-btn-mobile {
+    width:28px;
+    background-position: right;
+}
+
+.logout-btn-mobile:hover {
+    background: url('/images/logout-rollover.png');
+    background-position: right;
+}
+
 
 .goback-btn {
     display: block;
     width: 94px;
     height: 16px;
     background: url('/images/go_back.svg');
-    margin: 30px auto;
+    margin: 25px auto 44px auto;
     left: 0;
     right: 0;
+}
+
+.add-job-form {
+    margin-bottom:53px;
 }
 
 .danger-message {
@@ -239,16 +255,14 @@ body * {
     background-color: #EBEBE4 !important;
 }
 
+.form-horizontal .control-label {
+    text-align: left;
+}
 
-@media (min-width: 992px) {
-    .form-horizontal .control-label {
-        padding-top: 7px;
-        margin-bottom: 0;
-        text-align: left;
-    }
-    .offset-form-input {
-        margin-left:-54px !important;
-    }
+hr {
+    border-color: #262635;
+    border-width: 1px;
+    height:1px;
 }
 
 .select-job-number {
@@ -261,6 +275,23 @@ body * {
 }
 
 
+/**
+ *
+ * Media Queries
+ *
+ */
+
+@media (min-width: 992px) {
+    .form-horizontal .control-label {
+        padding-top: 7px;
+        margin-bottom: 0;
+        text-align: left;
+    }
+    .offset-form-input {
+        margin-left:-54px !important;
+    }
+}
+
 @media (min-width: 768px) {
     .form-horizontal .control-label {
         padding-top: 0px;
@@ -268,17 +299,15 @@ body * {
     }
 }
 
-.form-horizontal .control-label {
-    text-align: left;
+@media (max-width: 767px) {
+    .header .container {
+        text-align: center;
+    }
+    .headerLogo {
+        margin-top: 45px;
+        margin-left: 32px;
+    }
 }
-
-hr {
-    border-color: #262635;
-    border-width: 1px;
-    height:1px;
-}
-
-
 
 
 /**

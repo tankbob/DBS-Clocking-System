@@ -8,15 +8,14 @@
 
 	@include('backend.includes.errors')
 
-	<div class="col-sm-3 col-sm-offset-1">
+	<div class="col-sm-5">
 		<h1>
 			LOGIN:
 		</h1>
 	</div>
 	
-	<div class="col-sm-7 login-form">
-        
-        <form method="POST" action="/auth/login">
+	<div class="col-sm-7 login-form">  
+        {!! Form::open(['url' => 'auth/login', 'method' => 'post', 'class' => 'form-horizontal']) !!}
             {!! csrf_field() !!}
 
             <div class="form-group">
@@ -24,7 +23,7 @@
 	            	<label for="email">Email:</label>
             	</div>
             	<div class="col-xs-9">
-	                <input type="email" name="email" value="{{ old('email') }}" class="login-input">	            		
+	                <input type="email" name="email" value="{{ old('email') }}" class="login-input">
             	</div>
             </div>
 
@@ -38,7 +37,7 @@
             </div>
 
             <div class="form-group">
-            	<div class="col-xs-3">
+            	<div class="col-xs-3 hidden-xs">
 	            	<label for="g-recaptcha-response">Captcha:</label>
             	</div>
             	<div class="col-xs-9">
@@ -58,11 +57,8 @@
             <input class="hidden" name="loginType" value="Admin">
 
             <div class="text-center">
-                <button class="login-btn">
-
-                </button>
+                <button class="login-btn"></button>
             </div>
-           
         </form>
     </div>
 
