@@ -74,7 +74,7 @@ h1 a:hover{
 	color: #666666;
 	font-size: 13px;
 	letter-spacing: 1px;
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Open Sans', sans-serif;0
 	font-weight: 300;
 }
 
@@ -151,12 +151,21 @@ h1 a:hover{
 	line-height: 51px;
 }
 
+.user-form .form-group {
+    line-height: 51px;
+}
+
+.user-form input{
+	width: 100%;
+	padding-left: 15px;
+}
+
 .login-form input{
 	width: 100%;
 	padding-left: 15px;
 }
 
-.login-form label{
+.login-form label, .user-form label{
 	margin-bottom: 0;
 	letter-spacing: 2px;
 	color: #666666;
@@ -354,7 +363,7 @@ margin: 0 20px;
 }
 
 .danger-message{
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Open Sans', sans-serif;0
 	color: #d44950;
 	border-color: #d44950;
 	margin: 0 auto;
@@ -367,7 +376,7 @@ margin: 0 20px;
 	padding: 0 5px;
 }
 .success-message{
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Open Sans', sans-serif;0
 	color: #57A958;
 	border-color: #57A958;
 	margin: 0 auto;
@@ -395,7 +404,6 @@ margin: 0 20px;
 }
 
 input{
-	max-width: 379px;
     height: 51px;
 	padding-left: 10px;
     font-size: 18px !important;
