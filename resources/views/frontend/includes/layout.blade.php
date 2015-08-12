@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>@yield('title')</title>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:600,400,300">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="/css/global.css">
@@ -12,13 +13,16 @@
 <body class="@yield('body-class')">
     <div class="header text-center-sm">
         <div class="container">
-            @if(Auth::user())
-                <div class="col-xs-4 col-xs-offset-8">
-                    <a class="logout-btn" href="/auth/logout"></a>
-                </div>
-            @endif
-            <img class="col-xs-offset-2 headerLogo" src="/images/dbslogo.svg" width="173" height="104" alt="DBS Contracts" data-mu-svgfallback="images/dbslogo_poster_.png">
-            <div class="hidden-xs headerPhone pull-right">01622 715 919</div>
+            <img class="headerLogo" src="/images/dbslogo.svg" width="173" height="104" alt="DBS Contracts" data-mu-svgfallback="images/dbslogo_poster_.png">
+
+            <div class="pull-right">
+                @if(Auth::user())
+                    <div>
+                        <a class="logout-btn pull-right" href="/auth/logout"></a>
+                    </div>
+                @endif
+                <div class="hidden-xs headerPhone">01622 715 919</div>
+            </div>
         </div>
     </div>
 
@@ -41,7 +45,6 @@
 
     <script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-    <script type="text/javascript">document.write('\x3Cscript src="/js/fonts.js" type="text/javascript">\x3C/script>');</script>
     @yield('scripts')
 </body>
 </html>

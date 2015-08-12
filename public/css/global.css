@@ -9,27 +9,29 @@ body * {
     transition: all 0.2s ease-in-out;
 }
 
-.header{
+.container {
+    max-width: 970px;
+}
+
+.header {
     background: #262635;
     width: 100%;
     height: 195px;
     border-bottom: solid;
-    border-color: #FF6352;
     border-width: 1px;
 }
 
-.headerContainer{
+.headerContainer {
     height: 100%;
     width: 100%;
     position: relative;
 }
 
-.headerLogo{
+.headerLogo {
     margin-top: 45px;
-    margin-left: 20px;
 }
 
-.headerPhone{
+.headerPhone {
     background: #FF6352;
     color: #FFFFFF;
     width: 179px;
@@ -38,77 +40,74 @@ body * {
     line-height: 45px;
     border-radius: 7px 7px 0 0;
     font-size: 18px;
-    font-family: open-sans, sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 400;
-    margin-top: 149px;
-    margin-right: 20px;
+    margin-top: 150px;
 }
 
-.footer{
-    margin-top: 50px;
+.footer {
+    margin-top: 42px;
 }
 
-.footer-login-logo{
+.footer-login-logo {
     width: 89px;
     height: 90px;
+    margin-top:12px;
 }
 
-.footer-copy{
-    margin-top: 10px;
+.footer-copy {
+    margin-top: 17px;
     text-align: center;
     line-height: 25px;
-    font-family: open-sans, sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 300;
 }
 
-.op-name{
-    height: 90px;
+.op-name {
+    height: 87px;
     color: #262635;
     text-align: center;
     font-size: 20px;
     line-height: 90px;
-    font-family: open-sans, sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 600;
-
     border-bottom: solid;
     border-color: #262635;
     border-width: 1px;
-
-    margin-bottom: 50px;
+    margin-bottom: 35px;
 }
 
-
-.form-group label{
-    width: 120px;
+.form-group label {
     text-align: left;
     color: #262635;
     line-height: 44px;
     font-size: 20px;
-    font-family: open-sans, sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 400;
 }
 
-.form-group input, .form-group select{
+.form-group input, .form-group select {
     width: 180px;
     height: 44px;
     border: solid;
     border-color: #FF6352;
     border-width: 1px;
     color: #FF6352;
-    font-family: open-sans, sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-size: 18px;
     padding-left: 10px;
     outline: none;
 }
 
-.form-group select{
-    background: url('/images/ddarrow.JPG') no-repeat right ;
+.form-group select {
+    background: url('/images/ddarrow.JPG') no-repeat right;
     background-size: 18px 12px;
     -webkit-appearance: none;
     -moz-appearance: none;
+    border-radius: 0px;
 }
 
-.signin-btn{
+.signin-btn {
     margin: 15px 0;
     width: 220px;
     height: 64px;
@@ -116,50 +115,51 @@ body * {
     border: none;
 }
 
-.signin-btn:hover{
+.signin-btn:hover {
     background: url('/images/signin_btn-rollover.png');
 }
 
-.footer-note{
+.footer-note {
     text-align: center;
     line-height: 25px;
     color: #262635;
-    font-family: open-sans, sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     font-style: italic;
     font-size: 14px;
     word-wrap: break-word;
 }
 
-.orange{
+.orange {
     color: #FF6352 !important;
 }
 
-.big-text{
+.big-text {
     font-size: 16px !important;
     white-space: nowrap;
 }
 
-.date-picker{
+.date-picker {
+    padding-bottom: 40px;
+    margin-bottom: 35px;
+}
+
+.log-time-div {
+    padding-bottom: 40px;
+    margin: 37px 0 -19px 0;
+}
+
+.log-time-div .form-group {
+    margin-bottom:40px;
+}
+
+.border-bottom {
     border-bottom: solid;
     border-width: 1px;
     border-color: #262635;
-    padding-bottom: 40px;
-    margin-bottom: 60px;
 }
 
-.log-time-div{
-    padding-bottom: 40px;
-    margin: 40px 0;
-}
-
-.border-bottom{
-    border-bottom: solid;
-    border-width: 1px;
-    border-color: #262635;
-}
-
-.addjob-btn{
+.addjob-btn {
     display: block;
     margin: 15px auto;
     left: 0;
@@ -170,11 +170,11 @@ body * {
     border: none;
 }
 
-.addjob-btn:hover{
+.addjob-btn:hover {
     background: url('/images/add_job-rollover.png');
 }
 
-.update-btn{
+.update-btn {
     margin: 15px 0;
     width: 220px;
     height: 64px;
@@ -182,24 +182,24 @@ body * {
     border: none;
 }
 
-.update-btn:hover{
+.update-btn:hover {
     background: url('/images/update_btn-rollover.png');
 }
 
-.logout-btn{
+.logout-btn {
     width: 77px;
     height: 28px;
     background: url('/images/logout-normal.png');
     display: block;
-    position: absolute;
+    position: relative;
     top: 20px;
 }
 
-.logout-btn:hover{
+.logout-btn:hover {
     background: url('/images/logout-rollover.png');
 }
 
-.goback-btn{
+.goback-btn {
     display: block;
     width: 94px;
     height: 16px;
@@ -209,8 +209,8 @@ body * {
     right: 0;
 }
 
-.danger-message{
-    font-family: open-sans, sans-serif;
+.danger-message {
+    font-family: 'Open Sans', sans-serif;
     color: #d44950;
     border-color: #d44950;
     max-width: 284px;
@@ -220,11 +220,11 @@ body * {
     right: 0;
     padding: 0 20px;
 }
-.danger-message li{
+.danger-message li {
     padding: 0 5px;
 }
-.success-message{
-    font-family: open-sans, sans-serif;
+.success-message {
+    font-family: 'Open Sans', sans-serif;
     color: #57A958;
     border-color: #57A958;
     max-width: 284px;
@@ -235,9 +235,50 @@ body * {
     padding: 0 20px;
 }
 
-.disabled-select{
+.disabled-select {
     background-color: #EBEBE4 !important;
 }
+
+
+@media (min-width: 992px) {
+    .form-horizontal .control-label {
+        padding-top: 7px;
+        margin-bottom: 0;
+        text-align: left;
+    }
+    .offset-form-input {
+        margin-left:-54px !important;
+    }
+}
+
+.select-job-number {
+    margin-bottom: 46px;
+    margin-top: -6px;
+}
+
+.select-hour-type {
+    margin-bottom: 35px;
+}
+
+
+@media (min-width: 768px) {
+    .form-horizontal .control-label {
+        padding-top: 0px;
+        text-align: right;
+    }
+}
+
+.form-horizontal .control-label {
+    text-align: left;
+}
+
+hr {
+    border-color: #262635;
+    border-width: 1px;
+    height:1px;
+}
+
+
 
 
 /**
@@ -250,24 +291,28 @@ body * {
     background-color: #262635 !important;
 }
 
-.page-login .footer-copy{
+.page-login .header {
+    border-color: #FF6352;
+}
+
+.page-login .footer-copy {
     color: #FFFFFF !important;
     line-height: 25px;
-    font-family: open-sans, sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 300;
     font-style: italic;
 }
 
-.page-login .footer-login-logo{
+.page-login .footer-login-logo {
     width: 148px !important;
     height: 150px !important;
 }
 
-.page-login .login-form{
+.page-login .login-form {
     margin-top: 90px;
 }
 
-.page-login .login-input{
+.page-login .login-input {
     width: 286px;
     height: 70px;
     background: transparent;
@@ -278,7 +323,7 @@ body * {
     color: #FFFFFF;
     line-height: 24px;
     letter-spacing: 1px;
-    font-family: open-sans, sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 300;
     font-style: italic;
     padding-left: 20px;
@@ -293,7 +338,7 @@ body * {
    color: #FFFFFF;  
 }
 
-.page-login ::-moz-placeholder {  /* Firefox 19+ */
+.page-login ::-moz-placeholder { /* Firefox 19+ */
    color: #FFFFFF;  
 }
 
@@ -301,7 +346,7 @@ body * {
    color: #FFFFFF;  
 }
 
-.page-login .submit-btn{
+.page-login .submit-btn {
     margin: 11px 0;
     width: 286px;
     height: 70px;
@@ -310,17 +355,13 @@ body * {
     background-size: cover;
 }
 
-.page-login .submit-btn:hover{
+.page-login .submit-btn:hover {
     background: url('/images/login_btn-rollover.jpg');
     background-size: cover;
 }
 
-.page-login .footer-note{
+.page-login .footer-note {
     display: none;
-}
-
-.page-login .container {
-    max-width: 1010px;
 }
 
 .page-login .footer-login-logo {
