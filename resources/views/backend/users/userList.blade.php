@@ -90,34 +90,36 @@
             </div>
         </div>
     </div>
-    <h1>
-        @if($page == 'users')
-           USER LIST:
-        @else
-            OPERATIVE LIST:
-        @endif
-     </h1>
+
     <div class="row">
-        <div>
-            <div class="col-xs-6 table-next">
-                @if(Input::get('page') > 1)
-                    <a href="{{ $users->previousPageUrl() }}">&lt; Previous Page</a>
+        <div class="col-sm-12">
+            <h1>
+                 @if($page == 'users')
+                   USER LIST:
+                @else
+                    OPERATIVE LIST:
                 @endif
-                @if($users->hasMorePages())
-                    <a href="{{ $users->nextPageUrl() }}">Next Page &gt;</a>
-                @endif
+            </h1>
+
+            <div>
+                <div class="col-xs-6 table-next">
+                    @if(Input::get('page') > 1)
+                        <a href="{{ $users->previousPageUrl() }}">&lt; Previous Page</a>
+                    @endif
+                    @if($users->hasMorePages())
+                        <a href="{{ $users->nextPageUrl() }}">Next Page &gt;</a>
+                    @endif
+                </div>
+                <div class="col-xs-6 text-right table-select">
+                    Page:
+                    <select onchange="window.location = this.options[this.selectedIndex].value">
+                    @for ($i = 1; $i <= $users->lastPage(); $i++)
+                        <option value="{{ Request::url() }}?page={{ $i }}" @if(Input::get('page') == $i) selected="selected" @endif>{{ sprintf('%02d', $i) }} of {{ sprintf('%02d', $users->lastPage()) }}</option>
+                    @endfor
+                       
+                    </select>
+                </div>
             </div>
-            <div class="col-xs-6 text-right table-select">
-                Page:
-                <select onchange="window.location = this.options[this.selectedIndex].value">
-                @for ($i = 1; $i <= $users->lastPage(); $i++)
-                    <option value="{{ Request::url() }}?page={{ $i }}" @if(Input::get('page') == $i) selected="selected" @endif>{{ sprintf('%02d', $i) }} of {{ sprintf('%02d', $users->lastPage()) }}</option>
-                @endfor
-                   
-                </select>
-            </div>
-        </div>
-        <div class="col-xs-12">
             <table class="table-responsive table-bordered table-hover dbs-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>

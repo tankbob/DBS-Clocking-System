@@ -58,7 +58,8 @@ class AdminPaymentController extends Controller
                             ->lists('id')
                             ->toArray()
                           )
-                          ->get(['name', 'telephone', 'user_id', \DB::raw('MIN(approved) as approved')]);
+                          ->select(\DB::raw('name, telephone, user_id, MIN(approved) as approved'))
+                          ->paginate();
 
         return View('backend.payment.paymentView', compact('page', 'dates', 'fromDate', 'payment'));
     }

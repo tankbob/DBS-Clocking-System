@@ -43,9 +43,7 @@
 		<div style="clear:both; height: 10px; width: 100%;"></div>
 
 		<div class="col-sm-3 no-side-padding">
-			<h1 class="menu-h1">
-				EXPORT CSV:
-			</h1>
+			<h1 class="menu-h1">EXPORT CSV:</h1>
 			<div class="quote">
 				*Export full CSV for all
 					Operatives this week
@@ -79,7 +77,6 @@
                     @for ($i = 1; $i <= $payment->lastPage(); $i++)
                         <option value="{{ Request::url() }}?page={{ $i }}" @if(Input::get('page') == $i) selected="selected" @endif>{{ sprintf('%02d', $i) }} of {{ sprintf('%02d', $payment->lastPage()) }}</option>
                     @endfor
-                       
                     </select>
                 </div>
             </div>
@@ -88,22 +85,18 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Telephone</th>
-                        <th>Foreman Approved</th>
+                        <th class="text-center">Telephone</th>
+                        <th width="20%" class="text-center">Foreman Approved</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($payment as $p)
                     	<tr>
                     		<td class="paddingLeft">
-                    			<a href="/admin/payment/{{$p->user_id}}?date={{$fromDate}}">
-	                    			{{ $p->name }}
-	                    		</a>
+                    			<a href="/admin/payment/{{$p->user_id}}?date={{$fromDate}}">{{ $p->name }}</a>
                     		</td>
                     		<td class="paddingLeft">
-                    			<a href="/admin/payment/{{$p->user_id}}?date={{$fromDate}}">
-                    				{{ $p->telephone }}
-                    			</a>
+                    			<a href="/admin/payment/{{$p->user_id}}?date={{$fromDate}}">{{ $p->telephone }}</a>
                     		</td>
                     		<td class="text-center">
                     			@if($p->approved)
