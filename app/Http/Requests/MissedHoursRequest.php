@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Dbs\Http\Requests;
 
-use App\Http\Requests\Request;
+use Dbs\Http\Requests\Request;
 
 class MissedHoursRequest extends Request
 {

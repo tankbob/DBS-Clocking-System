@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Dbs\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use Dbs\Http\Requests;
+use Dbs\Http\Controllers\Controller;
 
-use App\User;
-use App\UserType;
+use Dbs\User;
+use Dbs\UserType;
 
-use App\Http\Requests\NewUserRequest;
-use App\Http\Requests\EditUserRequest;
+use Dbs\Http\Requests\NewUserRequest;
+use Dbs\Http\Requests\EditUserRequest;
 
 class AdminUsersController extends Controller
 {

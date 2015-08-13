@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Dbs;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,6 +19,6 @@ class MissedHour extends Model
 	];
 
 	public function User(){
-		return $this->belongsTo('App\User', 'user_id');
+		return $this->belongsTo('Dbs\User', 'user_id');
 	}
 }

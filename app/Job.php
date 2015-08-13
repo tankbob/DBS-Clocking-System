@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Dbs;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -22,10 +22,10 @@ class Job extends Model
     ];
 
     public function LogTimes(){
-        return $this->hasMany('App\LogTime', 'job_id');
+        return $this->hasMany('Dbs\LogTime', 'job_id');
     }
 
     public function Users(){
-        return $this->belongsToMany('App\User', 'log_times', 'user_id', 'job_id');    
+        return $this->belongsToMany('Dbs\User', 'log_times', 'user_id', 'job_id');    
     }
 }

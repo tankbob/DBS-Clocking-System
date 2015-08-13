@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Dbs\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use Dbs\Http\Requests;
+use Dbs\Http\Controllers\Controller;
 
-use App\LogTime;
-use App\User;
-use App\Job;
-use App\HourType;
-use App\UserType;
-use App\MissedHour;
+use Dbs\LogTime;
+use Dbs\User;
+use Dbs\Job;
+use Dbs\HourType;
+use Dbs\UserType;
+use Dbs\MissedHour;
 
-use App\Http\Requests\MissedHoursRequest;
+use Dbs\Http\Requests\MissedHoursRequest;
 
 class AdminPaymentController extends Controller
 {

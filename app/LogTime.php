@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Dbs;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -21,14 +21,14 @@ class LogTime extends Model
 	];
 
 	public function User(){
-		return $this->belongsTo('App\User', 'user_id');
+		return $this->belongsTo('Dbs\User', 'user_id');
 	}
 
 	public function Job(){
-		return $this->belongsTo('App\Job', 'job_id');
+		return $this->belongsTo('Dbs\Job', 'job_id');
 	}
 
 	public function HourType(){
-		return $this->belongsTo('App\HourType', 'hour_type_id');
+		return $this->belongsTo('Dbs\HourType', 'hour_type_id');
 	}
 }
