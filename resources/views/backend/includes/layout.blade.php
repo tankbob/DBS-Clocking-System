@@ -54,7 +54,7 @@
 
     <footer class="footer">
         <div class="container">
-            <p class="text-muted"> Target Ink &copy; {{ date('Y') }} DBS Contracts Ltd.</p>
+            <p class="text-muted">Target Ink &copy; {{ date('Y') }} DBS Contracts Ltd.</p>
         </div>
     </footer>
 

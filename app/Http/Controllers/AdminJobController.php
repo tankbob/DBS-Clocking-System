@@ -26,7 +26,7 @@ class AdminJobController extends Controller
     public function index()
     {
         $page = 'jobs';
-        $jobs = Job::all();
+        $jobs = Job::paginate();
         return View('backend.jobs.jobList', compact('page', 'jobs'));
     }
 
