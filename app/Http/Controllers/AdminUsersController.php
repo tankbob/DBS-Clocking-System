@@ -28,7 +28,7 @@ class AdminUsersController extends Controller
      */
     public function index()
     {
-        $users = User::where('user_type_id', '=', UserType::where('value', '=', 'Admin')->first()->id)->get();
+        $users = User::where('user_type_id', '=', UserType::where('value', '=', 'Admin')->first()->id)->paginate();
         $page = 'users';
         return View('backend.users.userList', compact('users', 'page'));
     }

@@ -58,9 +58,7 @@
         </div>
     </footer>
 
-    
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-    <script src="/js/jquery.dataTables.min.js"></script>
     @yield('scripts')
 </body>
 </html>

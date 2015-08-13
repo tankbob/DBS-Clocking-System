@@ -28,7 +28,7 @@ class AdminOperativesController extends Controller
      */
     public function index()
     {
-        $users = User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->get();
+        $users = User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->paginate(15);
         $page = 'operatives';
         return View('backend.users.userList', compact('users', 'page'));
     }
