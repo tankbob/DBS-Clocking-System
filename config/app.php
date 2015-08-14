@@ -140,9 +140,9 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        Dbs\Providers\AppServiceProvider::class,
+        Dbs\Providers\EventServiceProvider::class,
+        Dbs\Providers\RouteServiceProvider::class,
 
         Illuminate\Html\HtmlServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,

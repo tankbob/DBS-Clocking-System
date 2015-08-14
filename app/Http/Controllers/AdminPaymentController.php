@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Dbs\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use Dbs\Http\Requests;
+use Dbs\Http\Controllers\Controller;
 
-use App\LogTime;
-use App\User;
-use App\Job;
-use App\HourType;
-use App\UserType;
-use App\MissedHour;
+use Dbs\LogTime;
+use Dbs\User;
+use Dbs\Job;
+use Dbs\HourType;
+use Dbs\UserType;
+use Dbs\MissedHour;
 
-use App\Http\Requests\MissedHoursRequest;
+use Dbs\Http\Requests\MissedHoursRequest;
 
 class AdminPaymentController extends Controller
 {
@@ -50,7 +50,16 @@ class AdminPaymentController extends Controller
 
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
-        $payment = LogTime::leftJoin('users', 'user_id', '=', 'users.id')->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->get(['name', 'telephone', 'user_id', \DB::raw('MIN(approved) as approved')]);
+        $payment = LogTime::leftJoin('users', 'user_id', '=', 'users.id')
+                          ->where('date', '>=', $fromDate)
+                          ->where('date', '<=', $toDate)
+                          ->groupBy('user_id')
+                          ->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)
+                            ->lists('id')
+                            ->toArray()
+                          )
+                          ->select(\DB::raw('name, telephone, user_id, MIN(approved) as approved'))
+                          ->paginate();
 
         return View('backend.payment.paymentView', compact('page', 'dates', 'fromDate', 'payment'));
     }

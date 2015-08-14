@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Dbs;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -48,18 +48,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected $hidden = ['password', 'remember_token'];
 
     public function LogTimes(){
-        return $this->hasMany('App\LogTime', 'user_id');
+        return $this->hasMany('Dbs\LogTime', 'user_id');
     }
 
     public function MissedHours(){
-        return $this->hasMany('App\MissedHour', 'user_id');
+        return $this->hasMany('Dbs\MissedHour', 'user_id');
     }
 
     public function Jobs(){
-        return $this->belongsToMany('App\Job', 'log_times', 'job_id', 'user_id');    
+        return $this->belongsToMany('Dbs\Job', 'log_times', 'job_id', 'user_id');    
     }
 
     public function UserType(){
-        return $this->belongsTo('App\UserType', 'user_type_id');
+        return $this->belongsTo('Dbs\UserType', 'user_type_id');
     }
 }

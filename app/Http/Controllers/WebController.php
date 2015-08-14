@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Dbs\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use Dbs\Http\Requests;
+use Dbs\Http\Controllers\Controller;
 
-use App\User;
-use App\LogTime;
-use App\Job;
-use App\HourType;
+use Dbs\User;
+use Dbs\LogTime;
+use Dbs\Job;
+use Dbs\HourType;
 
-use App\Http\Requests\SignInRequest;
-use App\Http\Requests\AddJobRequest;
+use Dbs\Http\Requests\SignInRequest;
+use Dbs\Http\Requests\AddJobRequest;
 
 class WebController extends Controller
 {

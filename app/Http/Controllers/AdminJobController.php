@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Dbs\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use Dbs\Http\Requests;
+use Dbs\Http\Controllers\Controller;
 
-use App\Job;
+use Dbs\Job;
 
-use App\Http\Requests\NewJobRequest;
+use Dbs\Http\Requests\NewJobRequest;
 
 class AdminJobController extends Controller
 {
@@ -26,7 +26,7 @@ class AdminJobController extends Controller
     public function index()
     {
         $page = 'jobs';
-        $jobs = Job::all();
+        $jobs = Job::paginate();
         return View('backend.jobs.jobList', compact('page', 'jobs'));
     }
 

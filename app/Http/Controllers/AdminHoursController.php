@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Dbs\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use Dbs\Http\Requests;
+use Dbs\Http\Controllers\Controller;
 
-use App\Job;
-use App\LogTime;
-use App\User;
-use App\UserType;
-use App\HourType;
+use Dbs\Job;
+use Dbs\LogTime;
+use Dbs\User;
+use Dbs\UserType;
+use Dbs\HourType;
 
 use mikehaertl\wkhtmlto\Pdf;
 

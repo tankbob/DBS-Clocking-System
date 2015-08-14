@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http;
+namespace Dbs\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -13,11 +13,11 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-        \App\Http\Middleware\EncryptCookies::class,
+        \Dbs\Http\Middleware\EncryptCookies::class,
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        \App\Http\Middleware\VerifyCsrfToken::class,
+        \Dbs\Http\Middleware\VerifyCsrfToken::class,
     ];
 
     /**
@@ -26,10 +26,10 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth' => \Dbs\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'operative' => \App\Http\Middleware\Operative::class,
-        'admin' => \App\Http\Middleware\Admin::class,
+        'guest' => \Dbs\Http\Middleware\RedirectIfAuthenticated::class,
+        'operative' => \Dbs\Http\Middleware\Operative::class,
+        'admin' => \Dbs\Http\Middleware\Admin::class,
     ];
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace Dbs\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 
-use App\User;
+use Dbs\User;
 use Validator;
-use App\Http\Controllers\Controller;
+use Dbs\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
