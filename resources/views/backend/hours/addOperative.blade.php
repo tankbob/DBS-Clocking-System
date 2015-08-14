@@ -9,19 +9,15 @@
 
     <div class="add-user-form col-sm-12">
     	<div class="col-sm-5">
-    		<h1>
-                MANUAL OPERATIVE:
-    		</h1>
+    		<h1>MANUAL OPERATIVE:</h1>
 
     		<h1>
-    			<a href='/admin/hours/?job={{$job_id}}&date={{$fromDate}}' id="backSubmit">
-	    			< BACK
-	    		</a>
+    			<a href='/admin/hours/?job={{$job_id}}&amp;date={{$fromDate}}' id="backSubmit">&lt; BACK</a>
     		</h1>
     	</div>
 
     	<div class="col-sm-7 login-form">
-    		{!!Form::open(['method', 'POST'])!!}
+    		{!! Form::open(['url' => 'admin/addoperative', 'method' => 'post', 'class' => 'form-horizontal']) !!}
     			<div class="form-group">
 	            	<div class="col-sm-3 no-side-padding">
 		            	<label for="user_id">Name:</label>

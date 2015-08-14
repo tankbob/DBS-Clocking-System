@@ -17,9 +17,9 @@
 	@include('backend.includes.errors')
 
     @if($page == 'users')
-        {!! Form::open(['url' => "/admin/users/$user->id", 'method' => 'PUT']) !!}
+        {!! Form::open(['url' => 'admin/users/' . $user->id, 'method' => 'put', 'class' => 'form-horizontal']) !!}
     @else
-        {!! Form::open(['url' => "/admin/operatives/$user->id", 'method' => 'PUT']) !!}
+        {!! Form::open(['url' => 'admin/operatives/' . $user->id, 'method' => 'put', 'class' => 'form-horizontal']) !!}
     @endif
 
     <input class="hidden" value="{{$user->id}}" name="id">
