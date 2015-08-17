@@ -301,7 +301,7 @@ class AdminPaymentController extends Controller
                     $sheet->cell('C'.$number, $missed->time);
                 }
             });
-        })->download('xls');
+        })->download('csv');
     }
 
 
@@ -421,7 +421,7 @@ class AdminPaymentController extends Controller
                     $number += 4;    
                 }
             });
-        })->download('xls');
+        })->download('csv');
 
     }
 
