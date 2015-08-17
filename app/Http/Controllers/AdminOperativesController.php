@@ -30,7 +30,7 @@ class AdminOperativesController extends Controller
     {
         $users = User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->paginate(15);
         $page = 'operatives';
-        return View('backend.users.userList', compact('users', 'page'));
+        return view('backend.users.userList', compact('users', 'page'));
     }
 
     /**
@@ -98,7 +98,7 @@ class AdminOperativesController extends Controller
     {
         $user = User::find($id);
         $page = 'operatives';
-        return View('backend.users.userEdit', compact('user', 'page'));
+        return view('backend.users.userEdit', compact('user', 'page'));
     }
 
     /**

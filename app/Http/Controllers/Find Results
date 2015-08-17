@@ -1,0 +1,222 @@
+Searching 7038 files for "return View" (case sensitive)
+
+/Users/adam/Projects/DBS-Clocking-System/app/Http/Controllers/AdminHoursController.php:
+  102  
+  103          if($msg){
+  104:             return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users', 'showApproved', 'showUnapproved', 'msg'));
+  105          }else{
+  106:             return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users', 'showApproved', 'showUnapproved'));
+  107          }
+  108      }
+  ...
+  199          $job = Job::find($job_id);
+  200  
+  201:         return View('backend.hours.addOperative', compact('page', 'job', 'job_id', 'fromDate', 'users'));
+  202      }
+  203  
+  ...
+  279              $logArray[$userName][$log_date]['overtime'] = $log_overtime;
+  280          }
+  281:     //   return View('demo')->with('logArray', $logArray)->with('job', $job->number)->with('fromDate', $fromDate)->with('toDate', $toDate);
+  282          $pdf = new Pdf(array(
+  283              'no-outline',         // Make Chrome not complain
+
+/Users/adam/Projects/DBS-Clocking-System/app/Http/Controllers/AdminJobController.php:
+   28          $page = 'jobs';
+   29          $jobs = Job::paginate();
+   30:         return View('backend.jobs.jobList', compact('page', 'jobs'));
+   31      }
+   32  
+
+/Users/adam/Projects/DBS-Clocking-System/app/Http/Controllers/AdminOperativesController.php:
+   31          $users = User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->paginate(15);
+   32          $page = 'operatives';
+   33:         return View('backend.users.userList', compact('users', 'page'));
+   34      }
+   35  
+   ..
+   99          $user = User::find($id);
+  100          $page = 'operatives';
+  101:         return View('backend.users.userEdit', compact('user', 'page'));
+  102      }
+  103  
+
+/Users/adam/Projects/DBS-Clocking-System/app/Http/Controllers/AdminPaymentController.php:
+   62                            ->paginate();
+   63  
+   64:         return View('backend.payment.paymentView', compact('page', 'dates', 'fromDate', 'payment'));
+   65      }
+   66  
+   ..
+  142          $missed = MissedHour::where('date', '=', $fromDate)->where('user_id', '=', $user_id)->first();
+  143  
+  144:         return View('backend.payment.paymentEdit', compact('page', 'fromDate', 'payment', 'user', 'dates', 'times', 'hourTypes', 'missed'));
+  145      }
+  146  
+
+/Users/adam/Projects/DBS-Clocking-System/app/Http/Controllers/AdminUsersController.php:
+   31          $users = User::where('user_type_id', '=', UserType::where('value', '=', 'Admin')->first()->id)->paginate();
+   32          $page = 'users';
+   33:         return View('backend.users.userList', compact('users', 'page'));
+   34      }
+   35  
+   ..
+   99          $user = User::find($id);
+  100          $page = 'users';
+  101:         return View('backend.users.userEdit', compact('user', 'page'));
+  102      }
+  103  
+
+/Users/adam/Projects/DBS-Clocking-System/app/Http/Controllers/Auth/AuthController.php:
+   69  
+   70      public function getAdminLogin(){
+   71:         return View('auth.adminLogin', compact('page'));
+   72      }
+   73  
+
+/Users/adam/Projects/DBS-Clocking-System/app/Http/Controllers/WebController.php:
+   31          if(count($logTimes)){
+   32              //Redirect to the edit times page
+   33:         	return View('frontend.editTimes', compact('logTimes', 'hourTypes'));
+   34          }else{
+   35              //First time the guy log time today, redirect to the sign in page
+   36              $jobs = Job::where('active', '=', 1)->lists('number', 'id');         
+   37:             return View('frontend.selectJob', compact('jobs', 'hourTypes'));
+   38          }
+   39          
+   ..
+   67              $hourTypes = HourType::lists('value', 'id');
+   68      		$logTimes = LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', $date)->whereIn('job_id', Job::lists('id')->toArray())->with('Job', 'HourType')->get();
+   69:     		return View('frontend.editTimes', compact('logTimes', 'date', 'hourTypes'));
+   70      	}
+   71      }
+   ..
+   83  		$jobs = Job::where('active', '=', '1')->whereNotIn('id', LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', date('Y-m-d'))->lists('job_id')->toArray())->lists('number', 'id');
+   84  		$hourTypes = HourType::lists('value', 'id');
+   85:     	return View('frontend.addJob', compact('jobs', 'hourTypes'));
+   86      }
+   87  
+
+/Users/adam/Projects/DBS-Clocking-System/vendor/maatwebsite/excel/src/Maatwebsite/Excel/Classes/LaravelExcelWorksheet.php:
+  353       * Set the parser
+  354       * @param boolean $parser
+  355:      * @return ViewParser
+  356       */
+  357      public function setParser($parser = false)
+  ...
+  362      /**
+  363       * Get the view
+  364:      * @return ViewParser
+  365       */
+  366      public function getView()
+
+/Users/adam/Projects/DBS-Clocking-System/vendor/maatwebsite/excel/src/Maatwebsite/Excel/Writers/LaravelExcelWriter.php:
+  437      /**
+  438       * Get the view parser
+  439:      * @return ViewParser
+  440       */
+  441      public function getParser()
+
+19 matches across 9 files
+
+
+Searching 39 files for "return View" (case sensitive)
+
+/Users/adam/Projects/DBS-Clocking-System/app/Http/Controllers/AdminHoursController.php:
+  102  
+  103          if($msg){
+  104:             return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users', 'showApproved', 'showUnapproved', 'msg'));
+  105          }else{
+  106:             return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users', 'showApproved', 'showUnapproved'));
+  107          }
+  108      }
+  ...
+  199          $job = Job::find($job_id);
+  200  
+  201:         return View('backend.hours.addOperative', compact('page', 'job', 'job_id', 'fromDate', 'users'));
+  202      }
+  203  
+  ...
+  279              $logArray[$userName][$log_date]['overtime'] = $log_overtime;
+  280          }
+  281:     //   return View('demo')->with('logArray', $logArray)->with('job', $job->number)->with('fromDate', $fromDate)->with('toDate', $toDate);
+  282          $pdf = new Pdf(array(
+  283              'no-outline',         // Make Chrome not complain
+
+/Users/adam/Projects/DBS-Clocking-System/app/Http/Controllers/AdminJobController.php:
+   28          $page = 'jobs';
+   29          $jobs = Job::paginate();
+   30:         return View('backend.jobs.jobList', compact('page', 'jobs'));
+   31      }
+   32  
+
+/Users/adam/Projects/DBS-Clocking-System/app/Http/Controllers/AdminOperativesController.php:
+   31          $users = User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->paginate(15);
+   32          $page = 'operatives';
+   33:         return View('backend.users.userList', compact('users', 'page'));
+   34      }
+   35  
+   ..
+   99          $user = User::find($id);
+  100          $page = 'operatives';
+  101:         return View('backend.users.userEdit', compact('user', 'page'));
+  102      }
+  103  
+
+/Users/adam/Projects/DBS-Clocking-System/app/Http/Controllers/AdminPaymentController.php:
+   62                            ->paginate();
+   63  
+   64:         return View('backend.payment.paymentView', compact('page', 'dates', 'fromDate', 'payment'));
+   65      }
+   66  
+   ..
+  142          $missed = MissedHour::where('date', '=', $fromDate)->where('user_id', '=', $user_id)->first();
+  143  
+  144:         return View('backend.payment.paymentEdit', compact('page', 'fromDate', 'payment', 'user', 'dates', 'times', 'hourTypes', 'missed'));
+  145      }
+  146  
+
+/Users/adam/Projects/DBS-Clocking-System/app/Http/Controllers/AdminUsersController.php:
+   31          $users = User::where('user_type_id', '=', UserType::where('value', '=', 'Admin')->first()->id)->paginate();
+   32          $page = 'users';
+   33:         return View('backend.users.userList', compact('users', 'page'));
+   34      }
+   35  
+   ..
+   99          $user = User::find($id);
+  100          $page = 'users';
+  101:         return View('backend.users.userEdit', compact('user', 'page'));
+  102      }
+  103  
+
+/Users/adam/Projects/DBS-Clocking-System/app/Http/Controllers/Auth/AuthController.php:
+   69  
+   70      public function getAdminLogin(){
+   71:         return View('auth.adminLogin', compact('page'));
+   72      }
+   73  
+
+/Users/adam/Projects/DBS-Clocking-System/app/Http/Controllers/WebController.php:
+   31          if(count($logTimes)){
+   32              //Redirect to the edit times page
+   33:         	return View('frontend.editTimes', compact('logTimes', 'hourTypes'));
+   34          }else{
+   35              //First time the guy log time today, redirect to the sign in page
+   36              $jobs = Job::where('active', '=', 1)->lists('number', 'id');         
+   37:             return View('frontend.selectJob', compact('jobs', 'hourTypes'));
+   38          }
+   39          
+   ..
+   67              $hourTypes = HourType::lists('value', 'id');
+   68      		$logTimes = LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', $date)->whereIn('job_id', Job::lists('id')->toArray())->with('Job', 'HourType')->get();
+   69:     		return View('frontend.editTimes', compact('logTimes', 'date', 'hourTypes'));
+   70      	}
+   71      }
+   ..
+   83  		$jobs = Job::where('active', '=', '1')->whereNotIn('id', LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', date('Y-m-d'))->lists('job_id')->toArray())->lists('number', 'id');
+   84  		$hourTypes = HourType::lists('value', 'id');
+   85:     	return View('frontend.addJob', compact('jobs', 'hourTypes'));
+   86      }
+   87  
+
+16 matches across 7 files

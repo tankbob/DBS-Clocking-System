@@ -30,7 +30,7 @@ class AdminUsersController extends Controller
     {
         $users = User::where('user_type_id', '=', UserType::where('value', '=', 'Admin')->first()->id)->paginate();
         $page = 'users';
-        return View('backend.users.userList', compact('users', 'page'));
+        return view('backend.users.userList', compact('users', 'page'));
     }
 
     /**
@@ -98,7 +98,7 @@ class AdminUsersController extends Controller
     {
         $user = User::find($id);
         $page = 'users';
-        return View('backend.users.userEdit', compact('user', 'page'));
+        return view('backend.users.userEdit', compact('user', 'page'));
     }
 
     /**

@@ -101,9 +101,9 @@ class AdminHoursController extends Controller
         }
 
         if($msg){
-            return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users', 'showApproved', 'showUnapproved', 'msg'));
+            return view('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users', 'showApproved', 'showUnapproved', 'msg'));
         }else{
-            return View('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users', 'showApproved', 'showUnapproved'));
+            return view('backend.hours.hoursView', compact('page', 'job_id', 'fromDate', 'jobs', 'logArray', 'dates', 'users', 'showApproved', 'showUnapproved'));
         }
     }
 
@@ -198,7 +198,7 @@ class AdminHoursController extends Controller
 
         $job = Job::find($job_id);
 
-        return View('backend.hours.addOperative', compact('page', 'job', 'job_id', 'fromDate', 'users'));
+        return view('backend.hours.addOperative', compact('page', 'job', 'job_id', 'fromDate', 'users'));
     }
 
     public function processAddOperative(){
@@ -278,7 +278,7 @@ class AdminHoursController extends Controller
             }
             $logArray[$userName][$log_date]['overtime'] = $log_overtime;
         }
-    //   return View('demo')->with('logArray', $logArray)->with('job', $job->number)->with('fromDate', $fromDate)->with('toDate', $toDate);
+    //   return view('demo')->with('logArray', $logArray)->with('job', $job->number)->with('fromDate', $fromDate)->with('toDate', $toDate);
         $pdf = new Pdf(array(
             'no-outline',         // Make Chrome not complain
             'margin-top'    => 0,

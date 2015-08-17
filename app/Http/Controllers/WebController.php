@@ -30,11 +30,11 @@ class WebController extends Controller
         $hourTypes = HourType::lists('value', 'id');
         if(count($logTimes)){
             //Redirect to the edit times page
-        	return View('frontend.editTimes', compact('logTimes', 'hourTypes'));
+        	return view('frontend.editTimes', compact('logTimes', 'hourTypes'));
         }else{
             //First time the guy log time today, redirect to the sign in page
             $jobs = Job::where('active', '=', 1)->lists('number', 'id');         
-            return View('frontend.selectJob', compact('jobs', 'hourTypes'));
+            return view('frontend.selectJob', compact('jobs', 'hourTypes'));
         }
         
     }
@@ -66,7 +66,7 @@ class WebController extends Controller
     	}else{
             $hourTypes = HourType::lists('value', 'id');
     		$logTimes = LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', $date)->whereIn('job_id', Job::lists('id')->toArray())->with('Job', 'HourType')->get();
-    		return View('frontend.editTimes', compact('logTimes', 'date', 'hourTypes'));
+    		return view('frontend.editTimes', compact('logTimes', 'date', 'hourTypes'));
     	}
     }
 
@@ -82,7 +82,7 @@ class WebController extends Controller
     public function addJob(){
 		$jobs = Job::where('active', '=', '1')->whereNotIn('id', LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', date('Y-m-d'))->lists('job_id')->toArray())->lists('number', 'id');
 		$hourTypes = HourType::lists('value', 'id');
-    	return View('frontend.addJob', compact('jobs', 'hourTypes'));
+    	return view('frontend.addJob', compact('jobs', 'hourTypes'));
     }
 
     public function processAddJob(AddJobRequest $request){

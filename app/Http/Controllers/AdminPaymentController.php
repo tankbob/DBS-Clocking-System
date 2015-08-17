@@ -61,7 +61,7 @@ class AdminPaymentController extends Controller
                           ->select(\DB::raw('name, telephone, user_id, MIN(approved) as approved'))
                           ->paginate();
 
-        return View('backend.payment.paymentView', compact('page', 'dates', 'fromDate', 'payment'));
+        return view('backend.payment.paymentView', compact('page', 'dates', 'fromDate', 'payment'));
     }
 
     /**
@@ -141,7 +141,7 @@ class AdminPaymentController extends Controller
 
         $missed = MissedHour::where('date', '=', $fromDate)->where('user_id', '=', $user_id)->first();
 
-        return View('backend.payment.paymentEdit', compact('page', 'fromDate', 'payment', 'user', 'dates', 'times', 'hourTypes', 'missed'));
+        return view('backend.payment.paymentEdit', compact('page', 'fromDate', 'payment', 'user', 'dates', 'times', 'hourTypes', 'missed'));
     }
 
     /**
