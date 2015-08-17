@@ -1,11 +1,8 @@
 @extends('backend.includes.layout')
 
 @section('scripts')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#datatables').DataTable();
-        } );
 
+    <script type="text/javascript">
         $(document).ready(function(){
             $('#date-select').on('change', function(){
                 $('#viewdate').submit();
