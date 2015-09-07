@@ -9,6 +9,12 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="/css/admin.css">
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+    <link rel="shortcut icon" sizes="196x196" href="/apple-touch-icon.png">
+    <link rel="shortcut icon" sizes="128x128" href="/apple-touch-icon.png">
     <script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
 </head>
 <body class="@yield('body-class')">
