@@ -9,12 +9,19 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="/css/global.css">
+    <!-- IPHONE -->
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+    <!-- ANDROID -->
     <link rel="shortcut icon" sizes="196x196" href="/apple-touch-icon.png">
     <link rel="shortcut icon" sizes="128x128" href="/apple-touch-icon.png">
+    <!-- WINDOWS PHONE -->
+    <meta name="msapplication-square70x70logo" content="/apple-touch-icon.png" />
+    <meta name="msapplication-square150x150logo" content="/apple-touch-icon.png" />
+    <meta name="msapplication-wide310x150logo" content="/apple-touch-icon.png" />
+    <meta name="msapplication-square310x310logo" content="/apple-touch-icon.png" />
 </head>
 <body class="@yield('body-class')">
     <div class="header text-center-sm">
