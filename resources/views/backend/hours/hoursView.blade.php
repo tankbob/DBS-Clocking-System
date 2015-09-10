@@ -109,14 +109,18 @@
 											},
 											source: [
 												{0: 0},
+												@if($day >= 2)
 												{1: 1},
 												{2: 2},
 												{3: 3},
 												{4: 4},
+												@endif
 												{5: 5},
+												@if($day >= 2)
 												{6: 6},
 												{7: 7},
 												{8: 8},
+												@endif
 												{9: 9}
 											],
 											success: function(response, newValue) {
@@ -224,14 +228,6 @@
 										},
 										source: [
 											{0: 0},
-											{1: 1},
-											{2: 2},
-											{3: 3},
-											{4: 4},
-											{5: 5},
-											{6: 6},
-											{7: 7},
-											{8: 8},
 											{9: 9}
 										],
 										success: function(response, newValue) {
