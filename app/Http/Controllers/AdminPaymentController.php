@@ -276,52 +276,60 @@ class AdminPaymentController extends Controller
         $fromDate = \Request::get('fromDate');
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
-        $logTimes = LogTime::whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->with('User')->orderBy('user_id')->orderBy('date')->get();
+        $logTimes = LogTime::whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->with('User', 'Job')->orderBy('user_id')->orderBy('date')->get();
 
         $users = LogTime::with('User')->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->get(['user_id']);
 
         $logArray = array();
 
+   /*     $approvedQuery = \DB::select("Select 
+            users.name, jobs.number, MIN(approved) as approved 
+            from log_times 
+            join users on log_times.user_id = users.id 
+            join jobs on log_times.job_id = jobs.id
+            where log_times.date >= '".$fromDate."'
+            and log_times.date <= '".$toDate."'
+            group by users.name, jobs.number"); */
+
         foreach($users as $user){
             $logArray[$user->User->name] = array();
-            for($i = 0; $i <= 6; $i ++){
-                $logArray[$user->User->name][$i] = ['Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0, 'Overtime' => 0];
-            }
         }
 
         $ht = HourType::lists('value', 'id')->toArray();
 
         foreach($logTimes as $l){
+            $job_name = $l->Job->number;
             $user_name = $l->User->name;
             $log_type = $ht[$l->hour_type_id];
             $log_time = $l->time;
             $log_overtime = $l->overtime;
             $log_date = (1 + date('w', strtotime($l->date))) % 7;
             
-            if($log_type == 'Holiday'){
-                $logArray[$user_name][$log_date]['Holiday'] += $log_time;
-            }else{
-                //CHECK FOR WEEKENDS
-                if($log_date <= 1){
-                    $logArray[$user_name][$log_date]['Weekends'] += $log_time;
-                }else{
-                    $logArray[$user_name][$log_date]['Mon-Fri'] += $log_time;
+            if(!isset($logArray[$user_name][$job_name])) {
+                $logArray[$user_name][$job_name] = array();
+                for($i = 0; $i <= 6; $i ++){
+                    $logArray[$user_name][$job_name][$i] = ['Normal' => 0, 'Holiday' => 0, 'Overtime' => 0];
                 }
+                $logArray[$user_name][$job_name]['Approved'] = 1;
             }
-            $logArray[$user_name][$log_date]['Overtime'] += $log_overtime;
+
+            if($log_type == 'Holiday'){
+                $logArray[$user_name][$job_name][$log_date]['Holiday'] += $log_time;
+            }else{           
+                $logArray[$user_name][$job_name][$log_date]['Normal'] += $log_time;
+            }
+            $logArray[$user_name][$job_name][$log_date]['Overtime'] += $log_overtime;
+
+            if($l->approved == 0){
+                $logArray[$user_name][$job_name]['Approved'] = 0;
+            }
         }
 
         $excel = \Excel::create('file', function($excel) use ($fromDate, $toDate, $logArray){
         $excel->setTitle('Payment');
             $excel->sheet('Payment', function($sheet)  use ($fromDate, $toDate, $logArray){
-                $sheet->cell('A1', 'Operative names');
-                $sheet->cell('B1', 'Hour type');
-                $letter = 'C';
-                for($i = 0; $i <7; $i++){
-                    $sheet->cell($letter.'1', date('D d/m/Y', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+$i, date('Y', strtotime($fromDate)))));
-                    $letter++;
-                }
-                $number = 2;
+                
+                $number = 1;
 
                 $letters = [
                     0 => 'C',
@@ -333,22 +341,33 @@ class AdminPaymentController extends Controller
                     6 => 'I',
                 ];
 
-                foreach($logArray as $name => $days){
-                    $letter = 'C';
-                    $sheet->cell('A'.$number, $name);
-                    $sheet->cell('B'.$number, 'Mon-Fri');
-                    $sheet->cell('B'.($number+1), 'Weekends');
-                    $sheet->cell('B'.($number+2), 'Holiday');
-                    $sheet->cell('B'.($number+3), 'Overtime');
-
-                    
-                    foreach(['Mon-Fri' => 0, 'Weekends' => 1, 'Holiday' => 2, 'Overtime' => 3] as $type => $offset){
-                        for($i = 0; $i <7; $i++){
-                            $sheet->cell($letters[$i].($number+$offset), $days[$i][$type]);
-                        }
+                foreach($logArray as $user_name => $jobs){
+                    $sheet->cell('A'.$number, $user_name);
+                    $number ++;
+                    for($i = 0; $i <7; $i++){
+                        $sheet->cell($letters[$i].$number, date('D d/m/Y', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+$i, date('Y', strtotime($fromDate)))));
                     }
+                    $sheet->cell('K'.$number, 'Approved?');
+                    $number ++;
+                    foreach($jobs as $job_name => $days){
+                        $sheet->cell('A'.$number, $job_name);
+                        $sheet->cell('B'.$number, 'NORMAL');
+                        $sheet->cell('B'.($number+1), 'OVERTIME');
+                        $sheet->cell('B'.($number+2), 'HOLIDAY');
 
-                    $number += 4;    
+                        foreach(['Normal' => 0, 'Overtime' => 1, 'Holiday' => 2] as $type => $offset){
+                            for($i = 0; $i <7; $i++){
+                                $sheet->cell($letters[$i].($number+$offset), $days[$i][$type]);
+                            }
+                        }
+                        if($days['Approved'] == 1){
+                            $sheet->cell('K'.$number, 'Yes');
+                        }else{
+                            $sheet->cell('K'.$number, 'NO');
+                        }
+
+                        $number += 4;
+                    }
                 }
             });
         })->download('csv');
