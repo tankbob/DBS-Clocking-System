@@ -38,8 +38,6 @@ Route::post('/admin/addoperative', 'AdminHoursController@processAddOperative');
 
 Route::resource('/admin/jobs', 'AdminJobController');
 
-Route::post('/admin/missedhours', 'AdminPaymentController@addMissedHours');
-
 Route::post('/admin/payment/operativecsv', 'AdminPaymentController@operativeCsv');
 Route::post('/admin/payment/paymentcsv', 'AdminPaymentController@paymentCsv');
 

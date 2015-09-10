@@ -170,55 +170,6 @@
     	</div>
     </div>
 
-    <div class="add-user-form col-sm-12">
-    	<div class="col-sm-12">
-    		<h1>
-                ADD MISSED HOURS:
-    		</h1>
-    	</div>
-    	<div class="col-sm-7 col-sm-offset-5 login-form">
-	    	{!! Form::open(['url' => '/admin/missedhours', 'method' => 'POST']) !!}
-
-	    		<input class="hidden" name="user_id" value="{{$user->id}}">
-	    		<input class="hidden" name="date" value="{{$fromDate}}">
-
-	    		<div class="form-group">
-	    			<div class="col-sm-3 no-side-padding">
-		            	<label for="time">
-		            		Hours:
-		            	</label>
-		            </div>
-		            <div class="col-sm-9">
-		            	{!! Form::text('time', @$missed->time + @$missed->overtime) !!}
-		            </div>
-	    		</div>
-
-	    		<div class="form-group">
-	    			<div class="col-sm-3 no-side-padding">
-		            	<label for="hour_type_id">
-		            		Pay Type:
-		            	</label>
-		            </div>
-		            <div class="col-sm-9">
-		            	<select name="hour_type" class="fancy-select">
-		            		<option></option>
-		            		<option value="Mon-Fri" @if(@$missed->hour_type == "Mon-Fri") selected="selected" @endif>Mon-Fri</option>
-		            		<option value="Weekends" @if(@$missed->hour_type == "Weekends") selected="selected" @endif>Weekends</option>
-		            		<option value="Holiday" @if(@$missed->hour_type == "Holiday") selected="selected" @endif>Holiday</option>
-		            		<option value="Overtime" @if(@$missed->hour_type == "Overtime") selected="selected" @endif>Overtime</option>
-		            	</select> 
-		            </div>
-	    		</div>
-
-	    		<div class="col-sm-9 col-sm-offset-3">
-	    			<button class="update-btn"></button>
-	    		</div>
-
-	    	{!! Form::close() !!}
-    	</div>
-
-    </div>
-
      <div class="add-user-form col-sm-12">
             <div class="col-sm-12 no-side-padding">
                 <h1>

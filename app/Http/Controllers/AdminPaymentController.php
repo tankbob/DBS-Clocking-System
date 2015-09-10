@@ -12,9 +12,6 @@ use Dbs\User;
 use Dbs\Job;
 use Dbs\HourType;
 use Dbs\UserType;
-use Dbs\MissedHour;
-
-use Dbs\Http\Requests\MissedHoursRequest;
 
 class AdminPaymentController extends Controller
 {
@@ -139,9 +136,7 @@ class AdminPaymentController extends Controller
 
         $hourTypes = HourType::lists('value', 'id');
 
-        $missed = MissedHour::where('date', '=', $fromDate)->where('user_id', '=', $user_id)->first();
-
-        return view('backend.payment.paymentEdit', compact('page', 'fromDate', 'payment', 'user', 'dates', 'times', 'hourTypes', 'missed'));
+        return view('backend.payment.paymentEdit', compact('page', 'fromDate', 'payment', 'user', 'dates', 'times', 'hourTypes'));
     }
 
     /**
@@ -177,25 +172,6 @@ class AdminPaymentController extends Controller
     {
         //
     }
-
-    public function addMissedHours(MissedHoursRequest $request){
-        $missed = MissedHour::where('user_id', '=', $request->get('user_id'))->where('date', '=', $request->get('date'))->first();
-        if(!$missed){
-            $missed = new MissedHour;
-        }
-        $missed->fill($request->all());
-        $missed->save();
-        return \Redirect::back()->with('success', 'The Missed Hours has been edited');
-    }
-
-
-
-
-
-
-
-
-
 
     public function operativeCsv(){
         $user_id = \Request::get('user_id');
@@ -237,17 +213,15 @@ class AdminPaymentController extends Controller
             $logArray[$jobNumb][$w]['Overtime'] = $logTime->overtime;
         }
 
-        $missed = $missedHours = MissedHour::with('User')->where('user_id', '=', $user_id)->where('date', '>=', $fromDate)->first();
-
         $approvement = LogTime::leftJoin('jobs', 'job_id', '=', 'jobs.id')->where('user_id', '=', $user_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('job_id', Job::lists('id')->toArray())->groupBy('job_id')->get(['number', \DB::raw('MIN(approved) as approved')]);
 
         foreach($approvement as $ap){
             $logArray[$ap->number]['approved'] = $ap->approved;
         }
 
-        $excel = \Excel::create('file', function($excel) use ($fromDate, $toDate, $logArray, $missed){
+        $excel = \Excel::create('file', function($excel) use ($fromDate, $toDate, $logArray){
         $excel->setTitle('Payment');
-            $excel->sheet('Payment', function($sheet)  use ($fromDate, $toDate, $logArray, $missed){
+            $excel->sheet('Payment', function($sheet)  use ($fromDate, $toDate, $logArray){
                 $sheet->cell('A1', 'Operative names');
                 $sheet->cell('B1', 'Hour type');
                 $letter = 'C';
@@ -294,43 +268,9 @@ class AdminPaymentController extends Controller
 
                     $number += 4;    
                 }
-
-                if($missed){
-                    $sheet->cell('A'.$number, 'Missed Hours');
-                    $sheet->cell('B'.$number, $missed->hour_type);
-                    $sheet->cell('C'.$number, $missed->time);
-                }
             });
         })->download('csv');
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public function paymentCsv(){
         $fromDate = \Request::get('fromDate');
@@ -347,7 +287,6 @@ class AdminPaymentController extends Controller
             for($i = 0; $i <= 6; $i ++){
                 $logArray[$user->User->name][$i] = ['Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0, 'Overtime' => 0];
             }
-            $logArray[$user->User->name]['missed'] = ['Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0, 'Overtime' => 0];
         }
 
         $ht = HourType::lists('value', 'id')->toArray();
@@ -371,12 +310,6 @@ class AdminPaymentController extends Controller
             }
             $logArray[$user_name][$log_date]['Overtime'] += $log_overtime;
         }
-        $missedHours = MissedHour::with('User')->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('date', '>=', $fromDate)->get();
-
-        foreach($missedHours as $m){
-            $user_name = $m->User->name;
-            $logArray[$user_name]['missed'][$m->hour_type] = $m->time;
-        }
 
         $excel = \Excel::create('file', function($excel) use ($fromDate, $toDate, $logArray){
         $excel->setTitle('Payment');
@@ -388,8 +321,6 @@ class AdminPaymentController extends Controller
                     $sheet->cell($letter.'1', date('D d/m/Y', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+$i, date('Y', strtotime($fromDate)))));
                     $letter++;
                 }
-                $sheet->cell('J1', 'Missed hours');
-
                 $number = 2;
 
                 $letters = [
@@ -415,7 +346,6 @@ class AdminPaymentController extends Controller
                         for($i = 0; $i <7; $i++){
                             $sheet->cell($letters[$i].($number+$offset), $days[$i][$type]);
                         }
-                        $sheet->cell('J'.($number+$offset), $days['missed'][$type]);
                     }
 
                     $number += 4;    

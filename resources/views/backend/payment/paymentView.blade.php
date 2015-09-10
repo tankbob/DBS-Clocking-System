@@ -58,7 +58,6 @@
     <div class="row">
         <div class="col-sm-12">
             <h1>OPERATIVES WORKSHEET LIST:</h1>
-
             <div>
                 <div class="col-xs-6 table-next">
                     @if(Input::get('page') > 1)
