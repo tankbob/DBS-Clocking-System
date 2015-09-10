@@ -51,15 +51,16 @@ class AdminOperativesController extends Controller
      */
     public function store(NewUserRequest $request)
     {
-        $oldUser = User::withTrashed()->where('email', '=', $request->get('email'))->first();
-        if($oldUser){
-            if($oldUser->trashed()){
-                $oldUser->restore();
-                $oldUser->fill($request->except('password'));
-                $oldUser->password = \Hash::make($request->get('password'));
-                $oldUser->user_type_id = UserType::where('value', '=', 'Operative')->first()->id; 
-                $oldUser->save();
-                return \Redirect::back()->with('success', 'The operative '.$user->name.' has been re activated.');
+        $user = User::withTrashed()->where('email', '=', $request->get('email'))->first();
+        
+        if($user){
+            if($user->trashed()){
+                $user->restore();
+                $user->fill($request->except('password'));
+                $user->password = \Hash::make($request->get('password'));
+                $user->user_type_id = UserType::where('value', '=', 'Operative')->first()->id; 
+                $user->save();
+                $message = 'The operative '.$user->name.' has been re activated.';
             }else{
                 return \Redirect::back()
                     ->withInput()
@@ -73,8 +74,14 @@ class AdminOperativesController extends Controller
             $user->password = \Hash::make($request->get('password'));
             $user->user_type_id = UserType::where('value', '=', 'Operative')->first()->id;
             $user->save();
-            return \Redirect::back()->with('success', 'The operative '.$user->name.' has been created.');
+            $message = 'The operative '.$user->name.' has been created.';
         }
+
+        \Mail::send('emails/register', ['user' => $user, 'password' => $request->get('password')], function($message) use($user){
+            $message->to($user->email, $user->name)->subject('DBS Registration');
+        });
+
+        return \Redirect::back()->with('success', $message);
     }
 
     /**
