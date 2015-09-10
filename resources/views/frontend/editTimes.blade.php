@@ -8,6 +8,26 @@
 		$('#date-select').on('change', function(){
 			$('#viewdate').submit();
 		});
+
+		$('.hour-type-select').on('change', function(){
+			if($(this).find("option:selected").text() == 'Normal'){
+				$('#number-'+$(this).attr('id')+' > option').each(function(){
+					$(this).removeClass('hidden');
+				});
+			}else{
+				//Holiday
+				if($('#number-'+$(this).attr('id')+' > option:selected').val() != 0 && $('#number-'+$(this).attr('id')+' > option:selected').val() != 9){
+					//IF it was selected one option that is going to disappear, then disabled the selection and select 0
+					$('#number-'+$(this).attr('id')+' > option:selected').removeProp('selected');
+				}
+
+				$('#number-'+$(this).attr('id')+' > option').each(function(){
+					if($(this).val() != 0 && $(this).val() != 9){
+						$(this).addClass('hidden');
+					}
+				});
+			}
+		});
 	});
 </script>
 @stop
@@ -41,7 +61,7 @@
 				<div class="form-group text-center offset-form-input">
 					{!! Form::label($logTime->id.'[hour_type_id]', 'Hour Type:', ['class' => 'col-xs-6 control-label']) !!}
 					<div class="col-xs-6">
-						<select name="{{$logTime->id}}[hour_type_id]" @if(isset($date)) disabled="true" class="disabled-select" @endif>
+						<select name="{{$logTime->id}}[hour_type_id]" id="hour-select-{{$logTime->id}}" @if(isset($date)) disabled="true" class="hour-type-select disabled-select" @else class="hour-type-select" @endif>
 							@foreach($hourTypes as $ht_id => $ht_val)
 								<option value="{{$ht_id}}" @if($logTime->hour_type_id == $ht_id) selected="selected" @endif>{{ $ht_val }}</option>
 							@endforeach
@@ -52,10 +72,24 @@
 				<div class="form-group text-center offset-form-input">
 					{!! Form::label($logTime->id.'[time]', 'Hours:', ['class' => 'col-xs-6 control-label']) !!}
 					<div class="col-xs-6">
-						<select name="{{$logTime->id}}[time]" @if(isset($date)) disabled="true" class="disabled-select" @endif>
-							@for($i = 0; $i <= 9; $i++)
-								<option value="{{ $i }}" @if($logTime->time == $i) selected="selected" @endif>{{ $i }} hrs</option>
-							@endfor
+						<select name="{{$logTime->id}}[time]" id="number-hour-select-{{$logTime->id}}" @if(isset($date)) disabled="true" class="disabled-select" @endif>
+							@if(isset($date) || date('N') <= 5)
+							<!-- Editor and it's week day -->
+								@for($i = 0; $i <= 9; $i++)
+									<option value="{{ $i }}" 
+									@if($logTime->time == $i) selected="selected" @endif 
+									@if($hourTypes[$logTime->hour_type_id] == 'Holiday' && !in_array($i, [0, 9])) class="hidden" @endif
+									>{{ $i }} hrs</option>
+								@endfor
+							@else
+								<!-- It's weekend -->
+								@foreach([0, 5, 9] as $i)
+									<option value="{{ $i }}" 
+									@if($logTime->time == $i) selected="selected" @endif 
+									@if($hourTypes[$logTime->hour_type_id] == 'Holiday' && !in_array($i, [0, 9])) class="hidden" @endif
+									>{{ $i }} hrs</option>
+								@endforeach
+							@endif
 						</select>
 					</div>
 				</div>
