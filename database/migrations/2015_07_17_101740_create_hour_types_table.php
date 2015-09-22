@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-use App\HourType;
+use Dbs\HourType;
 
 class CreateHourTypesTable extends Migration
 {

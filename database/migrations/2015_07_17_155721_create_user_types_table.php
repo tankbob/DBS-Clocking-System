@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-use App\UserType;
+use Dbs\UserType;
 
 class CreateUserTypesTable extends Migration
 {
