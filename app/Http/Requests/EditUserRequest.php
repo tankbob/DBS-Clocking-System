@@ -24,7 +24,7 @@ class EditUserRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required|unique:users,name,'.\Request::get('id'),
+            'name' => 'required',
             'email' => 'required|email',
             'password' => 'min:6'
         ];
