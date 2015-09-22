@@ -82,7 +82,7 @@ class AdminJobController extends Controller
      * @param  Request  $request
      * @param  int  $id
      * @return Response
-     */
+     */ 
 
     //THATS CALLED JUST TO CHANGE THE ACTIVE STATUS
     public function update(Request $request, $id)
