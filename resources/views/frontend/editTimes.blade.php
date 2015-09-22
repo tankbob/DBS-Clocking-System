@@ -45,9 +45,9 @@
 
 	@include('frontend.includes.errors')
 
-	<div class="col-md-4 col-md-offset-4">
+	<div class="col-md-4 col-md-offset-4 form-horizontal">
 		@if(!isset($date))
-			{!! Form::open(['url' => 'edittimes', 'method' => 'post', 'class' => 'form-horizontal']) !!}
+			{!! Form::open(['url' => 'edittimes', 'method' => 'post']) !!}
 		@endif
 		@foreach($logTimes as $count => $logTime)
 			<div class="log-time-div @if(count($logTimes) > $count +1) border-bottom @endif">
