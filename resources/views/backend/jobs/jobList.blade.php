@@ -13,6 +13,9 @@
             }
         }
     </script>
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 @stop
 
 @section('content')
@@ -43,24 +46,6 @@
                     </div>
                     <div class="col-sm-9">
                         <input type="text" name="screen_name" value="{{ old('screen_name') }}" class="login-input">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-sm-3 no-side-padding">
-                        <label for="address">Address:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <input type="text" name="address" value="{{ old('address') }}" class="login-input">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-sm-3 no-side-padding">
-                        <label for="postcode">Postcode:</label>
-                    </div>
-                    <div class="col-sm-5">
-                        <input type="text" name="postcode" value="{{ old('postcode') }}" class="login-input">
                     </div>
                 </div>
 
@@ -120,9 +105,9 @@
                 <thead>
                     <tr>
                         <th>Job Number</th>
+                        <th>On Screen Name</th>
                         <th>Main Contractor</th>
                         <th>Foreman</th>
-                        <th>On Screen Name</th>
                         <th>Active</th>
                         <th>Delete</th>
                     </tr>
@@ -131,16 +116,92 @@
                     @foreach($jobs as $job)
                         <tr>
                             <td class="paddingLeft">
-                                {{$job->number}}
+                                <a href="#" id="{{$job->id}}-number" class="editable" data-type="text" data-pk="1" data-url="/ajaxeditjobs" data-title="Enter value">
+                                    {{$job->number}}
+                                </a>
+                                <script type="text/javascript">
+                                    $(document).ready(function(){
+                                        $("#{{$job->id}}-number").editable({
+                                            value: "{{$job->number}}",
+                                            params: function( params ) {
+                                                params.job_id = "{{$job->id}}";
+                                                params.field = "number";
+                                                return params;
+                                            },
+                                            success: function(response, newValue) {
+                                                if(response.success){
+                                                   
+                                                }
+                                            }
+                                        })
+                                    });
+                                </script>
                             </td>
                             <td class="paddingLeft">
-                                {{$job->contractor}}
+                                <a href="#" id="{{$job->id}}-screen_name" class="editable" data-type="text" data-pk="1" data-url="/ajaxeditjobs" data-title="Enter value">
+                                    {{$job->screen_name}}
+                                </a>
+                                <script type="text/javascript">
+                                    $(document).ready(function(){
+                                        $("#{{$job->id}}-screen_name").editable({
+                                            value: "{{$job->screen_name}}",
+                                            params: function( params ) {
+                                                params.job_id = "{{$job->id}}";
+                                                params.field = "screen_name";
+                                                return params;
+                                            },
+                                            success: function(response, newValue) {
+                                                if(response.success){
+                                                   
+                                                }
+                                            }
+                                        })
+                                    });
+                                </script>
                             </td>
                             <td class="paddingLeft">
-                                {{$job->foreman}}
+                                <a href="#" id="{{$job->id}}-contractor" class="editable" data-type="text" data-pk="1" data-url="/ajaxeditjobs" data-title="Enter value">
+                                    {{$job->contractor}}
+                                </a>
+                                <script type="text/javascript">
+                                    $(document).ready(function(){
+                                        $("#{{$job->id}}-contractor").editable({
+                                            value: "{{$job->contractor}}",
+                                            params: function( params ) {
+                                                params.job_id = "{{$job->id}}";
+                                                params.field = "contractor";
+                                                return params;
+                                            },
+                                            success: function(response, newValue) {
+                                                if(response.success){
+                                                   
+                                                }
+                                            }
+                                        })
+                                    });
+                                </script>
                             </td>
                             <td class="paddingLeft">
-                                {{$job->screen_name}}
+                                <a href="#" id="{{$job->id}}-foreman" class="editable" data-type="text" data-pk="1" data-url="/ajaxeditjobs" data-title="Enter value">
+                                    {{$job->foreman}}
+                                </a>
+                                <script type="text/javascript">
+                                    $(document).ready(function(){
+                                        $("#{{$job->id}}-foreman").editable({
+                                            value: "{{$job->foreman}}",
+                                            params: function( params ) {
+                                                params.job_id = "{{$job->id}}";
+                                                params.field = "foreman";
+                                                return params;
+                                            },
+                                            success: function(response, newValue) {
+                                                if(response.success){
+                                                   
+                                                }
+                                            }
+                                        })
+                                    });
+                                </script>
                             </td>
                             <td class="text-center">
                                 {!! Form::open(['url' => "/admin/jobs/$job->id", 'method' => 'PUT']) !!}

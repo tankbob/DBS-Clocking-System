@@ -105,4 +105,18 @@ class AdminJobController extends Controller
         $job->delete();
         return \Redirect::back()->with('success', 'The job '.$job->number.' has been deleted.');
     }
+
+    public function ajaxEditJob(){
+        $job_id = \Request::get('job_id');
+        $field = \Request::get('field');
+
+        $job = Job::find($job_id);
+
+        $job->$field = \Request::get('value');
+        $job->save();
+
+        return \Response::json(array(
+            'success' => true
+        ));
+    }
 }

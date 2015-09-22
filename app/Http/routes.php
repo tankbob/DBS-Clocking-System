@@ -17,6 +17,7 @@ Route::post('/admin/hours/pdf', 'AdminHoursController@pdf');
 Route::post('/ajaxedittime', 'AdminHoursController@ajaxEditTime');
 Route::post('/ajaxeditovertime', 'AdminHoursController@ajaxEditOvertime');
 Route::post('/ajaxeditholiday', 'AdminHoursController@ajaxEditHoliday');
+Route::post('/ajaxeditjobs', 'AdminJobController@ajaxEditJob');
 
 Route::get('/auth/login', 'Auth\AuthController@getLogin');
 Route::post('/auth/login', 'Auth\AuthController@postLogin');
