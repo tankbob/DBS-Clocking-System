@@ -112,7 +112,10 @@ class AdminJobController extends Controller
 
         $job = Job::find($job_id);
 
-        $job->$field = \Request::get('value');
+        //Strip some characters than made x-editable fail
+        $value = str_replace(["\\", '<', '>', ';', '&'], ['', '', '', '', ''], \Request::get('value'));
+
+        $job->$field = $value;
         $job->save();
 
         return \Response::json(array(
