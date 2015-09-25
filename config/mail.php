@@ -54,7 +54,7 @@ return array(
     |
     */
 
-    'from' => array('address' => 'info@dbs.hcx.co', 'name' => 'DBS NO REPLY'),
+    'from' => array('address' => 'info@dbscontracts.co.uk', 'name' => 'DBS NO REPLY'),
 
     /*
     |--------------------------------------------------------------------------
