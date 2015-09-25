@@ -161,7 +161,7 @@
 							<script type="text/javascript">
 								$(document).ready(function(){
 									$("#over-{{$user}}-{{$day}}").editable({
-										value: @if(isset($time['time'])) value="{{$time['overtime']}}" @else value="0" @endif,
+										value: @if(isset($time['overtime'])) value="{{$time['overtime']}}" @else value="0" @endif,
 										params: function( params ) {
 										    params.user = '{{$user}}';
 										    params.day = '{{$day}}';
