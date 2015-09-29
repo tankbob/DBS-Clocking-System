@@ -8,7 +8,7 @@
 		<br>
 			Your account has now been created for the DBS Electronic Timesheet System.<br><br>
 		<br>
-			You can log in by visiting <a href"{{\URL::to('/')}}">{{\URL::to('/')}}</a> and using the below User Name and Password:<br>
+			You can log in by visiting <a href="{{\URL::to('/')}}">{{\URL::to('/')}}</a> and using the below User Name and Password:<br>
 		<br>
 		User Name: <a href="mailto:{{$user->email}}">{{$user->email}}</a><br>
 		Password: {{$password}}<br>
