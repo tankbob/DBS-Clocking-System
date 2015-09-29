@@ -6,14 +6,19 @@
 	<body>
 		Dear {{$user->name}}<br>
 		<br>
-			Welcome and thank you for registering with DBS Contracts.<br>
+			Your account has now been created for the DBS Electronic Timesheet System.<br><br>
 		<br>
-			Your account has now been created and you can log in by using your details below by visiting the following URL: <a href"{{\URL::to('/')}}">{{\URL::to('/')}}</a><br>
+			You can log in by visiting <a href"{{\URL::to('/')}}">{{\URL::to('/')}}</a> and using the below User Name and Password:<br>
 		<br>
-		User Name: {{$user->email}}<br>
+		User Name: <a href="mailto:{{$user->email}}">{{$user->email}}</a><br>
 		Password: {{$password}}<br>
 		<br>
-		To setup quick access to your account follow the instructions related to your device below or in the PDF attached to this email.<br>
+		To setup quick access to the system, please follow the instructions related to your device below or in the PDF attached to this email.<br>
+		<br>
+		For any further information or assistance please call the office on 01622 715919 
+		<br>
+		<br>
+		Thank you
 		<br>
 		<br>
 		<img src="{{\URL::to('/email/ScreenShot1.png')}}"><br>
@@ -26,11 +31,7 @@
 		<a href="{{\URL::to('/email/instructions.pdf')}}">instructions.pdf</a><br>
 		<br>
 		<br>
-		For any further information please call the office on 01622 715 919<br>
-		<br>
-		Thank you from the DBS team.<br>
-		<br>
-		Confidentiality Notice: This e-mail message, including any attachments, is for the sole use of the intended recipient(s) and may contain confidential and privileged information. Any unauthorized review, use, disclosure or distribution is prohibited. If you are not the intended recipient, please contact the sender by reply e-mail and destroy all copies of the original message.
+		DBS Contracts Ltd
 	</body>
 </html>
 
