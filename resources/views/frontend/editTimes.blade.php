@@ -11,21 +11,15 @@
 
 		$('.hour-type-select').on('change', function(){
 			if($(this).find("option:selected").text() == 'Normal'){
-				$('#number-'+$(this).attr('id')+' > option').each(function(){
-					$(this).removeClass('hidden');
-				});
+				$('#number-normal-'+$(this).attr('id')).prop('disabled', false);
+				$('#number-normal-'+$(this).attr('id')).removeClass('disabled-select hidden');
+				$('#number-holiday-'+$(this).attr('id')).prop('disabled', true);
+				$('#number-holiday-'+$(this).attr('id')).addClass('disabled-select hidden');
 			}else{
-				//Holiday
-				if($('#number-'+$(this).attr('id')+' > option:selected').val() != 0 && $('#number-'+$(this).attr('id')+' > option:selected').val() != 9){
-					//IF it was selected one option that is going to disappear, then disabled the selection and select 0
-					$('#number-'+$(this).attr('id')+' > option:selected').removeProp('selected');
-				}
-
-				$('#number-'+$(this).attr('id')+' > option').each(function(){
-					if($(this).val() != 0 && $(this).val() != 9){
-						$(this).addClass('hidden');
-					}
-				});
+				$('#number-normal-'+$(this).attr('id')).prop('disabled', true);
+				$('#number-normal-'+$(this).attr('id')).addClass('disabled-select hidden');
+				$('#number-holiday-'+$(this).attr('id')).prop('disabled', false);
+				$('#number-holiday-'+$(this).attr('id')).removeClass('disabled-select hidden');
 			}
 		});
 	});
@@ -72,13 +66,12 @@
 				<div class="form-group text-center offset-form-input">
 					{!! Form::label($logTime->id.'[time]', 'Hours:', ['class' => 'col-xs-6 control-label']) !!}
 					<div class="col-xs-6">
-						<select name="{{$logTime->id}}[time]" id="number-hour-select-{{$logTime->id}}" @if(isset($date)) disabled="true" class="disabled-select" @endif>
+						<select name="{{$logTime->id}}[time]" id="number-normal-hour-select-{{$logTime->id}}" @if(isset($date)) disabled="true" class="disabled-select" @elseif($logTime->hourType->value == 'Holiday') disabled="true" class="disabled-select hidden" @endif>
 							@if(isset($date) || date('N') <= 5)
 							<!-- Editor and it's week day -->
 								@for($i = 0; $i <= 9; $i++)
 									<option value="{{ $i }}" 
-									@if($logTime->time == $i) selected="selected" @endif 
-									@if($hourTypes[$logTime->hour_type_id] == 'Holiday' && !in_array($i, [0, 9])) class="hidden" @endif
+									@if($logTime->time == $i) selected="selected" @endif
 									>{{ $i }} hrs</option>
 								@endfor
 							@else
@@ -86,10 +79,17 @@
 								@foreach([0, 5, 9] as $i)
 									<option value="{{ $i }}" 
 									@if($logTime->time == $i) selected="selected" @endif 
-									@if($hourTypes[$logTime->hour_type_id] == 'Holiday' && !in_array($i, [0, 9])) class="hidden" @endif
 									>{{ $i }} hrs</option>
 								@endforeach
 							@endif
+						</select>
+						<select name="{{$logTime->id}}[time]" id="number-holiday-hour-select-{{$logTime->id}}" @if(isset($date)) disabled="true" class="disabled-select" @elseif($logTime->hourType->value == 'Normal') disabled="true" class="disabled-select hidden" @endif>
+							<option value="0" 
+								@if($logTime->time == 0) selected="selected" @endif
+							>0 hrs</option>
+							<option value="9" 
+								@if($logTime->time == 9) selected="selected" @endif
+							>9 hrs</option>
 						</select>
 					</div>
 				</div>
