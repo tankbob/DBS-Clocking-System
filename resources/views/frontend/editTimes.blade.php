@@ -83,6 +83,8 @@
 									@if($logTime->time == $i) selected="selected" @endif 
 									>{{ $i }} hrs</option>
 								@endforeach
+								<option value="13.5" @if($logTime->time == 13.5) selected="selected" @endif >13.5 hrs</option>
+								<option value="18" @if($logTime->time == 18) selected="selected" @endif >18 hrs</option>
 							@endif
 						</select>
 						<select name="{{$logTime->id}}[time]" id="number-holiday-hour-select-{{$logTime->id}}" @if(isset($date)) disabled="true" class="disabled-select" @elseif($logTime->hourType->value == 'Normal') disabled="true" class="disabled-select hidden" @endif>

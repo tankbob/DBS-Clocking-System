@@ -121,11 +121,9 @@
 												{7: 7},
 												{8: 8},
 												@endif
-												{9: 9}
-												@if($day >= 2)
-												,{13.5: 13.5},
-												{18: 18}
-												@endif
+												{9: 9},
+												{13.5: 13.5},
+												{18: 18}		
 											],
 											success: function(response, newValue) {
 											    if(response.success){
