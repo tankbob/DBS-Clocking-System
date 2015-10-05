@@ -354,8 +354,8 @@ class AdminHoursController extends Controller
 
         return \Response::json(array(
             'success' => true,
-            'totalTime' => $totalTime,
-            'totalHoliday' => $totalHoliday
+            'totalTime' => floatval($totalTime),
+            'totalHoliday' => floatval($totalHoliday)
         ));
     }
 
@@ -382,8 +382,8 @@ class AdminHoursController extends Controller
 
         return \Response::json(array(
             'success' => true,
-            'totalTime' => $totalTime,
-            'totalHoliday' => $totalHoliday
+            'totalTime' => floatval($totalTime),
+            'totalHoliday' => floatval($totalHoliday)
         ));
     }
 

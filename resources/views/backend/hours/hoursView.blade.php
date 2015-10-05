@@ -88,7 +88,7 @@
 							<td>
 								<a href="#" id="{{$user}}-{{$day}}" class="editable" data-type="select" data-pk="1" data-url="/ajaxedittime" data-title="Enter value">
 									@if(isset($time['time']) && $time['time'])
-										{{$time['time']}}
+										{{ floatval($time['time']) }}
 										<?php $total += $time['time']; ?>
 										
 									@else
@@ -98,7 +98,7 @@
 								<script type="text/javascript">
 									$(document).ready(function(){
 										$("#{{$user}}-{{$day}}").editable({
-											value: @if(isset($time['time'])) value="{{$time['time']}}" @else value="0" @endif,
+											value: @if(isset($time['time'])) value="{{floatval($time['time'])}}" @else value="0" @endif,
 											params: function( params ) {
 											    params.user = "{{$user}}";
 											    params.day = "{{$day}}";
@@ -122,6 +122,10 @@
 												{8: 8},
 												@endif
 												{9: 9}
+												@if($day >= 2)
+												,{13.5: 13.5},
+												{18: 18}
+												@endif
 											],
 											success: function(response, newValue) {
 											    if(response.success){
@@ -150,7 +154,7 @@
 							<td>
 								<a href="#" id="over-{{$user}}-{{$day}}" class="editable" data-type="select" data-pk="1" data-url="/ajaxeditovertime" data-title="Enter value">
 									@if(isset($time['overtime']) && $time['overtime'])
-										{{$time['overtime']}}
+										{{floatval($time['overtime'])}}
 										<?php $total += $time['overtime']; ?>
 									@else
 										-
@@ -161,7 +165,7 @@
 							<script type="text/javascript">
 								$(document).ready(function(){
 									$("#over-{{$user}}-{{$day}}").editable({
-										value: @if(isset($time['overtime'])) value="{{$time['overtime']}}" @else value="0" @endif,
+										value: @if(isset($time['overtime'])) value="{{floatval($time['overtime'])}}" @else value="0" @endif,
 										params: function( params ) {
 										    params.user = '{{$user}}';
 										    params.day = '{{$day}}';
@@ -207,7 +211,7 @@
 							<td>
 								<a href="#" id="holiday-{{$user}}-{{$day}}" class="editable" data-type="select" data-pk="1" data-url="/ajaxeditholiday" data-title="Enter value">
 									@if(isset($time['holiday']) && $time['holiday'])
-										{{$time['holiday']}}
+										{{floatval($time['holiday'])}}
 										<?php $total += $time['holiday']; ?>
 									@else
 										-
@@ -218,7 +222,7 @@
 							<script type="text/javascript">
 								$(document).ready(function(){
 									$("#holiday-{{$user}}-{{$day}}").editable({
-										value: @if(isset($time['holiday'])) value="{{$time['holiday']}}" @else value="0" @endif,
+										value: @if(isset($time['holiday'])) value="{{floatval($time['holiday'])}}" @else value="0" @endif,
 										params: function( params ) {
 										    params.user = '{{$user}}';
 										    params.day = '{{$day}}';

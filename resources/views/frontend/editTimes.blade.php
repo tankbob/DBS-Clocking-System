@@ -74,6 +74,8 @@
 									@if($logTime->time == $i) selected="selected" @endif
 									>{{ $i }} hrs</option>
 								@endfor
+								<option value="13.5" @if($logTime->time == 13.5) selected="selected" @endif >13.5 hrs</option>
+								<option value="18" @if($logTime->time == 18) selected="selected" @endif >18 hrs</option>
 							@else
 								<!-- It's weekend -->
 								@foreach([0, 5, 9] as $i)
