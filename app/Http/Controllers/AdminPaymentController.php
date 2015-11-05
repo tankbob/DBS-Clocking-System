@@ -178,7 +178,7 @@ class AdminPaymentController extends Controller
         $fromDate = \Request::get('fromDate');
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
-        $logTimes = LogTime::where('user_id', '=' , $user_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->with('User', 'Job')->orderBy('user_id')->orderBy('date')->get();
+        $logTimes = LogTime::where('user_id', '=' , $user_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('job_id', Job::lists('id')->toArray())->with('User', 'Job')->orderBy('user_id')->orderBy('date')->get();
 
         $user = User::find($user_id);
         
@@ -281,7 +281,7 @@ class AdminPaymentController extends Controller
         $fromDate = \Request::get('fromDate');
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
-        $logTimes = LogTime::whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->with('User', 'Job')->orderBy('user_id')->orderBy('date')->get();
+        $logTimes = LogTime::whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->whereIn('job_id', Job::lists('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->with('User', 'Job')->orderBy('user_id')->orderBy('date')->get();
 
         $users = LogTime::with('User')->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->get(['user_id']);
 
