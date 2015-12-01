@@ -148,6 +148,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        rigor789\AirbrakeLaravel\AirbrakeServiceProvider::class,
 
     ],
 
@@ -197,7 +198,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
 
-        'Form'      => Illuminate\Html\FormFacade::class, 
+        'Form'      => Illuminate\Html\FormFacade::class,
         'HTML'      => Illuminate\Html\HtmlFacade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
