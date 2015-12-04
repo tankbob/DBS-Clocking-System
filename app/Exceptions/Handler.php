@@ -5,6 +5,7 @@ namespace Dbs\Exceptions;
 use Exception;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
 
 class Handler extends ExceptionHandler
 {
@@ -39,6 +40,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if ($e instanceof TokenMismatchException){
+            if(\Request::segment(1) == 'admin'){
+                return \Redirect::to('/admin/auth/login')->with(['error' => 'Sorry, the session has expired. Please log in again.']);
+            }else{
+                return \Redirect::to('/auth/login')->with(['error' => 'Sorry, the session has expired. Please log in again.']);
+            }
+        }
         return parent::render($request, $e);
     }
 }

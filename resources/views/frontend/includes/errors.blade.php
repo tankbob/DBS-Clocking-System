@@ -9,7 +9,12 @@
     </div>
 @endif
 @if (Session::get('success'))
-	<div class="success-message">
-		{{ Session::get('success') }}
-	</div>
+    <div class="success-message">
+        {{ Session::get('success') }}
+    </div>
+@endif
+@if (Session::get('error'))
+    <div class="danger-message">
+        {{ Session::get('error') }}
+    </div>
 @endif
