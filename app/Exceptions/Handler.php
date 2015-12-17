@@ -16,6 +16,7 @@ class Handler extends ExceptionHandler
      */
     protected $dontReport = [
         HttpException::class,
+        Illuminate\Session\TokenMismatchException::class,
     ];
 
     /**
