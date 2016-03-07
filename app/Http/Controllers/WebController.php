@@ -85,12 +85,18 @@ class WebController extends Controller
     }
 
     public function addJob(){
+        if(!LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', date('Y-m-d'))->first()){
+            return \Redirect::to('/');
+        }
 		$jobs = Job::where('active', '=', '1')->whereNotIn('id', LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', date('Y-m-d'))->lists('job_id')->toArray())->lists('number', 'id');
 		$hourTypes = HourType::lists('value', 'id');
     	return view('frontend.addJob', compact('jobs', 'hourTypes'));
     }
 
     public function processAddJob(AddJobRequest $request){
+        if(!LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', date('Y-m-d'))->first()){
+            return \Redirect::to('/');
+        }
     	$logTime = new LogTime;
         $logTime->job_id = $request->get('job_id');
         $logTime->user_id = \Auth::user()->id;
