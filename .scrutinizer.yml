@@ -32,7 +32,7 @@ build:
         -
             branch: master
             commands:
-                - wget https://forge.laravel.com/servers/31033/sites/98879/deploy/http?token=Fke2qrugpr9Gvpzm7S9c83VqKYDP6xJIIoEMW6KO
+                - wget https://forge.laravel.com/servers/84940/sites/192097/deploy/http?token=LvlFzgnYu5y8hcISeP2Jfc6v4Td5lwtC1uFvqwvf
         -
             branch: development
             commands:
