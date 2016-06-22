@@ -297,7 +297,7 @@ class AdminHoursController extends Controller
 
         //THIS FUNCTION IS THE ONE WHO SHOWS PDF IN SCREEN
         if (!$pdf->send()) {
-            throw new Exception('Could not create PDF: '.$pdf->getError());
+            throw new \Exception('Could not create PDF: '.$pdf->getError());
         } 
     }
 
