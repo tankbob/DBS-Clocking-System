@@ -11,7 +11,7 @@
         "barryvdh/laravel-debugbar": "*",
         "greggilbert/recaptcha": "dev-master",
         "maatwebsite/excel": "~2.0.0",
-        "mikehaertl/phpwkhtmltopdf": "2.0.3",
+        "mikehaertl/phpwkhtmltopdf": "2.*",
         "doctrine/dbal": "*",
         "rigor789/airbrake-laravel": "^1.2"
     },
