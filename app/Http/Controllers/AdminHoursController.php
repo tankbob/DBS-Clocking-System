@@ -296,7 +296,7 @@ class AdminHoursController extends Controller
         $pdf->addPage(View('backend.pdf.hourspdf')->with('logArray', $logArray)->with('job', $job->number)->with('fromDate', $fromDate)->with('toDate', $toDate));
 
         //THIS FUNCTION IS THE ONE WHO SHOWS PDF IN SCREEN
-        if (!$pdf->send()) {
+        if (!$pdf->send('hours.pdf')) {
             throw new \Exception('Could not create PDF: '.$pdf->getError());
         } 
     }
