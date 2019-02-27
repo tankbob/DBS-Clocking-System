@@ -243,8 +243,8 @@ class AdminHoursController extends Controller
         return self::index('The hours has been unapproved.');
     }
 
-    public function pdf(){
-
+    public function pdf()
+    {
         $fromDate = \Request::get('date');
         $job_id = \Request::get('job');
         $job = Job::find($job_id);
@@ -256,14 +256,14 @@ class AdminHoursController extends Controller
         $logArray = array();
 
         $users = LogTime::with('User', 'HourType')->where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->groupBy('user_id')->get(['user_id']);
-        foreach($users as $user){
+        foreach ($users as $user) {
             $logArray[$user->User->name] = array();
             for($i = 0; $i <= 6; $i ++){
                 $logArray[$user->User->name][$i] = array();
             }
         }
 
-        foreach($logTimes as $l){
+        foreach ($logTimes as $l) {
             $userName = $l->User->name;
             $log_type = $l->HourType->value;
             $log_time = $l->time;
@@ -278,7 +278,6 @@ class AdminHoursController extends Controller
             }
             $logArray[$userName][$log_date]['overtime'] = $log_overtime;
         }
-    //   return view('demo')->with('logArray', $logArray)->with('job', $job->number)->with('fromDate', $fromDate)->with('toDate', $toDate);
 
         $pdf = new \Mpdf\Mpdf();
         $view = View::make('backend.pdf.hourspdf', [
@@ -290,26 +289,8 @@ class AdminHoursController extends Controller
         $contents = $view->render();
 
         $pdf->writeHtml($contents);
+
         return $pdf->Output();
-
-/*
-        $pdf = new Pdf(array(
-            'no-outline',
-            'margin-top'    => 0,
-            'margin-right'  => 0,
-            'margin-bottom' => 0,
-            'margin-left'   => 0,
-            'image-dpi' => 300,
-            'image-quality' => 80
-
-        ));
-
-        $pdf->addPage(View('backend.pdf.hourspdf')->with('logArray', $logArray)->with('job', $job->number)->with('fromDate', $fromDate)->with('toDate', $toDate));
-
-        //THIS FUNCTION IS THE ONE WHO SHOWS PDF IN SCREEN
-        if (!$pdf->send('hours.pdf')) {
-            throw new \Exception('Could not create PDF: '.$pdf->getError());
-        }*/
     }
 
     public function ajaxEditOvertime(){
