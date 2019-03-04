@@ -13,7 +13,7 @@ use Dbs\User;
 use Dbs\UserType;
 use Dbs\HourType;
 
-use mikehaertl\wkhtmlto\Pdf;
+use View;
 
 class AdminHoursController extends Controller
 {
@@ -69,7 +69,7 @@ class AdminHoursController extends Controller
                 $logArray[$user->User->id][$i] = array();
             }
         }
-        
+
         foreach($logTimes as $l){
             $user_id = $l->User->id;
             $log_type = $l->HourType->value;
@@ -219,7 +219,7 @@ class AdminHoursController extends Controller
                 'hour_type_id' => HourType::where('value', '=', 'Normal')->first()->id
             ]);
         }
-       
+
         return \Redirect::to('admin/hours?job='.$job_id.'&date='.$date)->with('success', 'The operative has been added successfully');
     }
 
@@ -227,49 +227,49 @@ class AdminHoursController extends Controller
         $job_id = \Request::get('job');
         $fromDate = \Request::get('date');
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
-        
+
         LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->update(['approved' => '1']);
 
         return self::index('The hours has been approved.');
-    } 
+    }
 
     public function unapprove(){
         $job_id = \Request::get('job');
         $fromDate = \Request::get('date');
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
-        
+
         LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->update(['approved' => '0']);
 
         return self::index('The hours has been unapproved.');
     }
 
-    public function pdf(){
-
+    public function pdf()
+    {
         $fromDate = \Request::get('date');
         $job_id = \Request::get('job');
         $job = Job::find($job_id);
 
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
-        
+
         $logTimes = LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->with('User')->orderBy('user_id')->orderBy('date')->get();
 
         $logArray = array();
 
         $users = LogTime::with('User', 'HourType')->where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->groupBy('user_id')->get(['user_id']);
-        foreach($users as $user){
+        foreach ($users as $user) {
             $logArray[$user->User->name] = array();
             for($i = 0; $i <= 6; $i ++){
                 $logArray[$user->User->name][$i] = array();
             }
         }
-        
-        foreach($logTimes as $l){
+
+        foreach ($logTimes as $l) {
             $userName = $l->User->name;
             $log_type = $l->HourType->value;
             $log_time = $l->time;
             $log_overtime = $l->overtime;
             $log_date = (1 + date('w', strtotime($l->date))) % 7;
-            
+
 
             if($log_type == 'Holiday'){
                 $logArray[$userName][$log_date]['holiday'] = $log_time;
@@ -278,27 +278,19 @@ class AdminHoursController extends Controller
             }
             $logArray[$userName][$log_date]['overtime'] = $log_overtime;
         }
-    //   return view('demo')->with('logArray', $logArray)->with('job', $job->number)->with('fromDate', $fromDate)->with('toDate', $toDate);
-        $pdf = new Pdf(array(
-            'no-outline',         // Make Chrome not complain
-            'margin-top'    => 0,
-            'margin-right'  => 0,
-            'margin-bottom' => 0,
-            'margin-left'   => 0,
-            'image-dpi' => 300,
-            'image-quality' => 80
 
-            // Default page options
-        ));
+        $pdf = new \Mpdf\Mpdf();
+        $view = View::make('backend.pdf.hourspdf', [
+            'logArray' => $logArray,
+            'job' => $job->number,
+            'fromDate' => $fromDate,
+            'toDate' => $toDate,
+        ]);
+        $contents = $view->render();
 
-        $data = array();
+        $pdf->writeHtml($contents);
 
-        $pdf->addPage(View('backend.pdf.hourspdf')->with('logArray', $logArray)->with('job', $job->number)->with('fromDate', $fromDate)->with('toDate', $toDate));
-
-        //THIS FUNCTION IS THE ONE WHO SHOWS PDF IN SCREEN
-        if (!$pdf->send('hours.pdf')) {
-            throw new \Exception('Could not create PDF: '.$pdf->getError());
-        } 
+        return $pdf->Output();
     }
 
     public function ajaxEditOvertime(){
@@ -306,7 +298,7 @@ class AdminHoursController extends Controller
         $job_id = \Request::get('job_id');
 
         $date = date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+\Request::get('day'), date('Y', strtotime(\Request::get('startDate')))));
-    
+
         $logTime = LogTime::where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->where('date', '=', $date)->first();
 
         if(!$logTime){
@@ -332,7 +324,7 @@ class AdminHoursController extends Controller
         $job_id = \Request::get('job_id');
 
         $date = date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+\Request::get('day'), date('Y', strtotime(\Request::get('startDate')))));
-    
+
         $logTime = LogTime::where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->where('date', '=', $date)->first();
 
         if(!$logTime){
@@ -360,7 +352,7 @@ class AdminHoursController extends Controller
         $job_id = \Request::get('job_id');
 
         $date = date('Y-m-d',  mktime(0, 0, 0, date('m', strtotime(\Request::get('startDate'))), date('d', strtotime(\Request::get('startDate')))+\Request::get('day'), date('Y', strtotime(\Request::get('startDate')))));
-    
+
         $logTime = LogTime::where('user_id', '=', $user_id)->where('job_id', '=', $job_id)->where('date', '=', $date)->first();
 
         if(!$logTime){
