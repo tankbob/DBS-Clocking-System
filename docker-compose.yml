@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  dbs:
+    build: .
+    ports:
+      - 8192:80
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - DB_HOST=host.docker.internal
+      - DB_DATABASE=dbs
+      - DB_USER=dbs
+      - DB_PASSWORD=${DB_PASSWORD}
+      - APP_ENV=local
+      - APP_DEBUG=true
