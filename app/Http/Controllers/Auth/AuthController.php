@@ -75,7 +75,7 @@ class AuthController extends Controller
     {
         if($request->get('loginType') == 'Admin'){
             $this->validate($request, [
-                $this->loginUsername() => 'required', 'password' => 'required', 'g-recaptcha-response' => 'recaptcha'
+                $this->loginUsername() => 'required', 'password' => 'required' //, 'g-recaptcha-response' => 'recaptcha'
             ]);
         }else{
             $this->validate($request, [
