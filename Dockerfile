@@ -1,6 +1,5 @@
 FROM php:7.1-apache as build
 
-WORKDIR /src
 RUN apt-get update && apt-get install -y \
         git \
         unzip \
@@ -18,13 +17,18 @@ RUN apt-get update && apt-get install -y \
 	    --with-xpm-dir \
 	    --with-freetype-dir \
 	    --enable-gd-native-ttf --with-freetype --with-jpeg \
-	&& docker-php-ext-install -j$(nproc) gd       
+	&& docker-php-ext-install -j$(nproc) gd mysqli pdo pdo_mysql bcmath \
+        && docker-php-ext-enable mysqli
 
 RUN a2enmod rewrite
+RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/conf.d/dev.ini
+RUN echo "PassEnv DB_HOST DB_USERNAME DB_DATABASE DB_PASSWORD APP_ENV APP_DEBUG" >/etc/apache2/conf-available/lav-env.conf
+WORKDIR /etc/apache2/conf-enabled
+RUN ln -s ../conf-available/lav-env.conf lav-env.conf
 
+WORKDIR /src
 COPY . .
 RUN mv public html
-RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/conf.d/dev.ini
 COPY --from=composer:2.2 /usr/bin/composer /usr/bin/composer
 
 RUN groupadd -r user && useradd -r -g user user
