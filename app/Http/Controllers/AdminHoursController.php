@@ -55,7 +55,8 @@ class AdminHoursController extends Controller
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
         $page = 'hours';
-        $jobs = Job::lists('number', 'id');
+        //$jobs = Job::lists('number', 'id');
+        $jobs = Job::whereIn('id',LogTime::whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->lists('job_id')->toArray())->lists('number','id');
 
         $logTimes = LogTime::where('job_id', '=', $job_id)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->with('User', 'HourType')->orderBy('user_id')->orderBy('date')->get();
 
