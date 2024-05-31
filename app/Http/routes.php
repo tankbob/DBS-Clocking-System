@@ -10,7 +10,9 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
+if (in_array(env('APP_ENV'), ['dev', 'production'])) {
+    URL::forceSchema('https');
+}
 
 Route::post('/admin/hours/pdf', 'AdminHoursController@pdf');
 

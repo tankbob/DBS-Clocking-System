@@ -22,9 +22,10 @@ RUN apt-get update && apt-get install -y \
 
 RUN a2enmod rewrite
 RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/conf.d/dev.ini
-RUN echo "PassEnv DB_HOST DB_USERNAME DB_DATABASE DB_PASSWORD APP_ENV APP_DEBUG" >/etc/apache2/conf-available/lav-env.conf
+RUN echo "PassEnv DB_HOST DB_USERNAME DB_DATABASE DB_PASSWORD APP_ENV APP_DEBUG APP_KEY" >/etc/apache2/conf-available/lav-env.conf
 WORKDIR /etc/apache2/conf-enabled
 RUN ln -s ../conf-available/lav-env.conf lav-env.conf
+RUN echo 'ServerName localhost;' >>/etc/apache2/apache2.conf
 
 WORKDIR /src
 COPY . .
@@ -36,7 +37,7 @@ RUN chown -R user: .
 USER user
 RUN composer install
 RUN cp -f .env.example .env
-RUN php artisan key:generate
+#RUN php artisan key:generate
 USER root
 RUN mv -f /src/* /var/www
 RUN mv -f /src/.env /var/www

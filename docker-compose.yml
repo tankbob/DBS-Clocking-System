@@ -13,3 +13,4 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - APP_ENV=local
       - APP_DEBUG=true
+      - APP_KEY=${APP_KEY}
