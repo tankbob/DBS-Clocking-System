@@ -1,6 +1,7 @@
-FROM php:7.4-apache AS build
+FROM php:8.0-apache AS build
 
-RUN apt-get -o Acquire::Check-Valid-Until=false update \
+RUN sed -i '/bullseye-security/d' /etc/apt/sources.list \ 
+    && apt-get update \
     && apt-get install -y \
         git \
         unzip \
@@ -11,18 +12,13 @@ RUN apt-get -o Acquire::Check-Valid-Until=false update \
         libjpeg62-turbo-dev \
         libpng-dev libxpm-dev \
         libfreetype6-dev \
-	&& docker-php-ext-configure gd \
-	    --with-gd \
-	    --with-webp-dir \
-	    --with-jpeg-dir \
-	    --with-png-dir \
-	    --with-zlib-dir \
-	    --with-xpm-dir \
-	    --with-freetype-dir \
-	    --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-        && docker-php-ext-configure zip --with-libzip \
+    && docker-php-ext-configure gd \
+    --with-freetype \
+    --with-jpeg \
+    --with-webp \
+    --with-xpm \
 	&& docker-php-ext-install -j$(nproc) gd mysqli pdo pdo_mysql bcmath zip\
-        && docker-php-ext-enable mysqli
+    && docker-php-ext-enable mysqli
 
 RUN a2enmod rewrite
 RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/conf.d/dev.ini
