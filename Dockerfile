@@ -1,7 +1,6 @@
-FROM php:8.0-apache AS build
+FROM php:8.1-apache AS build
 
-RUN sed -i '/bullseye-security/d' /etc/apt/sources.list \ 
-    && apt-get update \
+RUN apt-get update \
     && apt-get install -y \
         git \
         unzip \
