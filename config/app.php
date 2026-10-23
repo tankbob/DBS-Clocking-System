@@ -148,9 +148,7 @@ return [
 
 	Collective\Html\HtmlServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-        Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        rigor789\AirbrakeLaravel\AirbrakeServiceProvider::class,
 
     ],
 
@@ -181,7 +179,6 @@ return [
         'Event'     => Illuminate\Support\Facades\Event::class,
         'File'      => Illuminate\Support\Facades\File::class,
         'Hash'      => Illuminate\Support\Facades\Hash::class,
-        'Input'     => Illuminate\Support\Facades\Input::class,
         'Inspiring' => Illuminate\Foundation\Inspiring::class,
         'Lang'      => Illuminate\Support\Facades\Lang::class,
         'Log'       => Illuminate\Support\Facades\Log::class,
@@ -203,7 +200,6 @@ return [
         'Form'      => Collective\Html\FormFacade::class,
         'HTML'      => Collective\Html\HtmlFacade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-        'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 

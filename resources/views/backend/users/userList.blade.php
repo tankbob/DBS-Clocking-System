@@ -103,7 +103,7 @@
 
             <div>
                 <div class="col-xs-6 table-next">
-                    @if(Input::get('page') > 1)
+                    @if(request()->input('page') > 1)
                         <a href="{{ $users->previousPageUrl() }}">&lt; Previous Page</a>
                     @endif
                     @if($users->hasMorePages())
@@ -114,7 +114,7 @@
                     Page:
                     <select onchange="window.location = this.options[this.selectedIndex].value">
                     @for ($i = 1; $i <= $users->lastPage(); $i++)
-                        <option value="{{ Request::url() }}?page={{ $i }}" @if(Input::get('page') == $i) selected="selected" @endif>{{ sprintf('%02d', $i) }} of {{ sprintf('%02d', $users->lastPage()) }}</option>
+                        <option value="{{ Request::url() }}?page={{ $i }}" @if(request()->input('page') == $i) selected="selected" @endif>{{ sprintf('%02d', $i) }} of {{ sprintf('%02d', $users->lastPage()) }}</option>
                     @endfor
                        
                     </select>

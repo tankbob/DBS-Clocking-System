@@ -37,15 +37,6 @@
             </div>
 
             <div class="form-group">
-            	<div class="col-xs-3 hidden-xs">
-	            	<label for="g-recaptcha-response">Captcha:</label>
-            	</div>
-            	<div class="col-xs-9">
-           			{!! Recaptcha::render() !!}
-           		</div>
-           	</div>
-
-            <div class="form-group">
             	<div class="col-xs-3">
 	            	<label for="remember">Remember Me:</label>
             	</div>
