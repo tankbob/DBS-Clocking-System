@@ -11,6 +11,7 @@ RUN sed -i 's|deb.debian.org/debian|archive.debian.org/debian|g' /etc/apt/source
         libpng-dev \
         libjpeg62-turbo-dev \
         libfreetype6-dev \
+        vim \
     && docker-php-ext-configure gd \
         --with-freetype-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \

@@ -1,5 +1,0 @@
-suites:
-    main:
-        namespace: Dbs
-        psr4_prefix: Dbs
-        src_path: app
