@@ -6,9 +6,9 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "^9.0",
+        "laravel/framework": "^10.0",
         "barryvdh/laravel-debugbar": "*",
-        "doctrine/dbal": "*",
+        "doctrine/dbal": "^3.0",
         "mpdf/mpdf": "^8.2.5",
         "laravelcollective/html": "^6.0",
         "laravel/tinker": "^2.0",
