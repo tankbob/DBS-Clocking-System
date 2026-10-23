@@ -239,7 +239,7 @@ private function buildPaymentExportRows($fromDate, array $logArray)
 
         $hourTypes = HourType::pluck('value', 'id');
 
-        return view('backend.payment.paymentEdit', compact('page', 'fromDate', 'payment', 'user', 'dates', 'times', 'hourTypes'));
+        return view('backend.payment.paymentEdit', compact('page', 'fromDate', 'user', 'dates', 'times', 'hourTypes'));
     }
 
     /**
