@@ -7,10 +7,10 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
-      - DB_HOST=host.docker.internal
-      - DB_DATABASE=dbs
-      - DB_USERNAME=dbs
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=mysql
+      - DB_DATABASE=forge
+      - DB_USERNAME=forge
+      - DB_PASSWORD=localpassword
       - APP_ENV=local
       - APP_DEBUG=true
       - APP_KEY=${APP_KEY}
@@ -19,8 +19,30 @@ services:
       context: .
       dockerfile: Dockerfile.composer
     working_dir: /app
+    environment:
+      - DB_HOST=mysql
+      - DB_DATABASE=forge
+      - DB_USERNAME=forge
+      - DB_PASSWORD=localpassword
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_KEY=${APP_KEY}
     volumes:
       - .:/app
     entrypoint: /bin/bash
     stdin_open: true
     tty: true
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: localrootpassword
+      MYSQL_DATABASE: forge
+      MYSQL_USER: forge
+      MYSQL_PASSWORD: localpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-dbs:/var/lib/mysql
+
+volumes:
+  mysql-dbs:

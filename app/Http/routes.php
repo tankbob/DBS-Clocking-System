@@ -21,10 +21,11 @@ Route::post('/ajaxeditovertime', 'AdminHoursController@ajaxEditOvertime');
 Route::post('/ajaxeditholiday', 'AdminHoursController@ajaxEditHoliday');
 Route::post('/ajaxeditjobs', 'AdminJobController@ajaxEditJob');
 
-Route::get('/auth/login', 'Auth\AuthController@getLogin');
-Route::post('/auth/login', 'Auth\AuthController@postLogin');
-Route::get('/auth/logout', 'Auth\AuthController@getLogout');
-Route::get('/admin/auth/login', 'Auth\AuthController@getAdminLogin');
+Route::get('/auth/login', [ 'as' => 'auth.login', 'uses' => 'Auth\LoginController@getLogin']);
+Route::post('/auth/login', [ 'as' => 'auth.login.post', 'uses' => 'Auth\LoginController@postLogin']);
+Route::get('/auth/logout', ['as' => 'auth.logout', 'uses' => 'Auth\LoginController@getLogout']);
+Route::get('/admin/auth/login', [ 'as' => 'admin.auth.login', 'uses' => 'Auth\LoginController@getAdminLogin']);
+Route::post('/admin/auth/login', [ 'as' => 'admin.auth.login.post', 'uses' => 'Auth\LoginController@postAdminLogin']);
 
 Route::get('/admin', 'AdminUsersController@index');
 Route::resource('/admin/users', 'AdminUsersController');
