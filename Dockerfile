@@ -1,4 +1,4 @@
-FROM php:7.1-apache as build
+FROM php:7.2-apache AS build
 
 RUN sed -i 's|deb.debian.org/debian|archive.debian.org/debian|g' /etc/apt/sources.list \
     && sed -i 's|security.debian.org/debian-security|archive.debian.org/debian-security|g' /etc/apt/sources.list \
@@ -7,6 +7,8 @@ RUN sed -i 's|deb.debian.org/debian|archive.debian.org/debian|g' /etc/apt/source
     && apt-get install -y \
         git \
         unzip \
+        libzip-dev \
+        zlib1g-dev \
         libpng-dev \
         libwebp-dev \
         libjpeg62-turbo-dev \
@@ -20,8 +22,9 @@ RUN sed -i 's|deb.debian.org/debian|archive.debian.org/debian|g' /etc/apt/source
 	    --with-zlib-dir \
 	    --with-xpm-dir \
 	    --with-freetype-dir \
-	    --enable-gd-native-ttf --with-freetype --with-jpeg \
-	&& docker-php-ext-install -j$(nproc) gd mysqli pdo pdo_mysql bcmath \
+	    --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+        && docker-php-ext-configure zip --with-libzip \
+	&& docker-php-ext-install -j$(nproc) gd mysqli pdo pdo_mysql bcmath zip\
         && docker-php-ext-enable mysqli
 
 RUN a2enmod rewrite

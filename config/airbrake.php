@@ -5,7 +5,7 @@ return [
   /**
    * Should we send errors to Airbrake
    */
-  'enabled'             => true,
+  'enabled'             => false,
 
   /**
    * Airbrake API key

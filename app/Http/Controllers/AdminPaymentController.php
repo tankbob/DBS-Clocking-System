@@ -13,6 +13,11 @@ use Dbs\Job;
 use Dbs\HourType;
 use Dbs\UserType;
 
+use Dbs\Exports\PaymentExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Excel as ExcelWriter;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+
 class AdminPaymentController extends Controller
 {
 
@@ -20,6 +25,104 @@ class AdminPaymentController extends Controller
     {
         $this->middleware('admin');
     }
+
+private function buildPaymentExportRows($fromDate, array $logArray)
+{
+    $rows = [];
+
+    foreach ($logArray as $userName => $jobs) {
+        // Username row: value in column A.
+        $rows[] = [
+            $userName,
+        ];
+
+        // Date headings: columns C through I, approval heading in K.
+        $dateRow = [
+            '', // A
+            '', // B
+        ];
+
+        for ($i = 0; $i < 7; $i++) {
+            $dateRow[] = date(
+                'D d/m/Y',
+                mktime(
+                    0,
+                    0,
+                    0,
+                    date('m', strtotime($fromDate)),
+                    date('d', strtotime($fromDate)) + $i,
+                    date('Y', strtotime($fromDate))
+                )
+            );
+        }
+
+        $dateRow[] = '';          // J
+        $dateRow[] = 'Approved?'; // K
+
+        $rows[] = $dateRow;
+
+        foreach ($jobs as $jobName => $days) {
+            // NORMAL row.
+            $normalRow = [
+                $jobName,
+                'NORMAL',
+            ];
+
+            for ($i = 0; $i < 7; $i++) {
+                $normalRow[] = isset($days[$i]['Normal'])
+                    ? $days[$i]['Normal']
+                    : '';
+            }
+
+            $normalRow[] = ''; // J
+            $normalRow[] = $days['Approved'] == 1 ? 'Yes' : 'NO';
+
+            $rows[] = $normalRow;
+
+            // OVERTIME row.
+            $overtimeRow = [
+                '',
+                'OVERTIME',
+            ];
+
+            for ($i = 0; $i < 7; $i++) {
+                $overtimeRow[] = isset($days[$i]['Overtime'])
+                    ? $days[$i]['Overtime']
+                    : '';
+            }
+
+            // Pad to column K so every row has the same CSV width.
+            $overtimeRow[] = ''; // J
+            $overtimeRow[] = ''; // K
+
+            $rows[] = $overtimeRow;
+
+            // HOLIDAY row.
+            $holidayRow = [
+                '',
+                'HOLIDAY',
+            ];
+
+            for ($i = 0; $i < 7; $i++) {
+                $holidayRow[] = isset($days[$i]['Holiday'])
+                    ? $days[$i]['Holiday']
+                    : '';
+            }
+
+            $holidayRow[] = ''; // J
+            $holidayRow[] = ''; // K
+
+            $rows[] = $holidayRow;
+
+            // Preserve the blank row created by the old $number += 4.
+            $rows[] = array_fill(0, 11, '');
+        }
+    }
+
+    return $rows;
+}
+
+
     /**
      * Display a listing of the resource.
      *
@@ -228,52 +331,126 @@ class AdminPaymentController extends Controller
             }
         }
 
-        $excel = \Excel::create('file', function($excel) use ($fromDate, $toDate, $logArray){
-        $excel->setTitle('Payment');
-            $excel->sheet('Payment', function($sheet)  use ($fromDate, $toDate, $logArray){
-                
-                $number = 1;
+$rows = [];
 
-                $letters = [
-                    0 => 'C',
-                    1 => 'D',
-                    2 => 'E',
-                    3 => 'F',
-                    4 => 'G',
-                    5 => 'H',
-                    6 => 'I',
-                ];
+foreach ($logArray as $userName => $jobs) {
+    /*
+     * User heading row.
+     *
+     * Columns:
+     * A = username
+     */
+    $rows[] = [
+        $userName,
+    ];
 
-                foreach($logArray as $user_name => $jobs){
-                    $sheet->cell('A'.$number, $user_name);
-                    $number ++;
-                    for($i = 0; $i <7; $i++){
-                        $sheet->cell($letters[$i].$number, date('D d/m/Y', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+$i, date('Y', strtotime($fromDate)))));
-                    }
-                    $sheet->cell('K'.$number, 'Approved?');
-                    $number ++;
-                    foreach($jobs as $job_name => $days){
-                        $sheet->cell('A'.$number, $job_name);
-                        $sheet->cell('B'.$number, 'NORMAL');
-                        $sheet->cell('B'.($number+1), 'OVERTIME');
-                        $sheet->cell('B'.($number+2), 'HOLIDAY');
+    /*
+     * Date heading row.
+     *
+     * A and B are empty.
+     * C through I contain the seven dates.
+     * J is empty.
+     * K contains Approved?
+     */
+    $dateRow = [
+        '',
+        '',
+    ];
 
-                        foreach(['Normal' => 0, 'Overtime' => 1, 'Holiday' => 2] as $type => $offset){
-                            for($i = 0; $i <7; $i++){
-                                $sheet->cell($letters[$i].($number+$offset), $days[$i][$type]);
-                            }
-                        }
-                        if($days['Approved'] == 1){
-                            $sheet->cell('K'.$number, 'Yes');
-                        }else{
-                            $sheet->cell('K'.$number, 'NO');
-                        }
+    for ($i = 0; $i < 7; $i++) {
+        $dateRow[] = date(
+            'D d/m/Y',
+            mktime(
+                0,
+                0,
+                0,
+                date('m', strtotime($fromDate)),
+                date('d', strtotime($fromDate)) + $i,
+                date('Y', strtotime($fromDate))
+            )
+        );
+    }
 
-                        $number += 4;
-                    }
-                }
-            });
-        })->download('csv');
+    $dateRow[] = '';
+    $dateRow[] = 'Approved?';
+
+    $rows[] = $dateRow;
+
+    foreach ($jobs as $jobName => $days) {
+        /*
+         * Normal-hours row.
+         *
+         * A = job name
+         * B = NORMAL
+         * C through I = daily values
+         * J = empty
+         * K = approval status
+         */
+        $normalRow = [
+            $jobName,
+            'NORMAL',
+        ];
+
+        for ($i = 0; $i < 7; $i++) {
+            $normalRow[] = isset($days[$i]['Normal'])
+                ? $days[$i]['Normal']
+                : '';
+        }
+
+        $normalRow[] = '';
+        $normalRow[] = $days['Approved'] == 1 ? 'Yes' : 'NO';
+
+        $rows[] = $normalRow;
+
+        /*
+         * Overtime row.
+         */
+        $overtimeRow = [
+            '',
+            'OVERTIME',
+        ];
+
+        for ($i = 0; $i < 7; $i++) {
+            $overtimeRow[] = isset($days[$i]['Overtime'])
+                ? $days[$i]['Overtime']
+                : '';
+        }
+
+        $rows[] = $overtimeRow;
+
+        /*
+         * Holiday row.
+         */
+        $holidayRow = [
+            '',
+            'HOLIDAY',
+        ];
+
+        for ($i = 0; $i < 7; $i++) {
+            $holidayRow[] = isset($days[$i]['Holiday'])
+                ? $days[$i]['Holiday']
+                : '';
+        }
+
+        $rows[] = $holidayRow;
+
+        /*
+         * Preserve the blank fourth row that the old
+         * "$number += 4" logic introduced between jobs.
+         */
+        $rows[] = [];
+    }
+}
+
+return Excel::download(
+    new PaymentExport($rows),
+    'file.csv',
+    ExcelWriter::CSV,
+    [
+        'Content-Type' => 'text/csv',
+    ]
+);
+
 
     }
 
@@ -330,52 +507,11 @@ class AdminPaymentController extends Controller
             }
         }
 
-        $excel = \Excel::create('file', function($excel) use ($fromDate, $toDate, $logArray){
-        $excel->setTitle('Payment');
-            $excel->sheet('Payment', function($sheet)  use ($fromDate, $toDate, $logArray){
-                
-                $number = 1;
 
-                $letters = [
-                    0 => 'C',
-                    1 => 'D',
-                    2 => 'E',
-                    3 => 'F',
-                    4 => 'G',
-                    5 => 'H',
-                    6 => 'I',
-                ];
+	$rows = $this->buildPaymentExportRows($fromDate, $logArray);
 
-                foreach($logArray as $user_name => $jobs){
-                    $sheet->cell('A'.$number, $user_name);
-                    $number ++;
-                    for($i = 0; $i <7; $i++){
-                        $sheet->cell($letters[$i].$number, date('D d/m/Y', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+$i, date('Y', strtotime($fromDate)))));
-                    }
-                    $sheet->cell('K'.$number, 'Approved?');
-                    $number ++;
-                    foreach($jobs as $job_name => $days){
-                        $sheet->cell('A'.$number, $job_name);
-                        $sheet->cell('B'.$number, 'NORMAL');
-                        $sheet->cell('B'.($number+1), 'OVERTIME');
-                        $sheet->cell('B'.($number+2), 'HOLIDAY');
+	return Excel::download(new PaymentExport($rows), 'file.csv', ExcelWriter::CSV,   [        'Content-Type' => 'text/csv',    ]);
 
-                        foreach(['Normal' => 0, 'Overtime' => 1, 'Holiday' => 2] as $type => $offset){
-                            for($i = 0; $i <7; $i++){
-                                $sheet->cell($letters[$i].($number+$offset), $days[$i][$type]);
-                            }
-                        }
-                        if($days['Approved'] == 1){
-                            $sheet->cell('K'.$number, 'Yes');
-                        }else{
-                            $sheet->cell('K'.$number, 'NO');
-                        }
-
-                        $number += 4;
-                    }
-                }
-            });
-        })->download('csv');
 
     }
 
