@@ -9,7 +9,7 @@
         "laravel/framework": "^6.0",
         "barryvdh/laravel-debugbar": "*",
         "doctrine/dbal": "*",
-        "mpdf/mpdf": "^7.1",
+        "mpdf/mpdf": "^8.0.4",
         "laravelcollective/html": "^6.0",
         "laravel/slack-notification-channel": "^1.0",
         "laravel/nexmo-notification-channel": "^1.0",

@@ -280,6 +280,17 @@ class AdminHoursController extends Controller
             $logArray[$userName][$log_date]['overtime'] = $log_overtime;
         }
 
+	if (empty($logArray)) {
+          return redirect()->back()->with(
+		'wanring',
+		'No hours were recorded for this job between ' .
+                date('d/m/Y', strtotime($fromDate)) .
+                ' and ' .
+                date('d/m/Y',strtotime($toDate)) .
+		'.'
+		);
+	}
+
         $pdf = new \Mpdf\Mpdf();
         $view = View::make('backend.pdf.hourspdf', [
             'logArray' => $logArray,
