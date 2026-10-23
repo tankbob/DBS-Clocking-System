@@ -6,14 +6,14 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.1.*",
-        "illuminate/html": "5.*",
+        "laravel/framework": "5.2.*",
         "barryvdh/laravel-debugbar": "*",
         "greggilbert/recaptcha": "dev-master",
         "maatwebsite/excel": "~2.0.0",
         "doctrine/dbal": "*",
         "rigor789/airbrake-laravel": "^1.2",
-        "mpdf/mpdf": "^7.1"
+        "mpdf/mpdf": "^7.1",
+        "laravelcollective/html": "5.2.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -53,6 +53,9 @@
         ]
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "allow-plugins": {
+            "kylekatarnls/update-helper": true
+        }
     }
 }

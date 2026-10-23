@@ -14,3 +14,13 @@ services:
       - APP_ENV=local
       - APP_DEBUG=true
       - APP_KEY=${APP_KEY}
+  composer:
+    build:
+      context: .
+      dockerfile: Dockerfile.composer
+    working_dir: /app
+    volumes:
+      - .:/app
+    entrypoint: /bin/bash
+    stdin_open: true
+    tty: true
