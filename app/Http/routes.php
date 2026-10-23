@@ -25,7 +25,6 @@ Route::get('/auth/login', [ 'as' => 'auth.login', 'uses' => 'Auth\LoginControlle
 Route::post('/auth/login', [ 'as' => 'auth.login.post', 'uses' => 'Auth\LoginController@postLogin']);
 Route::get('/auth/logout', ['as' => 'auth.logout', 'uses' => 'Auth\LoginController@getLogout']);
 Route::get('/admin/auth/login', [ 'as' => 'admin.auth.login', 'uses' => 'Auth\LoginController@getAdminLogin']);
-Route::post('/admin/auth/login', [ 'as' => 'admin.auth.login.post', 'uses' => 'Auth\LoginController@postAdminLogin']);
 
 Route::get('/admin', 'AdminUsersController@index');
 Route::resource('/admin/users', 'AdminUsersController');

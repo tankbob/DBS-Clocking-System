@@ -33,7 +33,7 @@ class WebController extends Controller
         	return view('frontend.editTimes', compact('logTimes', 'hourTypes'));
         }else{
             //First time the guy log time today, redirect to the sign in page
-            $jobs = Job::where('active', '=', 1)->lists('number', 'id');         
+            $jobs = Job::where('active', '=', 1)->pluck('number', 'id');         
             return view('frontend.selectJob', compact('jobs', 'hourTypes'));
         }
         
@@ -68,8 +68,8 @@ class WebController extends Controller
         		//NO allow to check more than 1 week.
         		return \Redirect::to('/');
         	}else{
-                $hourTypes = HourType::lists('value', 'id');
-        		$logTimes = LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', $date)->whereIn('job_id', Job::lists('id')->toArray())->with('Job', 'HourType')->get();
+                $hourTypes = HourType::pluck('value', 'id');
+        		$logTimes = LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', $date)->whereIn('job_id', Job::pluck('id')->toArray())->with('Job', 'HourType')->get();
         		return view('frontend.editTimes', compact('logTimes', 'date', 'hourTypes'));
         	}
         }
@@ -88,8 +88,8 @@ class WebController extends Controller
         if(!LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', date('Y-m-d'))->first()){
             return \Redirect::to('/');
         }
-		$jobs = Job::where('active', '=', '1')->whereNotIn('id', LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', date('Y-m-d'))->lists('job_id')->toArray())->lists('number', 'id');
-		$hourTypes = HourType::lists('value', 'id');
+		$jobs = Job::where('active', '=', '1')->whereNotIn('id', LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', date('Y-m-d'))->pluck('job_id')->toArray())->pluck('number', 'id');
+		$hourTypes = HourType::pluck('value', 'id');
     	return view('frontend.addJob', compact('jobs', 'hourTypes'));
     }
 

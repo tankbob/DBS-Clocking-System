@@ -55,12 +55,12 @@ class AdminHoursController extends Controller
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
         $page = 'hours';
-        //$jobs = Job::lists('number', 'id');
-        $jobs = Job::whereIn('id',LogTime::whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->lists('job_id')->toArray())->lists('number','id');
+        //$jobs = Job::pluck('number', 'id');
+        $jobs = Job::whereIn('id',LogTime::whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->pluck('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->pluck('job_id')->toArray())->pluck('number','id');
 
-        $logTimes = LogTime::where('job_id', '=', $job_id)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->with('User', 'HourType')->orderBy('user_id')->orderBy('date')->get();
+        $logTimes = LogTime::where('job_id', '=', $job_id)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->pluck('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->with('User', 'HourType')->orderBy('user_id')->orderBy('date')->get();
 
-        $users = LogTime::with('User')->where('job_id', '=', $job_id)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->get(['user_id']);
+        $users = LogTime::with('User')->where('job_id', '=', $job_id)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->pluck('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->get(['user_id']);
 
         $logArray = array();
 
@@ -86,9 +86,9 @@ class AdminHoursController extends Controller
             }
             $logArray[$user_id][$log_date]['overtime'] = $log_overtime;
         }
-        $users = User::lists('name', 'id');
+        $users = User::pluck('name', 'id');
 
-        $approved = LogTime::where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('job_id', '=', $job_id)->min('approved');
+        $approved = LogTime::where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->pluck('id')->toArray())->where('job_id', '=', $job_id)->min('approved');
 
         $showApproved = false;
         $showUnapproved = false;
@@ -195,7 +195,7 @@ class AdminHoursController extends Controller
         }else{
             $job_id = Job::first()->id;
         }
-        $users = User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->whereNotIn('id', LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->lists('user_id')->toArray())->lists('name', 'id');
+        $users = User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->whereNotIn('id', LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->pluck('user_id')->toArray())->pluck('name', 'id');
 
         $job = Job::find($job_id);
 
@@ -229,7 +229,7 @@ class AdminHoursController extends Controller
         $fromDate = \Request::get('date');
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
-        LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->update(['approved' => '1']);
+        LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->pluck('id')->toArray())->update(['approved' => '1']);
 
         return self::index('The hours has been approved.');
     }
@@ -239,7 +239,7 @@ class AdminHoursController extends Controller
         $fromDate = \Request::get('date');
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
-        LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->update(['approved' => '0']);
+        LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->pluck('id')->toArray())->update(['approved' => '0']);
 
         return self::index('The hours has been unapproved.');
     }
@@ -252,11 +252,11 @@ class AdminHoursController extends Controller
 
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
-        $logTimes = LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->with('User')->orderBy('user_id')->orderBy('date')->get();
+        $logTimes = LogTime::where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->pluck('id')->toArray())->with('User')->orderBy('user_id')->orderBy('date')->get();
 
         $logArray = array();
 
-        $users = LogTime::with('User', 'HourType')->where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->groupBy('user_id')->get(['user_id']);
+        $users = LogTime::with('User', 'HourType')->where('job_id', '=', $job_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->pluck('id')->toArray())->groupBy('user_id')->get(['user_id']);
         foreach ($users as $user) {
             $logArray[$user->User->name] = array();
             for($i = 0; $i <= 6; $i ++){

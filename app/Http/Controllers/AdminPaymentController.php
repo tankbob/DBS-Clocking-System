@@ -52,7 +52,7 @@ class AdminPaymentController extends Controller
                           ->where('date', '<=', $toDate)
                           ->groupBy('user_id')
                           ->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)
-                            ->lists('id')
+                            ->pluck('id')
                             ->toArray()
                           )
                           ->select(\DB::raw('name, telephone, user_id, MIN(approved) as approved'))
@@ -117,7 +117,7 @@ class AdminPaymentController extends Controller
             $times[$i] = array('Overtime' => 0, 'Mon-Fri' => 0, 'Weekends' => 0, 'Holiday' => 0);
         }
 
-        foreach(LogTime::with('HourType')->whereIn('job_id', Job::lists('id'))->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->where('user_id', '=', $user_id)->get() as $logTime){
+        foreach(LogTime::with('HourType')->whereIn('job_id', Job::pluck('id'))->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->where('user_id', '=', $user_id)->get() as $logTime){
             $w = (1+date('w', strtotime($logTime->date)))%7;
             $type = $logTime->HourType->value;
             if($type == 'Holiday'){
@@ -134,7 +134,7 @@ class AdminPaymentController extends Controller
             $times[$w]['Overtime'] += $logTime->overtime;
         }
 
-        $hourTypes = HourType::lists('value', 'id');
+        $hourTypes = HourType::pluck('value', 'id');
 
         return view('backend.payment.paymentEdit', compact('page', 'fromDate', 'payment', 'user', 'dates', 'times', 'hourTypes'));
     }
@@ -178,7 +178,7 @@ class AdminPaymentController extends Controller
         $fromDate = \Request::get('fromDate');
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
-        $logTimes = LogTime::where('user_id', '=' , $user_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('job_id', Job::lists('id')->toArray())->with('User', 'Job')->orderBy('user_id')->orderBy('date')->get();
+        $logTimes = LogTime::where('user_id', '=' , $user_id)->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->whereIn('job_id', Job::pluck('id')->toArray())->with('User', 'Job')->orderBy('user_id')->orderBy('date')->get();
 
         $user = User::find($user_id);
         
@@ -198,7 +198,7 @@ class AdminPaymentController extends Controller
     
             
 
-        $ht = HourType::lists('value', 'id')->toArray();
+        $ht = HourType::pluck('value', 'id')->toArray();
 
         foreach($logTimes as $l){
             $job_name = $l->Job->number;
@@ -281,9 +281,9 @@ class AdminPaymentController extends Controller
         $fromDate = \Request::get('fromDate');
         $toDate = date('Y-m-d', mktime(0, 0, 0, date('m', strtotime($fromDate)), date('d', strtotime($fromDate))+6, date('Y', strtotime($fromDate))));
 
-        $logTimes = LogTime::whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->whereIn('job_id', Job::lists('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->with('User', 'Job')->orderBy('user_id')->orderBy('date')->get();
+        $logTimes = LogTime::whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->pluck('id')->toArray())->whereIn('job_id', Job::pluck('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->with('User', 'Job')->orderBy('user_id')->orderBy('date')->get();
 
-        $users = LogTime::with('User')->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->lists('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->get(['user_id']);
+        $users = LogTime::with('User')->whereIn('user_id', User::where('user_type_id', '=', UserType::where('value', '=', 'Operative')->first()->id)->pluck('id')->toArray())->where('date', '>=', $fromDate)->where('date', '<=', $toDate)->groupBy('user_id')->get(['user_id']);
 
         $logArray = array();
 
@@ -300,7 +300,7 @@ class AdminPaymentController extends Controller
             $logArray[$user->User->name] = array();
         }
 
-        $ht = HourType::lists('value', 'id')->toArray();
+        $ht = HourType::pluck('value', 'id')->toArray();
 
         foreach($logTimes as $l){
             $job_name = $l->Job->number;
