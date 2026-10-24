@@ -11,7 +11,7 @@
 |
 */
 if (in_array(env('APP_ENV'), ['dev', 'production'])) {
-    URL::forceSchema('https');
+    URL::forceScheme('https');
 }
 
 Route::post('/admin/hours/pdf', 'AdminHoursController@pdf');

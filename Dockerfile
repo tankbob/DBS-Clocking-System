@@ -34,7 +34,7 @@ COPY --from=composer:2.2 /usr/bin/composer /usr/bin/composer
 RUN groupadd -r user && useradd -r -g user user
 RUN chown -R user: .
 USER user
-RUN composer install
+RUN composer install --optimize-autoloader --no-dev
 RUN cp -f .env.example .env
 #RUN php artisan key:generate
 USER root

@@ -1,6 +1,7 @@
 services:
   dbs:
     build: .
+    image: targetink.azurecr.io/dbs-clockin:latest
     ports:
       - 8192:80
     extra_hosts:
