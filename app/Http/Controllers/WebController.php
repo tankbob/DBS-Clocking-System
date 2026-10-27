@@ -26,8 +26,8 @@ class WebController extends Controller
 
     public function index()
     {
-        $logTimes = LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', date('Y-m-d'))->whereIn('job_id', Job::lists('id')->toArray())->with('Job', 'HourType')->get();
-        $hourTypes = HourType::lists('value', 'id');
+        $logTimes = LogTime::where('user_id', '=', \Auth::user()->id)->where('date', '=', date('Y-m-d'))->whereIn('job_id', Job::pluck('id')->toArray())->with('Job', 'HourType')->get();
+        $hourTypes = HourType::pluck('value', 'id');
         if(count($logTimes)){
             //Redirect to the edit times page
         	return view('frontend.editTimes', compact('logTimes', 'hourTypes'));
